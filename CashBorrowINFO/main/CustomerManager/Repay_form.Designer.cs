@@ -103,7 +103,7 @@
             // 
             // edtRInterest
             // 
-            this.edtRInterest.Location = new System.Drawing.Point(108, 39);
+            this.edtRInterest.Location = new System.Drawing.Point(109, 39);
             this.edtRInterest.Name = "edtRInterest";
             this.edtRInterest.Size = new System.Drawing.Size(258, 21);
             this.edtRInterest.TabIndex = 7;
@@ -112,7 +112,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(19, 48);
+            this.label8.Location = new System.Drawing.Point(22, 48);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(41, 12);
             this.label8.TabIndex = 6;
@@ -182,7 +182,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(19, 72);
+            this.label7.Location = new System.Drawing.Point(22, 73);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 12);
             this.label7.TabIndex = 1;
@@ -191,7 +191,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(21, 24);
+            this.label6.Location = new System.Drawing.Point(22, 24);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(41, 12);
             this.label6.TabIndex = 0;

@@ -91,16 +91,23 @@ namespace DbHelp.SQlHelp
 
         public List<BORROW> QueryByWhere_XP(string where)
         {
-            using (SqlConnection conn = new SqlConnection(connstring))
+            try
             {
-                conn.Open();
+                using (SqlConnection conn = new SqlConnection(connstring))
+                {
 
-                string sql = string.Format("SELECT ROW_NUMBER()OVER (order by B_DATETMP DESC) NUM ,A.* FROM T_BORROW A LEFT JOIN T_USER B ON A.U_SYSID=B.U_SYSID WHERE B_ISDEL='1' {0} ", where);
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(sql, conn);
-                da.Fill(dt);
-                return DataToCustomer(dt);
+                    conn.Open();
 
+                    string sql = string.Format("SELECT ROW_NUMBER()OVER (order by B_DATETMP DESC) NUM ,A.* FROM T_BORROW A LEFT JOIN T_USER B ON A.U_SYSID=B.U_SYSID WHERE B_ISDEL='1' {0} ", where);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                    da.Fill(dt);
+                    return DataToCustomer(dt);
+
+                }
+            }
+            catch {
+                return new List<BORROW>();
             }
 
         }

@@ -44,29 +44,40 @@ namespace CashBorrowINFO.main.CustomerManager
 
         private void ddlBSysid_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(ddlBSysid.Text)) {
-                string b_sysid = ddlBSysid.Text.Split('-')[0];
-                string res;
-                BORROW borrow = new BORROW();
-                frmWaitingBox f = new frmWaitingBox((obj, args) =>
+            try
+            {
+                if (!string.IsNullOrEmpty(ddlBSysid.Text))
                 {
-                    Thread.Sleep(threadTime);
-                    borrow = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", b_sysid))[0];
-                }, waitTime, "Plase Wait...", false, false);
-                f.ShowDialog(this);
-                res = f.Message;
-                if (!string.IsNullOrEmpty(res))
-                    MessageBox.Show(res);
-                else
-                {
-                    lblCName.Text = borrow.C_NAME;
-                    lblCID.Text = borrow.C_ID;
-                    lblBAMOUNT.Text = borrow.B_AMOUNT;
-                    lblBLimit.Text = (Convert.ToDecimal(borrow.B_AMOUNT) - Convert.ToDecimal(borrow.B_REPAYMENT)).ToString();
-                    Bind(b_sysid);
-                }
+                    string b_sysid = ddlBSysid.Text.Split('-')[0];
+                    string res;
+                    List<BORROW> borrow = new List<BORROW>();
+                    frmWaitingBox f = new frmWaitingBox((obj, args) =>
+                    {
+                        Thread.Sleep(threadTime);
+                        borrow = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", b_sysid));
+                    }, waitTime, "Plase Wait...", false, false);
+                    f.ShowDialog(this);
+                    res = f.Message;
+                    if (!string.IsNullOrEmpty(res))
+                        MessageBox.Show(res);
+                    else
+                    {
+                        if (borrow.Count > 0) {
+                            lblCName.Text = borrow[0].C_NAME;
+                            lblCID.Text = borrow[0].C_ID;
+                            lblBAMOUNT.Text = borrow[0].B_AMOUNT;
+                            lblBLimit.Text = (Convert.ToDecimal(borrow[0].B_AMOUNT) - Convert.ToDecimal(borrow[0].B_REPAYMENT)).ToString();
+                            Bind(b_sysid);
+                        }
 
+                    }
+
+                }
             }
+            catch (Exception e1) {
+                MessageBox.Show(e1.Message, "数据获取", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
 
         }
 

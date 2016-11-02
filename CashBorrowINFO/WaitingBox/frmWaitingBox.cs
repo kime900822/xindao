@@ -124,7 +124,7 @@ namespace WinForm_Test
             {
                 if (_WaitTime > _MaxWaitTime)
                 {
-                    Message = string.Format("处理数据超时{0}秒，结束当前操作！", _MaxWaitTime / 1000);
+                    Message = string.Format("数据请求超时{0}秒！", _MaxWaitTime / 1000);
                     this.Close();
                 }
             }

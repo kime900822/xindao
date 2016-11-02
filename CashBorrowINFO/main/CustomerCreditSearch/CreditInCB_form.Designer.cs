@@ -119,6 +119,7 @@
             this.edtGName.Name = "edtGName";
             this.edtGName.Size = new System.Drawing.Size(156, 21);
             this.edtGName.TabIndex = 3;
+            this.edtGName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtGName_KeyPress);
             // 
             // label2
             // 
@@ -135,6 +136,7 @@
             this.edtCName.Name = "edtCName";
             this.edtCName.Size = new System.Drawing.Size(156, 21);
             this.edtCName.TabIndex = 1;
+            this.edtCName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtCName_KeyPress);
             // 
             // label1
             // 

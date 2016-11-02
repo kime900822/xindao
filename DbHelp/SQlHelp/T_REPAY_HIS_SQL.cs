@@ -154,18 +154,23 @@ namespace DbHelp.SQlHelp
 
         public List<REPAY_HIS> QueryByWhere_XP(string where)
         {
-            using (SqlConnection conn = new SqlConnection(connstring))
-            {
-                conn.Open();
+            try {
+                using (SqlConnection conn = new SqlConnection(connstring))
+                {
+                    conn.Open();
 
-                DataTable dt = new DataTable();
+                    DataTable dt = new DataTable();
 
-                string sql = string.Format("SELECT  ROW_NUMBER()OVER (order by R_DATE DESC) NUM,* FROM T_REPAY_HIS A LEFT JOIN T_BORROW B ON A.B_SYSID=B.B_SYSID LEFT JOIN T_USER C ON B.U_SYSID=C.U_SYSID WHERE R_ISDEL='1' {0} ", where);
-                SqlDataAdapter da = new SqlDataAdapter(sql, conn);
-                da.Fill(dt);
-                return DataToRepay(dt);
+                    string sql = string.Format("SELECT  ROW_NUMBER()OVER (order by R_DATE DESC) NUM,* FROM T_REPAY_HIS A LEFT JOIN T_BORROW B ON A.B_SYSID=B.B_SYSID LEFT JOIN T_USER C ON B.U_SYSID=C.U_SYSID WHERE R_ISDEL='1' {0} ", where);
+                    SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                    da.Fill(dt);
+                    return DataToRepay(dt);
 
 
+                }
+            }
+            catch {
+                return new List<REPAY_HIS>();
             }
 
         }

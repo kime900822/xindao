@@ -153,9 +153,9 @@ namespace CashBorrowINFO.main.CustomerManager
                 err += "利息未输入！\r\n";
             }
             if (!string.IsNullOrEmpty(pbID.ImageLocation)) {
-                if (CashBorrowINFO.CS.Help.GetFileSize(pbID.ImageLocation) > 1048576)
+                if (CashBorrowINFO.CS.Help.GetFileSize(pbID.ImageLocation) > 204800)
                 {
-                    err += "图片大小不能超过1M！\r\n";
+                    err += "图片大小不能超过200K！\r\n";
                 }
             }
             return err;
@@ -249,18 +249,21 @@ namespace CashBorrowINFO.main.CustomerManager
             if (!string.IsNullOrEmpty(b_sysid))
             {
                 string res;
-                BORROW borrow = new BORROW();
+                List<BORROW> borrow = new List<BORROW>();
                 frmWaitingBox f = new frmWaitingBox((obj, args) =>
                 {
                     Thread.Sleep(threadTime);
-                    borrow = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", b_sysid))[0];
+                    borrow = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", b_sysid));
                 }, waitTime, "Plase Wait...", false, false);
                 f.ShowDialog(this);
                 res = f.Message;
                 if (!string.IsNullOrEmpty(res))
                     MessageBox.Show(res);
-                else
-                    DataToFace(borrow);
+                else {
+                    if (borrow.Count > 0)
+                        DataToFace(borrow[0]);
+                }
+                   
             }
             else
             {

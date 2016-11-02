@@ -51,11 +51,11 @@ namespace CashBorrowINFO.main.CustomerCreditSearch
 
                             if (!string.IsNullOrEmpty(edtCName.Text.Trim()))
                             {
-                                where += " AND C_NAME LIKE '%" + edtCName.Text.Trim() + "%' ";
+                                where += " AND C_ID LIKE '%" + edtCName.Text.Trim() + "%' ";
                             }
                             if (!string.IsNullOrEmpty(edtGName.Text.Trim()))
                             {
-                                where += " AND ( G_NAME1 LIKE '%" + edtGName.Text.Trim() + "%'OR G_NAME2 LIKE '%" + edtGName.Text.Trim() + "%' OR G_NAME3 LIKE '%" + edtGName.Text.Trim() + "%' OR G_NAME4 LIKE '%" + edtGName.Text.Trim() + "%' )";
+                                where += " AND ( G_ID1 LIKE '%" + edtGName.Text.Trim() + "%'OR G_ID2 LIKE '%" + edtGName.Text.Trim() + "%' OR G_ID3 LIKE '%" + edtGName.Text.Trim() + "%' OR G_ID4 LIKE '%" + edtGName.Text.Trim() + "%' )";
                             }
 
                             string res;
@@ -95,6 +95,22 @@ namespace CashBorrowINFO.main.CustomerCreditSearch
             catch (Exception e1)
             {
                 MessageBox.Show(e1.Message, "报错", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void edtCName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar) && e.KeyChar != 88)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void edtGName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar) && e.KeyChar != 88)
+            {
+                e.Handled = true;
             }
         }
     }
