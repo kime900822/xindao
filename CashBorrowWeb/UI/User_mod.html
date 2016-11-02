@@ -1,0 +1,374 @@
+<script type="text/javascript">
+
+
+    var pass_u_id;
+    $(function () {
+
+
+
+         pass_u_id = $.cookie("pass_u_id");
+
+        $.CurrentDialog.find("#AddUser").click(function () {
+            if (pass_u_id == "") {
+                $(this).alertmsg('confirm', '确认添加？', { okCall: function () { AddUser(); } });
+
+                //AddUser();
+            }
+            else {
+                $(this).alertmsg('confirm', '确认修改？',{okCall:function(){ModeUser(); }});
+                //ModeUser(pass_u_id);
+            }
+               
+        });
+        if (pass_u_id != "") {
+            LoadLocal(pass_u_id);
+        }
+        else {
+            LoadProvince();
+        }
+
+    })
+
+
+    function AddUser() {
+        var err = CheckForUser();
+        if (err != "") {
+            $(this).alertmsg('warn', err);
+            return false;
+        }
+        var user = FaceToDate();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/AddUser",
+            data: "{user:'" + JSON.stringify(user) + "'}",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $(this).alertmsg('correct', result.d.message);
+                }
+                else
+                    $(this).alertmsg('error', result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+
+    }
+
+
+    function LoadProvince() {
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/GetProvice",
+            data: "",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $.each(result.d.data, function (i, item) {
+                        $.CurrentDialog.find('#j_dialog_uprovince').append("<option value='" + item.Value + "'>" + item.Text + "</option>")
+                    })
+                }
+                else if (result.d.state == -1)
+                    $(this).alertmsg('info', result.d.message);
+                else
+                    $(this).alertmsg('error', result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+    }
+
+
+    function LoadLocal(id) {
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/LoadLocal",
+            data: "{u_sysid:'" + id + "'}",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $.each(result.d.province, function (i, item) {
+                        $.CurrentDialog.find('#j_dialog_uprovince').append("<option value='" + item.Value + "'>" + item.Text + "</option>")
+                    })
+                    $.each(result.d.city, function (i, item) {
+                        $.CurrentDialog.find('#j_dialog_ucity').append("<option value='" + item.Value + "'>" + item.Text + "</option>")
+                    })
+                    $.each(result.d.area, function (i, item) {
+                        $.CurrentDialog.find('#j_dialog_uarea').append("<option value='" + item.Value + "'>" + item.Text + "</option>")
+                    })
+                }
+                else if (result.d.state == -1)
+                    $(this).alertmsg('info', result.d.message);
+                else
+                    $(this).alertmsg('error', result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+        load_user(id);
+    }
+
+
+    function ChangeProvince() {
+        if ($.CurrentDialog.find('#j_dialog_uprovince').val() == "") {
+            $.CurrentDialog.find('#j_dialog_ucity').find("option").remove();
+            $.CurrentDialog.find('#j_dialog_ucity').append("<option></option>");
+        }
+        else {
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                url: "WebService.asmx/ChangeProvince",
+                data: "{fid:'" + $.CurrentDialog.find('#j_dialog_uprovince').val() + "'}",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d.state == 0) {
+                        $.CurrentDialog.find('#j_dialog_ucity').find("option").remove();
+                        $.CurrentDialog.find('#j_dialog_ucity').append("<option ></option>")
+                        $.each(result.d.data, function (i, item) {
+                            $.CurrentDialog.find('#j_dialog_ucity').append("<option value='" + item.Value + "'>" + item.Text + "</option>")
+                        })
+                    }
+                    else if (result.d.state == -1)
+                        $(this).alertmsg('info', result.d.message);
+                    else
+                        $(this).alertmsg('error', result.d.message);
+                },
+                error: function (e) {
+                    $(this).alertmsg('error', e.responseText);
+                }
+            });
+        };
+        ChangeCity();
+
+    }
+
+
+    function ChangeCity() {
+        if ($.CurrentDialog.find('#j_dialog_ucity').val() == "") {
+            $.CurrentDialog.find('#j_dialog_uarea').find("option").remove();
+            $.CurrentDialog.find('#j_dialog_uarea').append("<option></option>");
+        }
+        else {
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                url: "WebService.asmx/ChangeCity",
+                data: "{fid:'" + $.CurrentDialog.find('#j_dialog_ucity').val() + "'}",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d.state == 0) {
+                        $.CurrentDialog.find('#j_dialog_uarea').find("option").remove();
+                        $.CurrentDialog.find('#j_dialog_uarea').append("<option ></option>")
+                        $.each(result.d.data, function (i, item) {
+                            $.CurrentDialog.find('#j_dialog_uarea').append("<option value='" + item.Value + "'>" + item.Text + "</option>")
+                        })
+                    }
+                    else if (result.d.state == -1)
+                        $(this).alertmsg('info', result.d.message);
+                    else
+                        $(this).alertmsg('error', result.d.message);
+                }
+            });
+
+        }
+
+
+    }
+
+    function load_user(id) {
+        if (id == null){
+            $.CurrentDialog.find("#j_dialog_freemessage").removeAttr("disabled");
+            $.CurrentDialog.find("#j_dialog_balance").removeAttr("disabled");
+            $.CurrentDialog.find("#j_dialog_id").val();
+            $.CurrentDialog.find("#j_dialog_telephone").val("");
+            $.CurrentDialog.find("#j_dialog_mail").val("");
+            $.CurrentDialog.find("#j_dialog_password").val("");
+            $.CurrentDialog.find("#j_dialog_name").val("");
+            $.CurrentDialog.find("#j_dialog_freemessage").val("");
+            $.CurrentDialog.find("#j_dialog_balance").val("");
+            $.CurrentDialog.find("#j_dialog_date").val("");
+            return false;
+        }
+
+        else
+        {
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                url: "WebService.asmx/LoadUser",
+                data: "{u_sysid:'" + id + "'}",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result.d.state == 0) {
+                        $.CurrentDialog.find("#j_dialog_id").val(result.d.data.U_ID);
+                        $.CurrentDialog.find("#j_dialog_telephone").val(result.d.data.U_TELEPHONE);
+                        $.CurrentDialog.find("#j_dialog_mail").val(result.d.data.U_MAIL);
+                        $.CurrentDialog.find("#j_dialog_password").val(result.d.data.U_PASSWORD);
+                        $.CurrentDialog.find("#j_dialog_name").val(result.d.data.U_NAME);
+                        $.CurrentDialog.find("#j_dialog_freemessage").val(result.d.data.U_FREEMESSAGE);
+                        $.CurrentDialog.find("#j_dialog_balance").val(result.d.data.U_BALANCE);
+                        $.CurrentDialog.find("#j_dialog_date").val(result.d.data.U_DATE);          
+                        $.CurrentDialog.find("#j_dialog_uprovince").val(result.d.data.U_PROVINCE);
+                        $.CurrentDialog.find("#j_dialog_ucity").val(result.d.data.U_CITY);
+                        $.CurrentDialog.find("#j_dialog_uarea").val(result.d.data.U_AREA);
+                    }
+                    else
+                        $(this).alertmsg('error', result.d.message);
+                }
+            });
+        }
+
+    }
+
+
+    function ModeUser() {
+        var err=CheckForUser();
+        if (err != "") {
+            $(this).alertmsg('warn', err);
+            return false;
+        }
+        var user = FaceToDate();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/ModUser",
+            data: "{user:'" + JSON.stringify(user) + "'}",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $(this).alertmsg('correct', result.d.message);
+                }
+                else
+                    $(this).alertmsg('error', result.d.message);
+            }
+        });
+
+    }
+
+
+    function FaceToDate() {
+        var user = new Object();
+        user.U_ID = $.CurrentDialog.find("#j_dialog_id").val();
+        user.U_TELEPHONE = $.CurrentDialog.find("#j_dialog_telephone").val();
+        user.U_MAIL = $.CurrentDialog.find("#j_dialog_mail").val();
+        user.U_PASSWORD = $.CurrentDialog.find("#j_dialog_password").val();
+        user.U_NAME = $.CurrentDialog.find("#j_dialog_name").val();
+        user.U_FREEMESSAGE = $.CurrentDialog.find("#j_dialog_freemessage").val();
+        user.U_BALANCE = $.CurrentDialog.find("#j_dialog_balance").val();
+        user.U_DATE = $.CurrentDialog.find("#j_dialog_date").val();
+        user.U_PROVINCE = $.CurrentDialog.find("#j_dialog_uprovince").find("option:selected").text();
+        user.U_CITY = $.CurrentDialog.find("#j_dialog_ucity").find("option:selected").text();
+        user.U_AREA = $.CurrentDialog.find("#j_dialog_uarea").find("option:selected").text();
+        user.U_SYSID = pass_u_id;
+        return user;
+    }
+
+    function CheckForUser() {
+        var err="";
+        if ($.CurrentDialog.find("#j_dialog_id").val().trim() == "") {
+            err+="请输入用户名\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_telephone").val().trim() == "") {
+            err+="请输入手机号\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_mail").val().trim() == "") {
+            err+="请输入邮箱\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_password").val().trim() == "") {
+            err+="请输入密码\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_name").val().trim() == "") {
+            err+="请输入公司名称\r\n";
+        }
+        return err;
+    }
+
+    function setSelectChecked(selectId, checkValue) {
+        var select = document.getElementById(selectId);
+        for (var i = 0; i < select.options.length; i++) {
+            if (select.options[i].value == checkValue) {
+                select.options[i].selected = true;
+                break;
+            }
+        }
+    };
+
+</script>
+
+<div class="bjui-pageContent">
+        <table class="table table-condensed table-hover">
+            <tbody>
+                <tr>
+                    <td colspan="2" align="center"><h3>* 添加/修改用户</h3></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_id" class="control-label x90">用户名称：</label>
+                        <input type="text" name="dialog.id" id="j_dialog_id" value="" data-rule="required" size="20">
+                    </td>
+                    <td>
+                        <label for="j_dialog_telephone" class="control-label x90">手机号：</label>
+                        <input type="text" name="dialog.telephone" id="j_dialog_telephone" value="" data-rule="required" size="20" data-rule="mobile">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_mail" class="control-label x90">邮箱：</label>
+                        <input type="text" name="dialog.mail" id="j_dialog_mail" value="" data-rule="required" size="20" data-rule="email">
+                    </td>
+                    <td>
+                        <label for="j_dialog_password" class="control-label x90">密码：</label>
+                        <input type="text" name="dialog.password" id="j_dialog_password" value="" data-rule="required" size="20">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_name" class="control-label x90">公司名称：</label>
+                        <input type="text" name="dialog.name" id="j_dialog_name" value="" data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_freemessage" class="control-label x90">免费短信数：</label>
+                        <input type="text" name="dialog.freemessage" id="j_dialog_freemessage" disabled="disabled" value="" data-rule="required" size="20">
+                    </td>
+                </tr>
+                 <tr>
+                    <td>
+                        <label for="j_dialog_balance" class="control-label x90">余额：</label>
+                        <input type="text" name="dialog.balance" id="j_dialog_balance" value="" disabled="disabled" data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_date" class="control-label x90">注册日期：</label>
+                        <input type="text" name="dialog.date" id="j_dialog_date"  value="" disabled="disabled" data-rule="required" size="20">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <label for="j_dialog_uprovince" class="control-label x90">省：</label>
+                        <select name="custom.uprovince" id="j_dialog_uprovince" onchange="ChangeProvince();" >
+                        </select>
+                        <label for="j_dialog_ucity" class="control-label x90">市：</label>
+                        <select name="custom.ucity" id="j_dialog_ucity" onchange="ChangeCity();" >
+                        </select>
+                        <label for="j_dialog_uarea" class="control-label x90">区/县：</label>
+                        <select name="custom.uarea" id="j_dialog_uarea"  >
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close">关闭</button></li>
+        <li><button type="button" id="AddUser" class="btn-default">保存</button></li>
+    </ul>
+</div>

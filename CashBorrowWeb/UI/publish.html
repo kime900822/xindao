@@ -1,0 +1,49 @@
+    <script>
+		KindEditor.ready(function(K) {
+			var editor1 = K.create('#content1', {
+			    cssPath: '../kindeditor-4.1.7/plugins/code/prettify.css',
+			    uploadJson: '../kindeditor-4.1.7/asp.net/upload_json.ashx',
+			    fileManagerJson: '../kindeditor-4.1.7/asp.net/file_manager_json.ashx',
+				allowFileManager : true,
+				afterCreate : function() {
+					var self = this;
+					K.ctrl(document, 13, function() {
+						self.sync();
+						K('form[name=example]')[0].submit();
+					});
+					K.ctrl(self.edit.doc, 13, function() {
+						self.sync();
+						K('form[name=example]')[0].submit();
+					});
+				}
+			});
+			prettyPrint();
+		});
+	</script>
+<div class="bjui-pageContent tableContent">
+    <table id="borrow_tabel" class="table table-bordered table-hover table-striped table-top"  data-nowrap="true">
+        <thead>
+            <tr>
+              <td>
+                 <label for="jname" class="control-label x100">标题：</label>
+                 <input type="text" id="jname" value="" data-rule="required" size="20" >
+                  <label for="jowner" class="control-label x100"> 发布人：</label>
+                 <input type="text" id="jowner" value="" data-rule="required" size="20" >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                  <textarea id="content1"  style="width:700px;height:200px;visibility:hidden;"></textarea>
+              </td>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="button" class="btn-default" data-icon="save">保存</button></li>
+    </ul>
+</div>

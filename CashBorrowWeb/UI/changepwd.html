@@ -1,0 +1,73 @@
+
+<script type="text/javascript">
+    $(function () {
+        var userid = $.cookie('sys__username');
+
+        $("#j_pwschange_save").click(function () {
+
+            ModPassword(userid);
+        })
+
+
+
+    })
+    function ModPassword(id) {
+        if (CheckPassword() == 1)
+            return false;
+
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/ModPassword",
+            data: "{newpassword:'" + $("#j_pwschange_secpassword").val().trim() + "'}",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    alert(result.d.message);
+                }
+                else
+                    alert(result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+
+    }
+
+
+    function CheckPassword() {
+
+        if ($("#j_pwschange_newpassword").val().trim() != $("#j_pwschange_secpassword").val().trim()) {
+            alert("2次密码必须相同");
+            return 1;
+        }
+           
+    }
+
+</script>
+<div class="bjui-pageContent">
+		<input type="hidden" name="users.id" value="test">
+		<input type="hidden" id="j_pwschange_username" value="admin">
+		<input type="hidden" id="j_pwschange_oldpass" name="users.password">
+		<input type="hidden" id="j_pwschange_newpass" name="newpassword">
+        <hr>
+        <div class="form-group">
+            <label for="j_pwschange_oldpassword" class="control-label x85">旧密码：</label>
+            <input type="password" data-rule="required" name="" id="j_pwschange_oldpassword" value="" placeholder="旧密码" size="20">
+        </div>
+        <div class="form-group" style="margin: 20px 0 20px; ">
+            <label for="j_pwschange_newpassword" class="control-label x85">新密码：</label>
+            <input type="password" data-rule="新密码:required" name="pass" id="j_pwschange_newpassword" value="" placeholder="新密码" size="20">
+        </div>
+        <div class="form-group">
+            <label for="j_pwschange_secpassword" class="control-label x85">确认密码：</label>
+            <input type="password" data-rule="required;match(pass)" name="" id="j_pwschange_secpassword" value="" placeholder="确认新密码" size="20">
+        </div>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close">取消</button></li>
+        <li><button type="button" id="j_pwschange_save" class="btn-default">保存</button></li>
+    </ul>
+</div>

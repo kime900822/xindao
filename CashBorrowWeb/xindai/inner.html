@@ -1,0 +1,110 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>信贷数据资源共享</title>
+        
+        <!--======== All Stylesheet =========-->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		
+		<link href="css/linearicons.css" rel="stylesheet">
+        <!--=== plugins ===-->
+        <link href="css/owl.carousel.css" rel="stylesheet">
+        <link href="css/owl.theme.css" rel="stylesheet">
+        <!--=== end plugins ===-->
+        <link rel="shortcut icon" href="images/promo-logo.png"> 
+		<link href="css/style.css" rel="stylesheet">
+		<link href="css/responsive.css" rel="stylesheet">
+       <style>
+           .body{
+            padding:20px;
+           }
+       </style>
+	</head>	
+        <script src="js/jquery-2.1.1.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/custom.js"></script>
+        <script type="text/javascript">
+
+            $(function () {
+                GetPublish();
+            })
+
+            function getUrlParam(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+                var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+                if (r != null) return unescape(r[2]); return null; //返回参数值
+            }
+
+
+            function GetPublish() {
+                $.ajax({
+                    type: "post",
+                    contentType: "application/json",
+                    url: "../UI/WebService.asmx/LoadPublish",
+                    data: "{e_sysid:'" + getUrlParam("sysid") + "'}",
+                    dataType: "json",
+                    async: false,
+                    success: function (result) {
+                        if (result.d.state == 0) {
+                            $("#title").html("<h1 class='section-title'>" + result.d.data.E_TITLE + "</h1><p class='section-para'>编辑人:" + result.d.data.E_EDITOR + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编辑日期:" + result.d.data.E_DATETIME + "</p>");
+
+                            $("#content").html(result.d.data.E_CONTENT);
+                        }
+                        else if (result.d.state == -1)
+                            alert(result.d.message);
+                        else
+                            alert(result.d.message);
+                    },
+                    error: function (e) {
+                        alert(e.responseText);
+                    }
+                });
+
+            }
+
+        </script>
+    
+    <body data-spy="scroll" data-target=".nav-top">
+        <!--======== header =========-->
+        <header id="home" data-spy="scroll" data-target="#top-nav">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="navbar navbar-default navbar-fixed-top default-menu menu-4" role="navigation">
+                        <div class="container">
+                            <div class="navbar-header">
+                                <a class="navbar-brand default-logo scroll" href="#home"><img src="images/promo-logo.png" alt="logo" /> 信贷数据资源共享</a>
+                            </div>
+                            <div class="collapse navbar-collapse top-nav" id="menu-4">
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li><a class="scroll" href="index.html">返回首页</a></li>
+                                </ul>
+                                
+                            </div>
+                        </div>
+                    </div><!-- end menu -->
+                </div>
+            </div>            
+        </header>
+        <div class="container">
+            <div class="head" id="title" style="text-align:center">
+
+            </div>
+            <div class="body" id="content">
+
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-md-12 text-center">
+                        <p>Designed By 浙江信导投资管理有限公司 | Copyright 2016 </p>
+                    </div>
+                </div>
+            </div>    
+        </footer>
+
+    </body>
+</html>

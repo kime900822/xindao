@@ -1,0 +1,166 @@
+<script type="text/javascript">
+    
+
+
+    $(function () {
+
+        //$("#btnMessageClear").click(function () {
+        //    ClearMessage();
+        //})
+        //$("#btnMessageSearch").click(function () {
+        //    SearchMessage();
+        //})
+        GettotalMessage();
+        SearchMessage(0);
+
+        $.CurrentNavtab.find('#btnMessageClear').click(function () { ClearMessage(); })
+        $.CurrentNavtab.find('#btnMessageSearch').click(function () {
+            GettotalMessage();
+            SearchMessage(0);
+        })
+    })
+
+    function GettotalMessage() {
+        var fdate = $.CurrentNavtab.find("#c_fdate").val();
+        var tdate = $.CurrentNavtab.find("#c_tdate").val();
+        var name = $.CurrentNavtab.find("#m_uname").val();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/TotalMessage",
+            data: "{name:'" + name + "',fdate:'" + fdate + "',tdate:'" + tdate + "'}",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $("#MMpagination").pagination(result.d.data, {
+                        prev_text: "上一页",
+                        next_text: "下一页",
+                        num_edge_entries: 2,
+                        num_display_entries: 4,
+                        items_per_page: 10,
+                        callback: SearchMessage
+                    });
+                }
+                else {
+                    $(this).alertmsg('error', result.d.message);
+                    return 0;
+                }
+
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+    }
+
+    function SearchMessage(page_id) {
+
+        var fdate = $.CurrentNavtab.find("#c_fdate").val();
+        var tdate = $.CurrentNavtab.find("#c_tdate").val();
+        var name = $.CurrentNavtab.find("#m_uname").val();
+        ClearMessage();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/GetMessage",
+            data: "{name:'" + name + "',fdate:'" + fdate + "',tdate:'" + tdate + "',pageid:'" + page_id + "'}",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    LoadMessage(result.d.data);
+                }
+                else if (result.d.state == -1)
+                    $(this).alertmsg('info', result.d.message);
+                else
+                    $(this).alertmsg('error', result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+    }
+
+
+
+
+
+    function DeleteMessage(id, s_sysid) {
+
+        $(this).alertmsg('confirm', '确认删除？', {
+            okCall: function () {
+                var tr = $(id).parent().parent();
+                $.ajax({
+                    type: "post",
+                    contentType: "application/json",
+                    url: "WebService.asmx/DeleteMessage",
+                    data: "{s_sysid:'" + s_sysid + "'}",
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.d.state == 0) {
+                            //alert(result.d.message);
+                            $(this).alertmsg('correct', result.d.message);
+                            tr.remove();
+                        } else {
+                            $(this).alertmsg('error', result.d.message);
+                            //alert(result.d.message);
+                        }
+
+                    }
+                });
+
+            }
+        });
+    }
+
+
+
+
+    function passM_ID(id) {
+        $.cookie("pass_m_id", id);
+    }
+
+    function LoadMessage(data) {
+        $.each(data, function (i, item) {
+            var tr = "<tr data-id='" + item.NUM + "'><td>" + item.NUM + "</td><td>" + item.USER.U_NAME + "</td><td>" + item.S_TELEPHONE + "</td><td>" + item.S_SENDDATE + "</td><td>" + item.S_MESSAGE + "</td><td>" + item.S_FLAG + "</td><td><a href='javascript:;' class='btn btn-red'  onclick='DeleteMessage(this," + item.S_SYSID + ")' >删</a></td></tr>";
+                $.CurrentNavtab.find("#Message_tabel").find("tbody").append(tr);
+            })
+        
+    }
+
+
+    function ClearMessage() {
+        $.CurrentNavtab.find("#Message_tabel").find("tbody").find("tr").remove();
+    }
+
+</script>
+<div class="bjui-pageHeader">
+        <div class="bjui-searchBar">
+            <label>公司名称：</label> <input type="text" value="" name="m_uname"  id="m_uname" class="form-control" size="8">&nbsp;
+            <label>起始日期：</label><input type="text"  value="" id="c_fdate" name="u_name" class="form-control" data-toggle="datepicker" size="20">&nbsp;
+            <label>结束日期：</label><input type="text"  value="" id="c_tdate" name="u_name" class="form-control" data-toggle="datepicker" size="20">&nbsp;
+            <button type="submit" class="btn-default" id="btnMessageSearch" data-icon="search" >查询</button>&nbsp;
+            <a class="btn btn-orange" href="javascript:;" id="btnMessageClear" data-toggle="reloadsearch" data-clear-query="true" data-icon="undo">清空查询</a>&nbsp;
+        </div>
+</div>
+<div class="bjui-pageMessage tableMessage">
+    <table id="Message_tabel" class="table table-bordered table-hover table-striped table-top"  data-nowrap="true">
+        <thead>
+            <tr>
+                <th align="center" width="40px">编号</th>
+                <th align="center"   width="100px">公司名称</th>
+                <th align="center"  width="100px" >手机号码</th>
+                <th align="center"   width="150px">时间</th>
+                <th align="center" >内容</th>
+                <th align="center"  width="40px" >发送状态</th>
+                <th align="center" width="100px">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<div class="bjui-pageFooter">
+    <div class="quotes" id="MMpagination">
+    </div>
+</div>

@@ -1,0 +1,154 @@
+<script type="text/javascript">
+
+
+    var pass_u_id;
+    $(function () {
+
+
+
+         pass_u_id = $.cookie("pass_u_id");
+
+         load_user(pass_u_id);
+        $.CurrentDialog.find("#AddPrepaid").click(function () {
+                $(this).alertmsg('confirm', '确认充值？', { okCall: function () { AddPrepaid(); } });
+               
+        });
+
+    })
+
+
+    function AddPrepaid() {
+        var err = CheckForPrepaid();
+        if (err != "") {
+            $(this).alertmsg('warn', err);
+            return false;
+        }
+        var prepaid = FaceToDate();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/AddPrepaid",
+            data: "{prepaid:'" + JSON.stringify(prepaid) + "'}",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $(this).alertmsg('correct', result.d.message);
+                }
+                else
+                    $(this).alertmsg('error', result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+
+    }
+
+    function load_user(id) {
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                url: "WebService.asmx/LoadUser",
+                data: "{u_sysid:'" + id + "'}",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d.state == 0) {
+                        $.CurrentDialog.find("#j_dialog_name").val(result.d.data.U_NAME);
+                        $.CurrentDialog.find("#j_dialog_freemessage").val(result.d.data.U_FREEMESSAGE);
+                        $.CurrentDialog.find("#j_dialog_balance").val(result.d.data.U_BALANCE);
+                        $.CurrentDialog.find("#j_dialog_date").val(result.d.data.U_DATE);
+                    }
+                    else
+                        $(this).alertmsg('error', result.d.message);
+                },
+                error: function (e) {
+                    $(this).alertmsg('error', e.responseText);
+                }
+            });
+
+    }
+
+
+
+    function FaceToDate() {
+        var prepaid = new Object();
+        prepaid.P_AMOUNT = $.CurrentDialog.find("#j_dialog_amount").val();
+        prepaid.P_FREEMESSAGE = $.CurrentDialog.find("#j_dialog_pfreemessage").val();
+        prepaid.P_TYPE = $.CurrentDialog.find("#j_dialog_type").val();
+        prepaid.U_SYSID = pass_u_id;
+        return prepaid;
+    }
+
+    function CheckForPrepaid() {
+        var err = "";
+        if ($.CurrentDialog.find("#j_dialog_pfreemessage").val().trim() == "") {
+            err += "请输入短信数\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_amount").val().trim() == "") {
+            err += "请输入金额\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_type").val().trim() == "") {
+            err += "请输入充值方式\r\n";
+        }
+        return err;
+    }
+
+    function setSelectChecked(selectId, checkValue) {
+        var select = document.getElementById(selectId);
+        for (var i = 0; i < select.options.length; i++) {
+            if (select.options[i].value == checkValue) {
+                select.options[i].selected = true;
+                break;
+            }
+        }
+    };
+
+</script>
+
+<div class="bjui-pageContent">
+        <table class="table table-condensed table-hover">
+            <tbody>
+                <tr>
+                    <td colspan="2" align="center"><h3>* 充值</h3></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_name" class="control-label x90">公司名称：</label>
+                        <input type="text" name="dialog.name" id="j_dialog_name" disabled="disabled" value="" data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_freemessage" class="control-label x90">免费短信数：</label>
+                        <input type="text" name="dialog.freemessage" id="j_dialog_freemessage" disabled="disabled" disabled="disabled" value="" data-rule="required" size="20">
+                    </td>
+                </tr>
+                 <tr>
+                    <td>
+                        <label for="j_dialog_balance" class="control-label x90">余额：</label>
+                        <input type="text" name="dialog.balance" id="j_dialog_balance" disabled="disabled" value="" disabled="disabled" data-rule="required" size="20">
+                    </td>
+                     <td>
+                        <label for="j_dialog_type" class="control-label x90">充值方式：</label>
+                        <input type="text" name="dialog.type" id="j_dialog_type"  value="" data-rule="required" size="20">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_pfreemessage" class="control-label x90">短信数：</label>
+                        <input type="text" name="dialog.pfreemessage" id="j_dialog_pfreemessage" value="" data-rule="required" size="20" data-rule="email">
+                    </td>
+                    <td>
+                        <label for="j_dialog_amount" class="control-label x90">金额：</label>
+                        <input type="text" name="dialog.amount" id="j_dialog_amount" value="" data-rule="required" size="20">
+                    </td>
+                </tr>
+                <tr>
+
+            </tbody>
+        </table>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close">关闭</button></li>
+        <li><button type="button" id="AddPrepaid" class="btn-default">保存</button></li>
+    </ul>
+</div>

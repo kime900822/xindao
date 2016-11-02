@@ -1,0 +1,190 @@
+<script type="text/javascript">
+
+
+    var pass_d_id;
+    $(function () {
+
+
+         pass_d_id = $.cookie("pass_d_id");
+
+        load_Debit(pass_d_id);
+        $.CurrentDialog.find("#AddDebit").click(function () {
+            if (pass_d_id == null) {
+                $(this).alertmsg('confirm', '确认添加？', { okCall: function () { AddDebit(); } });
+            }
+            else {
+                $(this).alertmsg('confirm', '确认修改？', { okCall: function () { ModeDebit(); } });
+            }
+               
+        });
+
+    })
+
+
+    function AddDebit() {
+
+        var err = CheckForDebit();
+        if (err != "") {
+            $(this).alertmsg('warn', err);
+            return false;
+        }
+
+        var Debit = FaceToDate();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/AddDebit",
+            data: "{debit:'" + JSON.stringify(Debit) + "'}",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $(this).alertmsg('correct', result.d.message);
+                }
+                else
+                    $(this).alertmsg('error', result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+
+    }
+
+    function load_Debit(id) {
+        if (id == null){
+            $.CurrentDialog.find("#j_dialog_id").val("");
+            $.CurrentDialog.find("#j_dialog_name").val("");
+            $.CurrentDialog.find("#j_dialog_reason").val("");
+            $.CurrentDialog.find("#j_dialog_amount").val("");
+            $.CurrentDialog.find("#j_dialog_date").val("");
+            return false;
+        }
+        else
+        {
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                url: "WebService.asmx/LoadDebit",
+                data: "{d_sysid:'" + id + "'}",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d.state == 0) {
+                        $.CurrentDialog.find("#j_dialog_name").val(result.d.data.USER.U_NAME);
+                        $.CurrentDialog.find("#j_dialog_reason").val(result.d.data.D_REASON);
+                        $.CurrentDialog.find("#j_dialog_amount").val(result.d.data.D_AMOUNT);
+                        $.CurrentDialog.find("#j_dialog_date").val(result.d.data.D_DATE);
+                    }
+                    else
+                        $(this).alertmsg('error', result.d.message);
+                },
+                error: function (e) {
+                    $(this).alertmsg('error', e.responseText);
+                }
+            });
+        }
+
+    }
+
+
+    function ModeDebit() {
+
+
+        var err = CheckForDebit();
+        if (err != "") {
+            $(this).alertmsg('warn', err);
+            return false;
+        }
+
+
+            var Debit = FaceToDate();
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                url: "WebService.asmx/ModDebit",
+                data: "{debit:'" + JSON.stringify(Debit) + "'}",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d.state == 0) {
+                        $(this).alertmsg('correct', result.d.message);
+                    }
+                    else
+                        $(this).alertmsg('error', result.d.message);
+                },
+                error: function (e) {
+                    $(this).alertmsg('error', e.responseText);
+                }
+            });
+
+        }
+    
+
+    function FaceToDate() {
+        var Debit = new Object();
+        //Debit.U_NAME = $.CurrentDialog.find("#j_dialog_name").val();
+        Debit.D_REASON = $.CurrentDialog.find("#j_dialog_reason").val();
+        Debit.D_AMOUNT = $.CurrentDialog.find("#j_dialog_amount").val();
+        Debit.D_DATE = $.CurrentDialog.find("#j_dialog_date").val();
+        Debit.D_SYSID = pass_d_id;
+        return Debit;
+    }
+
+    function CheckForDebit() {
+        var err = "";
+        if ($.CurrentDialog.find("#j_dialog_reason").val().trim() == "") {
+            err += "请输入消费原因\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_amount").val().trim() == "") {
+            err += "请输入消费金额\r\n";
+        }
+        return err;
+
+    }
+
+    function setSelectChecked(selectId, checkValue) {
+        var select = document.getElementById(selectId);
+        for (var i = 0; i < select.options.length; i++) {
+            if (select.options[i].value == checkValue) {
+                select.options[i].selected = true;
+                break;
+            }
+        }
+    };
+
+</script>
+
+<div class="bjui-pageContent">
+        <table class="table table-condensed table-hover">
+            <tbody>
+                <tr>
+                    <td colspan="2" align="center"><h3>* 修改记录</h3></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_name" class="control-label x90">用户名称：</label>
+                        <input type="text" name="dialog.name" id="j_dialog_name" value="" disabled="disabled" data-rule="required" size="20">
+                    </td>
+                    <td>
+                        <label for="j_dialog_reason" class="control-label x90">消费原因：</label>
+                        <input type="text" name="dialog.reason" id="j_dialog_reason" value="" data-rule="required" size="20">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_amount" class="control-label x90">消费金额：</label>
+                        <input type="text" name="dialog.amount" id="j_dialog_amount" value="" data-rule="required" size="20">
+                    </td>
+                    <td>
+                        <label for="j_dialog_date" class="control-label x90">消费时间：</label>
+                        <input type="text" name="dialog.date" id="j_dialog_date" value="" disabled="disabled" data-rule="required" size="20">
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close">关闭</button></li>
+        <li><button type="button" id="AddDebit" class="btn-default">保存</button></li>
+    </ul>
+</div>

@@ -1,0 +1,165 @@
+<script type="text/javascript">
+    
+
+
+    $(function () {
+
+        //$("#btnRepayClear").click(function () {
+        //    ClearRepay();
+        //})
+        //$("#btnRepaySearch").click(function () {
+        //    SearchRepay();
+        //})
+        GettotalRepay();
+        SearchRepay(0);
+
+        $.CurrentNavtab.find('#btnRepayClear').click(function () { ClearRepay(); })
+        $.CurrentNavtab.find('#btnRepaySearch').click(function () {
+            GettotalRepay();
+            SearchRepay(0);
+        })
+    })
+
+    function GettotalRepay() {
+        var name = $.CurrentNavtab.find("#r_uname").val();
+        var id = $.CurrentNavtab.find("#c_id").val();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/TotalRepay",
+            data: "{name:'" + name + "',id:'" + id + "'}",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $("#RMpagination").pagination(result.d.data, {
+                        prev_text: "上一页",
+                        next_text: "下一页",
+                        num_edge_entries: 2,
+                        num_display_entries: 4,
+                        items_per_page: 10,
+                        callback: SearchRepay
+                    });
+                }
+                else {
+                    $(this).alertmsg('error', result.d.message);
+                }
+
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+    }
+
+
+    function SearchRepay(page_id) {
+       
+        var name = $.CurrentNavtab.find("#r_uname").val();
+        var id = $.CurrentNavtab.find("#c_id").val();
+        ClearRepay();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/GetRepay",
+            data: "{name:'" + name + "',id:'" + id + "',pageid:'" + page_id + "'}",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    LoadRepay(result.d.data);
+                }
+                else if (result.d.state == -1)
+                    $(this).alertmsg('info', result.d.message);
+                else
+                    $(this).alertmsg('error', result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+    }
+
+    function DeleteRepay(id) {
+        $(this).alertmsg('confirm', '确认删除？', {
+            okCall: function () {
+                var tr = $(id).parent().parent();
+                $.ajax({
+                    type: "post",
+                    contentType: "application/json",
+                    url: "WebService.asmx/DeleteRepay",
+                    data: "{b_sysid:'" + tr.find("td").eq(1).html() + "'}",
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.d.state == 0) {
+                            //alert(result.d.message);
+                            $(this).alertmsg('info', result.d.message);
+                            tr.remove();
+                        } else {
+                            $(this).alertmsg('error', result.d.message);
+                        }                  
+
+                    },
+                    error: function (e) {
+                        $(this).alertmsg('error', e.responseText);
+                    }
+                });
+
+            }
+        });
+
+
+
+
+    }
+
+
+    function passR_ID(id) {
+        $.cookie("pass_r_id", id);
+    }
+
+    function LoadRepay(data) {
+        $.each(data, function (i, item) {
+            var tr = "<tr data-id='" + item.NUM + "'><td>" + item.NUM + "</td><td>" + item.BORROW.USER.U_NAME + "</td><td>" + item.BORROW.C_NAME + "</td><td>" + item.BORROW.C_ID + "</td><td>" + item.R_AMOUNT + "</td><td>" + item.R_INTEREST + "</td><td>" + item.R_FINE + "</td><td>" + item.R_TYPE + "</td><td>" + item.R_DATE + "</td><td><a href='Repay_mod.html' class='btn btn-green' data-toggle='dialog' data-width='1000' data-height='450' data-id='dialog-mask' onclick='passR_ID(" + item.R_SYSID + ")'  data-mask='true' data-title='编辑-" + item.R_SYSID + "'>编辑</a>&nbsp;<a href='javascript:;' class='btn btn-red'  onclick='DeleteRepay(this)' >删</a></td></tr>";
+                $.CurrentNavtab.find("#repay_tabel").find("tbody").append(tr);
+            })
+        
+    }
+
+
+    function ClearRepay() {
+        $.CurrentNavtab.find("#repay_tabel").find("tbody").find("tr").remove();
+    }
+
+</script>
+<div class="bjui-pageHeader">
+        <div class="bjui-searchBar">
+            <label>公司名称：</label><input type="text"  value="" id="r_uname" name="u_name" class="form-control" size="8">&nbsp;
+            <label>借款人身份证：</label><input type="text"  value="" id="c_id" name="u_name" class="form-control" size="8">&nbsp;
+            <button type="submit" class="btn-default" id="btnRepaySearch" data-icon="search" >查询</button>&nbsp;
+            <a class="btn btn-orange" href="javascript:;" id="btnRepayClear" data-toggle="reloadsearch" data-clear-query="true" data-icon="undo">清空查询</a>&nbsp;
+        </div>
+</div>
+<div class="bjui-pageContent tableContent">
+    <table id="repay_tabel" class="table table-bordered table-hover table-striped table-top"  data-nowrap="true">
+        <thead>
+            <tr>
+                <th align="center" width="40px">编号</th>
+                <th align="center" >公司名称</th>
+                <th align="center" >姓名</th>
+                <th align="center" >身份证号</th>
+                <th align="center" >金额</th>
+                <th align="center" >利息</th>
+                <th align="center" >处罚金</th>
+                <th align="center" >还款方式</th>
+                <th align="center" >还款时间</th>
+                <th align="center" width="100px">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<div class="bjui-pageFooter">
+    <div class="quotes" id="RMpagination">
+    </div>
+</div>

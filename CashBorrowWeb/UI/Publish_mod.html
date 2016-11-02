@@ -1,0 +1,212 @@
+<script type="text/javascript">
+
+
+    var pass_e_id;
+    $(function () {
+
+
+         pass_e_id = $.cookie("pass_e_id");
+        load_Publish(pass_e_id);
+        $.CurrentDialog.find("#AddPublish").click(function () {
+            if (pass_e_id == null) {
+                $(this).alertmsg('confirm', '确认添加？', { okCall: function () { AddPublish(); } });
+            }
+            else {
+                $(this).alertmsg('confirm', '确认修改？', { okCall: function () { ModePublish(); } });
+            }
+               
+        });
+
+    })
+
+    function pic_upload_success(file, data) {
+        var json = $.parseJSON(data)
+        $(this).bjuiajax('ajaxDone', json)
+        if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+            $('#j_custom_pic').val(json.filename).trigger('validate')
+            $('#j_custom_span_pic').html('<img src="../uploads/titleimages/' + json.filename + '" width="100" />')
+        }
+    }
+
+
+    function AddPublish() {
+
+        var err = CheckForPublish();
+        if (err != "") {
+            $(this).alertmsg('warn', err);
+            return false;
+        }
+
+        var Publish = FaceToDate();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/AddPublish",
+            data: "{publish:'" + JSON.stringify(Publish) + "',content:'" + $.CurrentDialog.find("#content").val() + "',titlepic:'" + $.CurrentDialog.find('#j_custom_span_pic').find("img").eq(0).attr("src") + "'}",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $(this).alertmsg('correct', result.d.message);
+                }
+                else
+                    $(this).alertmsg('error', result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+
+    }
+
+    function load_Publish(id) {
+        if (id == null){
+            $.CurrentDialog.find("#edit").val("");
+            $.CurrentDialog.find("#jtitle").val("");
+            $.CurrentDialog.find("#jowner").val("");
+            return false;
+        }
+        else
+        {
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                url: "WebService.asmx/LoadPublish",
+                data: "{e_sysid:'" + id + "'}",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d.state == 0) {
+                        $.CurrentDialog.find("#jowner").val(result.d.data.E_EDITOR);
+                        $.CurrentDialog.find("#jtitle").val(result.d.data.E_TITLE);
+                        $.CurrentDialog.find('#j_custom_span_pic').html('<img src="' + result.d.data.E_TITLEPIC + '" width="100" />')
+                        KindEditor.html("#content", result.d.data.E_CONTENT);
+                    }
+                    else
+                        $(this).alertmsg('error', result.d.message);
+                },
+                error: function (e) {
+                    $(this).alertmsg('error', e.responseText);
+                }
+            });
+        }
+
+    }
+
+
+    function ModePublish() {
+
+
+        var err = CheckForPublish();
+        if (err != "") {
+            $(this).alertmsg('warn', err);
+            return false;
+        }
+
+
+            var Publish = FaceToDate();
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                url: "WebService.asmx/ModPublish",
+                data: "{publish:'" + JSON.stringify(Publish) + "',content:'" + $.CurrentDialog.find("#content").val() + "',titlepic:'" + $.CurrentDialog.find('#j_custom_span_pic').find("img").eq(0).attr("src") + "'}",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d.state == 0) {
+                        $(this).alertmsg('correct', result.d.message);
+                    }
+                    else
+                        $(this).alertmsg('error', result.d.message);
+                },
+                error: function (e) {
+                    $(this).alertmsg('error', e.responseText);
+                }
+            });
+
+        }
+    
+
+    function FaceToDate() {
+        var Publish = new Object();
+        //Publish.U_NAME = $.CurrentDialog.find("#j_dialog_name").val();
+        //Publish.E_CONTENT = $.CurrentDialog.find("#edit").val();
+        Publish.E_TITLE = $.CurrentDialog.find("#jtitle").val();
+        Publish.E_EDITOR = $.CurrentDialog.find("#jowner").val();
+        Publish.E_SYSID = pass_e_id;
+        return Publish;
+    }
+
+    function CheckForPublish() {
+        var err = "";
+        if ($.CurrentDialog.find("#jowner").val().trim() == "") {
+            err += "请输入编辑人\r\n";
+        }
+        if ($.CurrentDialog.find("#jtitle").val().trim() == "") {
+            err += "请输入标题\r\n";
+        }
+        if ($.CurrentDialog.find('#j_custom_span_pic').find("img").eq(0).attr("src") == "") {
+            err += "请上传标题图片\r\n";
+        }
+        return err;
+
+    }
+
+    function setSelectChecked(selectId, checkValue) {
+        var select = document.getElementById(selectId);
+        for (var i = 0; i < select.options.length; i++) {
+            if (select.options[i].value == checkValue) {
+                select.options[i].selected = true;
+                break;
+            }
+        }
+    };
+
+</script>
+
+<div class="bjui-pageContent tableContent">
+    <table id="borrow_tabel" class="table table-bordered table-hover table-striped table-top"  data-nowrap="true">
+        <thead>
+            <tr>
+              <td>
+                 <label for="jtitle" class="control-label x100">标题：</label>
+                 <input type="text" id="jtitle" value="" data-rule="required" size="20" >
+                  <label for="jowner" class="control-label x100"> 发布人：</label>
+                 <input type="text" id="jowner" value="" data-rule="required" size="20" >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                  <label for="jowner" class="control-label x100"> 标题图片：</label>
+                       <div style="display: inline-block; vertical-align: middle;">
+                            <div id="j_custom_pic_up" data-toggle="upload" data-uploader="uploadpic.ashx" 
+                                data-file-size-limit="1024000000"
+                                data-file-type-exts="*.jpg;*.png;*.gif;*.mpg"
+                                data-multi="true"
+                                data-on-upload-success="pic_upload_success"
+                                data-icon="cloud-upload"
+                                data-auto="true"></div>
+                            <input type="hidden" name="custom.pic" value="" id="j_custom_pic">
+                            <span id="j_custom_span_pic"></span>
+                        </div>
+
+              </td>
+
+            </tr>
+            <tr>
+              <td>
+                  <textarea data-fillDescAfterUploadImage="false" data-uploadJson="upload_json.ashx" data-fileManagerJson="file_manager_json.ashx" data-toggle="kindeditor" id="content" data-items="source,fontname, fontsize, |, forecolor, hilitecolor, bold, italic, underline, removeformat, |, justifyleft, justifycenter, justifyright, insertorderedlist, insertunorderedlist, |, emoticons, image, link"></textarea>
+              </td>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div id="aaa">
+
+
+    </div>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close">关闭</button></li>
+        <li><button type="button" id="AddPublish" class="btn-default">发布</button></li>
+    </ul>
+</div>

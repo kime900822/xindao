@@ -1,0 +1,163 @@
+<script type="text/javascript">
+    
+
+
+    $(function () {
+
+        //$("#btnContentClear").click(function () {
+        //    ClearContent();
+        //})
+        //$("#btnContentSearch").click(function () {
+        //    SearchContent();
+        //})
+        GettotalContent();
+        SearchContent(0);
+
+        $.CurrentNavtab.find('#btnContentClear').click(function () { ClearContent(); })
+        $.CurrentNavtab.find('#btnContentSearch').click(function () {
+            GettotalContent();
+            SearchContent(0);
+        })
+    })
+
+
+    function GettotalContent() {
+        var fdate = $.CurrentNavtab.find("#c_fdate").val();
+        var tdate = $.CurrentNavtab.find("#c_tdate").val();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/TotalContent",
+            data: "{fdate:'" + fdate + "',tdate:'" + tdate + "'}",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $("#CMpagination").pagination(result.d.data, {
+                        prev_text: "上一页",
+                        next_text: "下一页",
+                        num_edge_entries: 2,
+                        num_display_entries: 4,
+                        items_per_page: 10,
+                        callback: SearchContent
+                    });
+                }
+                else {
+                    $(this).alertmsg('error', result.d.message);
+                    return 0;
+                }
+
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+    }
+
+    function SearchContent(page_id) {
+       
+        var fdate = $.CurrentNavtab.find("#c_fdate").val();
+        var tdate = $.CurrentNavtab.find("#c_tdate").val();
+        ClearContent();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/GetContent",
+            data: "{fdate:'" + fdate + "',tdate:'" + tdate + "',pageid:'" + page_id + "'}",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    LoadContent(result.d.data);
+                }
+                else if (result.d.state == -1)
+                    $(this).alertmsg('info', result.d.message);
+                else
+                    $(this).alertmsg('error', result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+    }
+
+    function DeleteContent(id) {
+        $(this).alertmsg('confirm', '确认删除？', {
+            okCall: function () {
+                var tr = $(id).parent().parent();
+                $.ajax({
+                    type: "post",
+                    contentType: "application/json",
+                    url: "WebService.asmx/DeleteContent",
+                    data: "{date:'" + tr.find("td").eq(3).html() + "'}",
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.d.state == 0) {
+                            //alert(result.d.message);
+                            $(this).alertmsg('info', result.d.message);
+                            tr.remove();
+                        } else {
+                            $(this).alertmsg('error', result.d.message);
+                        }                  
+
+                    },
+                    error: function (e) {
+                        $(this).alertmsg('error', e.responseText);
+                    }
+                });
+
+            }
+        });
+
+
+
+
+    }
+
+
+    function passC_ID(id) {
+        $.cookie("pass_c_id", id);
+    }
+
+    function LoadContent(data) {
+        $.each(data, function (i, item) {
+            var tr = "<tr data-id='" + item.NUM + "'><td>" + item.NUM + "</td><td>" + item.C_NAME + "</td><td>" + item.C_MAIL + "</td><td>" + item.C_DATE + "</td><td>" + item.C_CONTENT + "</td><td>" + item.C_TELEPHONE + "</td><td><a href='javascript:;' class='btn btn-red'  onclick='DeleteContent(this)' >删</a></td></tr>";
+                $.CurrentNavtab.find("#content_tabel").find("tbody").append(tr);
+            })
+        
+    }
+
+
+    function ClearContent() {
+        $.CurrentNavtab.find("#content_tabel").find("tbody").find("tr").remove();
+    }
+
+</script>
+<div class="bjui-pageHeader">
+        <div class="bjui-searchBar">
+            <label>起始日期：</label><input type="text"  value="" id="c_fdate" name="u_name" class="form-control" data-toggle="datepicker" size="20">&nbsp;
+            <label>结束日期：</label><input type="text"  value="" id="c_tdate" name="u_name" class="form-control" data-toggle="datepicker" size="20">&nbsp;
+            <button type="submit" class="btn-default" id="btnContentSearch" data-icon="search" >查询</button>&nbsp;
+            <a class="btn btn-orange" href="javascript:;" id="btnContentClear" data-toggle="reloadsearch" data-clear-query="true" data-icon="undo">清空查询</a>&nbsp;
+        </div>
+</div>
+<div class="bjui-pageContent tableContent">
+    <table id="content_tabel" class="table table-bordered table-hover table-striped table-top"  data-nowrap="true">
+        <thead>
+            <tr>
+                <th align="center" width="40px">编号</th>
+                <th align="center"   width="100px">姓名</th>
+                <th align="center"  width="100px" >邮箱</th>
+                <th align="center"   width="150px">时间</th>
+                <th align="center" >内容</th>
+                <th align="center"  width="40px" >电话</th>
+                <th align="center" width="100px">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<div class="bjui-pageFooter">
+    <div class="quotes" id="CMpagination">
+    </div>
+</div>

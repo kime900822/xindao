@@ -1,0 +1,459 @@
+<script type="text/javascript">
+
+
+    var pass_b_id;
+    var title;
+    $(function () {
+
+
+        title = $.CurrentDialog.find("[class=title]").html().split("-");
+        pass_b_id = $.cookie("pass_b_id");
+         if (title[0] == "查看") {
+             $.CurrentDialog.find("#AddBorrow").hide();
+             $.CurrentDialog.find("#j_dialog_bsysid").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_uname").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_cname").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_cid").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_ccontact").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_cemergency").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_cemergencyname").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_caddress").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_csex").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_gname1").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_gid1").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_gjob1").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_gname2").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_gid2").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_gjob2").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_gname3").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_gid3").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_gjob3").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_gname4").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_gid4").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_gjob4").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_bamount").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_brepayment").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_binterest").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_btype").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_brepaydate").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_breminddate").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_bdate").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_bterm").attr("disabled", "disabled");
+         }
+
+
+
+         load_borrow(title[1]);
+        $.CurrentDialog.find("#AddBorrow").click(function () {
+            if (pass_b_id == null) {
+                $(this).alertmsg('confirm', '确认添加？', { okCall: function () { AddBorrow(); } });
+
+                //AddBorrow();
+            }
+            else {
+                $(this).alertmsg('confirm', '确认修改？',{okCall:function(){ModeBorrow(); }});
+                //ModeBorrow(pass_b_id);
+            }
+               
+        });
+
+    })
+
+
+    //function AddBorrow() {
+    //    var err = CheckForBorrow();
+    //    if (err != "") {
+    //        $(this).alertmsg('warn', err);
+    //        return false;
+    //    }
+    //    var borrow = FaceToDate();
+    //    $.ajax({
+    //        type: "post",
+    //        contentType: "application/json",
+    //        url: "WebService.asmx/AddBorrow",
+    //        data: "{borrow:'" + JSON.stringify(borrow) + "'}",
+    //        dataType: "json",
+    //        success: function (result) {
+    //            if (result.d.state == 0) {
+    //                $(this).alertmsg('correct', result.d.message);
+    //            }
+    //            else
+    //                $(this).alertmsg('error', result.d.message);
+    //        }
+    //    });
+
+    //}
+
+    function load_borrow(id) {
+        if (id == null){
+            return false;
+        }
+
+        else
+        {
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                url: "WebService.asmx/LoadBorrow",
+                data: "{b_sysid:'" + id + "'}",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d.state == 0) {
+                        $.CurrentDialog.find("#j_dialog_bsysid").val(result.d.data.B_SYSID);
+                        $.CurrentDialog.find("#j_dialog_uname").val(result.d.data.USER.U_NAME);
+                        $.CurrentDialog.find("#j_dialog_cname").val(result.d.data.C_NAME);
+                        $.CurrentDialog.find("#j_dialog_cid").val(result.d.data.C_ID);
+                        $.CurrentDialog.find("#j_dialog_ccontact").val(result.d.data.C_CONTACT);
+                        $.CurrentDialog.find("#j_dialog_cemergency").val(result.d.data.C_EMERGENCY);
+                        $.CurrentDialog.find("#j_dialog_caddress").val(result.d.data.C_ADDRESS);
+                        $.CurrentDialog.find("#j_dialog_csex").val(result.d.data.C_SEX);
+                        $.CurrentDialog.find("#j_dialog_gname1").val(result.d.data.G_NAME1);
+                        $.CurrentDialog.find("#j_dialog_gid1").val(result.d.data.G_ID1);
+                        $.CurrentDialog.find("#j_dialog_gjob1").val(result.d.data.G_JOB1);
+                        $.CurrentDialog.find("#j_dialog_gname2").val(result.d.data.G_NAME2);
+                        $.CurrentDialog.find("#j_dialog_gid2").val(result.d.data.G_ID2);
+                        $.CurrentDialog.find("#j_dialog_gjob2").val(result.d.data.G_JOB2);
+                        $.CurrentDialog.find("#j_dialog_gname3").val(result.d.data.G_NAME3);
+                        $.CurrentDialog.find("#j_dialog_gid3").val(result.d.data.G_ID3);
+                        $.CurrentDialog.find("#j_dialog_gjob3").val(result.d.data.G_JOB3);
+                        $.CurrentDialog.find("#j_dialog_gname4").val(result.d.data.G_NAME4);
+                        $.CurrentDialog.find("#j_dialog_gid4").val(result.d.data.G_ID4);
+                        $.CurrentDialog.find("#j_dialog_gjob4").val(result.d.data.G_JOB4);
+                        $.CurrentDialog.find("#j_dialog_bamount").val(result.d.data.B_AMOUNT);
+                        $.CurrentDialog.find("#j_dialog_brepayment").val(result.d.data.B_REPAYMENT);
+                        $.CurrentDialog.find("#j_dialog_binterest").val(result.d.data.B_INTEREST);
+                        $.CurrentDialog.find("#j_dialog_btype").val(result.d.data.B_TYPE);
+                        $.CurrentDialog.find("#j_dialog_brepaydate").val(result.d.data.B_REPAYDATE);
+                        $.CurrentDialog.find("#j_dialog_breminddate").val(result.d.data.B_REMINDDATE);
+                        $.CurrentDialog.find("#j_dialog_bdate").val(result.d.data.B_DATE);
+                        $.CurrentDialog.find("#j_dialog_bterm").val(result.d.data.B_TERM); j_dialog_binterestamount
+                        $.CurrentDialog.find("#j_dialog_cemergencyname").val(result.d.data.C_EMERGENCYNAME);
+                        $.CurrentDialog.find("#j_dialog_binterestamount").val((result.d.data.B_AMOUNT * result.d.data.B_INTEREST / 100).toFixed(2));
+                    }
+                    else
+                        $(this).alertmsg('error', result.d.message);
+                },
+                error: function (e) {
+                    $(this).alertmsg('error', e.responseText);
+                }
+            });
+        }
+
+    }
+
+
+    function ModeBorrow() {
+        var err=CheckForBorrow();
+        if (err != "") {
+            $(this).alertmsg('warn', err);
+            return false;
+        }
+        var borrow = FaceToDate();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/ModBorrow",
+            data: "{borrow:'" + JSON.stringify(borrow) + "'}",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $(this).alertmsg('correct', result.d.message);
+                }
+                else
+                    $(this).alertmsg('error', result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+
+    }
+
+
+    function FaceToDate() {
+        var borrow = new Object();
+        borrow.C_NAME = $.CurrentDialog.find("#j_dialog_cname").val();
+        borrow.C_ID = $.CurrentDialog.find("#j_dialog_cid").val();
+        borrow.C_CONTACT = $.CurrentDialog.find("#j_dialog_ccontact").val();
+        borrow.C_EMERGENCY = $.CurrentDialog.find("#j_dialog_cemergency").val();
+        borrow.C_ADDRESS = $.CurrentDialog.find("#j_dialog_caddress").val();
+        borrow.C_SEX = $.CurrentDialog.find("#j_dialog_csex").val();
+        borrow.G_NAME1 = $.CurrentDialog.find("#j_dialog_gname1").val();
+        borrow.G_ID1 = $.CurrentDialog.find("#j_dialog_gid1").val();
+        borrow.G_JOB1 = $.CurrentDialog.find("#j_dialog_gjob1").val();
+        borrow.G_NAME2 = $.CurrentDialog.find("#j_dialog_gname2").val();
+        borrow.G_ID2 = $.CurrentDialog.find("#j_dialog_gid2").val();
+        borrow.G_JOB2 = $.CurrentDialog.find("#j_dialog_gjob2").val();
+        borrow.G_NAME3 = $.CurrentDialog.find("#j_dialog_gname3").val();
+        borrow.G_ID3 = $.CurrentDialog.find("#j_dialog_gid3").val();
+        borrow.G_JOB3 = $.CurrentDialog.find("#j_dialog_gjob3").val();
+        borrow.G_NAME4 = $.CurrentDialog.find("#j_dialog_gname4").val();
+        borrow.G_ID4 = $.CurrentDialog.find("#j_dialog_gid4").val();
+        borrow.G_JOB4 = $.CurrentDialog.find("#j_dialog_gjob4").val();
+        borrow.B_AMOUNT = $.CurrentDialog.find("#j_dialog_bamount").val();
+        borrow.B_REPAYMENT = $.CurrentDialog.find("#j_dialog_brepayment").val();
+        borrow.B_INTEREST = $.CurrentDialog.find("#j_dialog_binterest").val();
+        borrow.B_TYPE = $.CurrentDialog.find("#j_dialog_btype").val();
+        borrow.B_REPAYDATE = $.CurrentDialog.find("#j_dialog_brepaydate").val();
+        borrow.B_REMINDDATE = $.CurrentDialog.find("#j_dialog_breminddate").val(); 
+        borrow.B_DATE = $.CurrentDialog.find("#j_dialog_bdate").val();
+        borrow.B_TERM = $.CurrentDialog.find("#j_dialog_bterm").val();
+        borrow.C_EMERGENCYNAME = $.CurrentDialog.find("#j_dialog_cemergencyname").val();
+        borrow.B_SYSID = title[1];
+        return borrow;
+    }
+
+    function CheckForBorrow() {
+        var err="";
+        if ($.CurrentDialog.find("#j_dialog_cname").val().trim() == "") {
+            err+="请输入借款人姓名\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_cid").val().trim() == "") {
+            err+="请输入身份证号\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_ccontact").val().trim() == "") {
+            err+="请输入联系方式\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_cemergency").val().trim() == "") {
+            err+="请输入紧急联系方式\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_cemergencyname").val().trim() == "") {
+            err += "请输入紧急联系人姓名\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_caddress").val().trim() == "") {
+            err+="请输入地址\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_csex").val().trim() == "") {
+            err += "请输入性别\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_bamount").val().trim() == "") {
+            err += "请输入借款金额\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_brepayment").val().trim() == "") {
+            err += "请输入已还金额\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_binterest").val().trim() == "") {
+            err += "请输入年利率\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_btype").val().trim() == "") {
+            err += "请输入借款方式\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_brepaydate").val().trim() == "") {
+            err += "请输入还款日\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_breminddate").val().trim() == "") {
+            err += "请输入提醒日\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_bdate").val().trim() == "") {
+            err += "请输入借款日期\r\n";
+        } 
+        if ($.CurrentDialog.find("#j_dialog_bterm").val().trim() == "") {
+            err += "请输入还款期数\r\n";
+        }
+        
+        return err;
+    }
+
+    function setSelectChecked(selectId, checkValue) {
+        var select = document.getElementById(selectId);
+        for (var i = 0; i < select.options.length; i++) {
+            if (select.options[i].value == checkValue) {
+                select.options[i].selected = true;
+                break;
+            }
+        }
+    };
+
+</script>
+
+<div class="bjui-pageContent">
+        <table class="table table-condensed table-hover">
+            <tbody>
+                <tr>
+                    <td colspan="3" align="center"><h3>* 查看/修改借款信息</h3></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_uname" class="control-label x100">公司名称：</label>
+                        <input type="text" name="dialog.uname" id="j_dialog_uname" disabled="disabled" value="" data-rule="required" size="20">
+                    </td>
+                    <td>
+                        <label for="j_dialog_bsysid" class="control-label x100">借款编号：</label>
+                        <input type="text" name="dialog.bsysid" id="j_dialog_bsysid" disabled="disabled" value="" data-rule="required" size="20" >
+                    </td>
+                    <td>
+                        <label for="j_dialog_bdate" class="control-label x100">借款日期：</label>
+                        <input type="text" name="dialog.bdate" id="j_dialog_bdate" value="" disabled="disabled"  data-rule="required"  ata-rule="required;date" size="20" >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_cname" class="control-label x100">姓名：</label>
+                        <input type="text" name="dialog.cname" id="j_dialog_cname" value="" data-rule="required" size="20" >
+                    </td>
+                    <td>
+                        <label for="j_dialog_cid" class="control-label x100">身份证号：</label>
+                        <input type="text" name="dialog.cid" id="j_dialog_cid" value="" data-rule="required" size="20">
+                    </td>
+                    <td>
+                        <label for="j_dialog_csex" class="control-label x100">性别：</label>
+                        <select name="custom.sex" id="j_dialog_csex" >
+                            <option value=""></option>
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+<!--                        <label for="j_dialog_cpic" class="control-label x90">身份证号：</label>
+                        <input type="text" name="dialog.cpic" id="j_dialog_cpic" value="" data-rule="required" size="20">-->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_ccontact" class="control-label x100">联系方式：</label>
+                        <input type="text" name="dialog.ccontact" id="j_dialog_ccontact" value="" data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_cemergencyname" class="control-label x100">紧急联系人：</label>
+                        <input type="text" name="dialog.cemergencyname" id="j_dialog_cemergencyname"  value="" data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_cemergency" class="control-label x100">紧急联系方式：</label>
+                        <input type="text" name="dialog.cemergency" id="j_dialog_cemergency"  value="" data-rule="required" size="20">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_bamount" class="control-label x100">金额：</label>
+                        <input type="text" name="dialog.bamount" id="j_dialog_bamount" value="" data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_binterest" class="control-label x100">年利率(%)：</label>
+                        <input type="text" name="dialog.binterest" id="j_dialog_binterest" value="" data-rule="required" size="20">
+                    </td>
+                    <td>
+                        <label for="j_dialog_binterestamount" class="control-label x100">利息：</label>
+                        <input type="text" name="dialog.binterestamount" id="j_dialog_binterestamount" value="" disabled="disabled"  data-rule="required" size="20">
+                    </td>
+                </tr>
+                <tr>
+                     <td>
+                        <label for="j_dialog_brepayment" class="control-label x100">已还金额：</label>
+                        <input type="text" name="dialog.brepayment" id="j_dialog_brepayment" value=""  data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_bterm" class="control-label x100">还款期数：</label>
+                        <input type="text" name="dialog.bterm" id="j_dialog_bterm" value="" data-rule="required" size="20">
+                    </td>
+                     <td>
+                        <label for="j_dialog_caddress" class="control-label x100">地址：</label>
+                        <input type="text" name="dialog.caddress" id="j_dialog_caddress" value=""  data-rule="required" size="20">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_btype" class="control-label x100">借款方式：</label>
+                        <select name="custom.btype" id="j_dialog_btype" >
+                            <option value=""></option>
+                            <option value="现金">现金</option>
+                            <option value="银行转账">银行转账</option>
+                            <option value="支付宝">支付宝</option>
+                        </select>
+                    </td>
+                    <td>
+                         <label for="j_dialog_brepaydate" class="control-label x100">还款日：</label>
+                        <input type="text" name="dialog.brepaydate" id="j_dialog_brepaydate"  value="" data-rule="required" size="20">
+                    </td>
+                    <td>
+                        <label for="j_dialog_breminddate" class="control-label x100">提醒日：</label>
+                        <input type="text" name="dialog.breminddate" id="j_dialog_breminddate" value=""  data-rule="required" size="20">
+                    </td>
+                </tr>
+                 <tr>
+                    <td>
+                        <label for="j_dialog_gname1" class="control-label x100">担保人1姓名：</label>
+                        <input type="text" name="dialog.gname1" id="j_dialog_gname1" value=""  data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_gid1" class="control-label x100">担保人1身份证：</label>
+                        <input type="text" name="dialog.gid1" id="j_dialog_gid1"  value=""  data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_gjob1" class="control-label x100">担保人1职业：</label>
+                        <select name="custom.gjob1" id="j_dialog_gjob1"  >
+                            <option value=""></option>
+                            <option value="公职人员">公职人员</option>
+                            <option value="企业管理者">企业管理者</option>
+                            <option value="公司员工">公司员工</option>
+                            <option value="自由职业">自由职业</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_gname2" class="control-label x100">担保人2姓名：</label>
+                        <input type="text" name="dialog.gname2" id="j_dialog_gname2" value=""  data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_gid2" class="control-label x100">担保人2身份证：</label>
+                        <input type="text" name="dialog.gid2" id="j_dialog_gid2"  value=""  data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_gjob2" class="control-label x100">担保人2职业：</label>
+                         <select name="custom.gjob2" id="j_dialog_gjob2"  >
+                             <option value=""></option>
+                            <option value="公职人员">公职人员</option>
+                            <option value="企业管理者">企业管理者</option>
+                            <option value="公司员工">公司员工</option>
+                            <option value="自由职业">自由职业</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_gname3" class="control-label x100">担保人3姓名：</label>
+                        <input type="text" name="dialog.gname3" id="j_dialog_gname3" value=""  data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_gid3" class="control-label x100">担保人3身份证：</label>
+                        <input type="text" name="dialog.gid3" id="j_dialog_gid3"  value=""  data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_gjob3" class="control-label x100">担保人3职业：</label>
+                        <select name="custom.gjob3" id="j_dialog_gjob3"  >
+                            <option value=""></option>
+                            <option value="公职人员">公职人员</option>
+                            <option value="企业管理者">企业管理者</option>
+                            <option value="公司员工">公司员工</option>
+                            <option value="自由职业">自由职业</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_gname4" class="control-label x100">担保人4姓名：</label>
+                        <input type="text" name="dialog.gname4" id="j_dialog_gname4" value=""  data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_gid4" class="control-label x100">担保人4身份证：</label>
+                        <input type="text" name="dialog.gid4" id="j_dialog_gid4"  value=""  data-rule="required" size="20">
+                    </td>
+                    <td>
+                         <label for="j_dialog_gjob4" class="control-label x100">担保人4职业：</label>
+                         <select name="custom.gjob4" id="j_dialog_gjob4" >
+                             <option value=""></option>
+                            <option value="公职人员">公职人员</option>
+                            <option value="企业管理者">企业管理者</option>
+                            <option value="公司员工">公司员工</option>
+                            <option value="自由职业">自由职业</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close">关闭</button></li>
+        <li><button type="button" id="AddBorrow" class="btn-default">保存</button></li>
+    </ul>
+</div>

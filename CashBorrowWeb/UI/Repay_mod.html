@@ -1,0 +1,210 @@
+<script type="text/javascript">
+
+
+    var pass_r_id;
+    var title;
+    $(function () {
+
+
+        title = $.CurrentDialog.find("[class=title]").html().split("-");
+        pass_r_id = $.cookie("pass_r_id");
+
+        load_repay(title[1]);
+        $.CurrentDialog.find("#AddRepay").click(function () {
+            if (pass_r_id == null) {
+                $(this).alertmsg('confirm', '确认添加？', { okCall: function () { AddRepay(); } });
+
+                //AddRepay();
+            }
+            else {
+                $(this).alertmsg('confirm', '确认修改？',{okCall:function(){ModeRepay(); }});
+                //ModeRepay(pass_r_id);
+            }
+               
+        });
+
+    })
+
+
+    //function AddRepay() {
+    //    var err = CheckForRepay();
+    //    if (err != "") {
+    //        $(this).alertmsg('warn', err);
+    //        return false;
+    //    }
+    //    var repay = FaceToDate();
+    //    $.ajax({
+    //        type: "post",
+    //        contentType: "application/json",
+    //        url: "WebService.asmx/AddRepay",
+    //        data: "{repay:'" + JSON.stringify(repay) + "'}",
+    //        dataType: "json",
+    //        success: function (result) {
+    //            if (result.d.state == 0) {
+    //                $(this).alertmsg('correct', result.d.message);
+    //            }
+    //            else
+    //                $(this).alertmsg('error', result.d.message);
+    //        }
+    //    });
+
+    //}
+
+    function load_repay(id) {
+        if (id == null){
+            return false;
+        }
+
+        else
+        {
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                url: "WebService.asmx/LoadRepay",
+                data: "{r_sysid:'" + id + "'}",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d.state == 0) {
+                        $.CurrentDialog.find("#j_dialog_bsysid").val(result.d.data.B_SYSID);
+                        $.CurrentDialog.find("#j_dialog_uname").val(result.d.data.BORROW.USER.U_NAME);
+                        $.CurrentDialog.find("#j_dialog_cname").val(result.d.data.BORROW.C_NAME);
+                        $.CurrentDialog.find("#j_dialog_rovertime").val(result.d.data.R_OVERTIME);
+                        $.CurrentDialog.find("#j_dialog_ramount").val(result.d.data.R_AMOUNT);
+                        $.CurrentDialog.find("#j_dialog_rinterest").val(result.d.data.R_INTEREST);
+                        $.CurrentDialog.find("#j_dialog_rfine").val(result.d.data.R_FINE);
+                        $.CurrentDialog.find("#j_dialog_rdate").val(result.d.data.R_DATE);
+                        $.CurrentDialog.find("#j_dialog_rtype").val(result.d.data.R_TYPE);
+                    }
+                    else
+                        $(this).alertmsg('error', result.d.message);
+                },
+                error: function (e) {
+                    $(this).alertmsg('error', e.responseText);
+                }
+            });
+        }
+
+    }
+
+
+    function ModeRepay() {
+        var err=CheckForRepay();
+        if (err != "") {
+            $(this).alertmsg('warn', err);
+            return false;
+        }
+        var repay = FaceToDate();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/ModRepay",
+            data: "{repay:'" + JSON.stringify(repay) + "'}",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $(this).alertmsg('correct', result.d.message);
+                }
+                else
+                    $(this).alertmsg('error', result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+
+    }
+
+
+    function FaceToDate() {
+        var repay = new Object();
+        repay.B_SYSID = $.CurrentDialog.find("#j_dialog_bsysid").val();
+        repay.R_OVERTIME = $.CurrentDialog.find("#j_dialog_rovertime").val();
+        repay.R_AMOUNT = $.CurrentDialog.find("#j_dialog_ramount").val();
+        repay.R_INTEREST = $.CurrentDialog.find("#j_dialog_rinterest").val();
+        repay.R_FINE = $.CurrentDialog.find("#j_dialog_rfine").val();
+        repay.R_DATE = $.CurrentDialog.find("#j_dialog_rdate").val();
+        repay.R_TYPE = $.CurrentDialog.find("#j_dialog_rtype").val();
+        repay.R_SYSID = title[1];
+        return repay;
+    }
+
+    function CheckForRepay() {
+        var err="";
+        if ($.CurrentDialog.find("#j_dialog_rtype").val().trim() == "") {
+            err+="请输入还款方式\r\n";
+        }
+        return err;
+    }
+
+    function setSelectChecked(selectId, checkValue) {
+        var select = document.getElementById(selectId);
+        for (var i = 0; i < select.options.length; i++) {
+            if (select.options[i].value == checkValue) {
+                select.options[i].selected = true;
+                break;
+            }
+        }
+    };
+
+</script>
+
+<div class="bjui-pageContent">
+        <table class="table table-condensed table-hover">
+            <tbody>
+                <tr>
+                    <td colspan="3" align="center"><h3>* 修改借款信息</h3></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_uname" class="control-label x100">公司名称：</label>
+                        <input type="text" name="dialog.uname" id="j_dialog_uname" disabled="disabled" value="" data-rule="required" size="20">
+                    </td>
+                    <td>
+                        <label for="j_dialog_bsysid" class="control-label x100">借款编号：</label>
+                        <input type="text" name="dialog.bsysid" id="j_dialog_bsysid" disabled="disabled" value="" data-rule="required" size="20" >
+                    </td>
+                    <td>
+                        <label for="j_dialog_cname" class="control-label x100">姓名：</label>
+                        <input type="text" name="dialog.cname" id="j_dialog_cname" value="" disabled="disabled"  data-rule="required"  ata-rule="required;date" size="20" >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_ramount" class="control-label x100">还款金额：</label>
+                        <input type="text" name="dialog.ramount" id="j_dialog_ramount" value="" data-rule="required" size="20" >
+                    </td>
+                    <td>
+                        <label for="j_dialog_rinterest" class="control-label x100">还款利息：</label>
+                        <input type="text" name="dialog.rinterest" id="j_dialog_rinterest" value="" data-rule="required" size="20">
+                    </td>
+                    <td>
+                        <label for="j_dialog_rfine" class="control-label x100">处罚金：</label>
+                        <input type="text" name="dialog.rfine" id="j_dialog_rfine" value="" data-rule="required" size="20">
+<!--                        <label for="j_dialog_cpic" class="control-label x90">身份证号：</label>
+                        <input type="text" name="dialog.cpic" id="j_dialog_cpic" value="" data-rule="required" size="20">-->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="j_dialog_rovertime" class="control-label x100">超时时间：</label>
+                        <input type="text" name="dialog.rovertime" id="j_dialog_rovertime" value="" data-rule="required" size="20">
+                    </td>                   
+                    <td>
+                         <label for="j_dialog_rtype" class="control-label x100">还款方式：</label>
+                         <input type="text" name="dialog.rtype" id="j_dialog_rtype" value="" data-rule="required" size="20">
+
+                    </td>
+                    <td>
+                        <label for="j_dialog_rdate" class="control-label x100">还款时间：</label>
+                        <input type="text" name="dialog.rdate" id="j_dialog_rdate" value="" disabled="disabled" data-rule="required" size="20">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close">关闭</button></li>
+        <li><button type="button" id="AddRepay" class="btn-default">保存</button></li>
+    </ul>
+</div>

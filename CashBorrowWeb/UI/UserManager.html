@@ -1,0 +1,281 @@
+<script type="text/javascript">
+    
+
+
+    $(function () {
+
+        //$("#btnUserClear").click(function () {
+        //    ClearUser();
+        //})
+        //$("#btnUserSearch").click(function () {
+        //    SearchUser();
+        //})
+        LoadProvince();
+
+        GettotalUser();
+        SearchUser(0);
+
+        $.CurrentNavtab.find('#btnUserClear').click(function () { ClearUser(); })
+        $.CurrentNavtab.find('#btnUserSearch').click(function () {
+            GettotalUser();
+            SearchUser(0);
+        })
+        //$.CurrentNavtab.find('#u_province').onchange(function () { ChangeProvince(); })
+        //$.CurrentNavtab.find('#u_city').onchange(function () { ChangeCity(); })
+    })
+
+    function GettotalUser() {
+        var name = $.CurrentNavtab.find("#u_uname").val();
+        var province = $.CurrentNavtab.find('#u_province').val();
+        var city = $.CurrentNavtab.find('#u_city').val();
+        var area = $.CurrentNavtab.find('#u_area').val();
+
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/TotalUser",
+            data: "{name:'" + name + "',province:'" + province + "',city:'" + city + "',area:'" + area + "'}",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $("#UMpagination").pagination(result.d.data, {
+                        prev_text: "上一页",
+                        next_text: "下一页",
+                        num_edge_entries: 2,
+                        num_display_entries: 4,
+                        items_per_page: 10,
+                        callback: SearchUser
+                    });
+                }
+                else {
+                    $(this).alertmsg('error', result.d.message);
+                    return 0;
+                }
+
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+    }
+
+    function LoadProvince() {
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/GetProvice",
+            data: "",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    $.each(result.d.data, function (i, item) {
+                        $.CurrentNavtab.find('#u_province').append("<option value='" + item.Value + "'>" + item.Text + "</option>")           
+                    })
+                }
+                else if (result.d.state == -1)
+                    $(this).alertmsg('info', result.d.message);
+                else
+                    $(this).alertmsg('error', result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+    }
+
+
+    function ChangeProvince() {
+        if ($.CurrentNavtab.find('#u_province').val() == "") {
+            $.CurrentNavtab.find('#u_city').find("option").remove();
+            $.CurrentNavtab.find('#u_city').append("<option></option>");
+        }
+        else {
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                url: "WebService.asmx/ChangeProvince",
+                data: "{fid:'" + $.CurrentNavtab.find('#u_province').val() + "'}",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d.state == 0) {
+                        $.CurrentNavtab.find('#u_city').find("option").remove();
+                        $.CurrentNavtab.find('#u_city').append("<option ></option>")
+                        $.each(result.d.data, function (i, item) {
+                            $.CurrentNavtab.find('#u_city').append("<option value='" + item.Value + "'>" + item.Text + "</option>")
+                        })
+                    }
+                    else if (result.d.state == -1)
+                        $(this).alertmsg('info', result.d.message);
+                    else
+                        $(this).alertmsg('error', result.d.message);
+                },
+                error: function (e) {
+                    $(this).alertmsg('error', e.responseText);
+                }
+            });
+        };
+        ChangeCity();
+
+    }
+
+
+    function ChangeCity() {
+        if ($.CurrentNavtab.find('#u_city').val() == "") {
+            $.CurrentNavtab.find('#u_area').find("option").remove();
+            $.CurrentNavtab.find('#u_area').append("<option></option>");
+        }
+        else {
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                url: "WebService.asmx/ChangeCity",
+                data: "{fid:'" + $.CurrentNavtab.find('#u_city').val() + "'}",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d.state == 0) {
+                        $.CurrentNavtab.find('#u_area').find("option").remove();
+                        $.CurrentNavtab.find('#u_area').append("<option ></option>")
+                        $.each(result.d.data, function (i, item) {
+                            $.CurrentNavtab.find('#u_area').append("<option value='" + item.Value + "'>" + item.Text + "</option>")
+                        })
+                    }
+                    else if (result.d.state == -1)
+                        $(this).alertmsg('info', result.d.message);
+                    else
+                        $(this).alertmsg('error', result.d.message);
+                },
+                error: function (e) {
+                    $(this).alertmsg('error', e.responseText);
+                }
+            });
+
+        }
+
+
+    }
+
+
+    function SearchUser(page_id) {
+       
+        var name = $.CurrentNavtab.find("#u_uname").val();
+        var province = $.CurrentNavtab.find('#u_province').val();
+        var city = $.CurrentNavtab.find('#u_city').val();
+        var area = $.CurrentNavtab.find('#u_area').val();
+        ClearUser();
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: "WebService.asmx/GetUser",
+            data: "{name:'" + name + "',province:'" + province + "',city:'" + city + "',area:'" + area + "',pageid:'" + page_id + "'}",
+            dataType: "json",
+            success: function (result) {
+                if (result.d.state == 0) {
+                    LoadUser(result.d.data);
+                }
+                else if (result.d.state == -1)
+                    $(this).alertmsg('info', result.d.message);
+                else
+                    $(this).alertmsg('error', result.d.message);
+            },
+            error: function (e) {
+                $(this).alertmsg('error', e.responseText);
+            }
+        });
+    }
+
+    function DeleteUser(id) {
+        $(this).alertmsg('confirm', '确认删除？', {
+            okCall: function () {
+                var tr = $(id).parent().parent();
+                $.ajax({
+                    type: "post",
+                    contentType: "application/json",
+                    url: "WebService.asmx/DeleteUser",
+                    data: "{u_sysid:'" + tr.find("td").eq(2).html() + "'}",
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.d.state == 0) {
+                            //alert(result.d.message);
+                            $(this).alertmsg('info', result.d.message);
+                            tr.remove();
+                        } else {
+                            $(this).alertmsg('error', result.d.message);
+                        }                  
+
+                    },
+                    error: function (e) {
+                        $(this).alertmsg('error', e.responseText);
+                    }
+                });
+
+            }
+        });
+
+
+
+
+    }
+
+
+    function passU_ID(id) {
+        $.cookie("pass_u_id", id);
+    }
+
+    function LoadUser(data) {
+            $.each(data, function (i, item) {
+                var tr = "<tr data-id='" + item.NUM + "'><td>" + item.NUM + "</td><td>&nbsp;<a href='Prepaid_add.html' class='btn btn-green' data-toggle='dialog' data-width='800' data-height='400' data-id='dialog-mask' onclick='passU_ID(" + item.U_SYSID + ")'  data-mask='true' data-title='充值-" + item.U_NAME + "'>充值</a>&nbsp;</td><td>" + item.U_SYSID + "</td><td>" + item.U_ID + "</td><td>" + item.U_TELEPHONE + "</td><td>" + item.U_MAIL + "</td><td>" + item.U_PASSWORD + "</td><td>" + item.U_NAME + "</td><td>" + item.U_PROVINCE + item.U_CITY + item.U_AREA + "</td><td>" + item.U_FREEMESSAGE + "</td><td>" + item.U_BALANCE + "</td><td>" + item.U_DATE + "</td><td><a href='User_mod.html' class='btn btn-green' data-toggle='dialog' data-width='800' data-height='400' data-id='dialog-mask' onclick='passU_ID(" + item.U_SYSID + ")'  data-mask='true' data-title='编辑-" + item.U_NAME + "'>编辑</a>&nbsp;<a href='javascript:;' class='btn btn-red'  onclick='DeleteUser(this)' >删</a></td></tr>";
+                $.CurrentNavtab.find("#user_tabel").find("tbody").append(tr);
+
+            })
+        
+    }
+
+
+    function ClearUser() {
+        $.CurrentNavtab.find("#user_tabel").find("tbody").find("tr").remove();
+    }
+
+</script>
+<div class="bjui-pageHeader">
+        <div class="bjui-searchBar">
+            <label>公司名称：</label><input type="text"  value="" id="u_uname" name="u_name" class="form-control" size="8">&nbsp;
+            <label>省</label><select name="custom.uprovince" id="u_province"  onchange="ChangeProvince();">
+                <option></option>
+                        </select>&nbsp;
+            <label>市</label><select name="custom.ucity" id="u_city" onchange="ChangeCity()">
+                        </select>&nbsp;
+            <label>区/县</label><select name="custom.uarea" id="u_area" >
+                        </select>&nbsp;
+            <button type="submit" class="btn-default" id="btnUserSearch" data-icon="search" >查询</button>&nbsp;
+            <a class="btn btn-orange" href="javascript:;" id="btnUserClear" data-toggle="reloadsearch" data-clear-query="true" data-icon="undo">清空查询</a>&nbsp;
+            <a href="User_mod.html" class="btn btn-green" onclick="passU_ID('')" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-mask" data-mask="true">添加</a>
+        </div>
+</div>
+<div class="bjui-pageContent">
+    <table  class="table table-bordered table-hover table-striped table-top" data-selected-multi="true" id="user_tabel">
+        <thead>
+            <tr>
+                <th align="center">编号</th>
+                <th>充值</th>
+                <th>用户编号</th>
+                <th>用户名</th>
+                <th>电话号码</th>
+                <th>邮件</th>
+                <th>密码</th>
+                <th>公司名称</th>
+                <th>地址</th>
+                <th>免费短信量</th>
+                <th>用户余额</th>
+                <th>创建日期</th>
+                <th width="100">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<div class="bjui-pageFooter">
+    <div class="quotes" id="UMpagination">
+    </div>
+</div>
