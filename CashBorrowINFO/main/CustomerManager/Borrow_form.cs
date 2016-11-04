@@ -23,7 +23,7 @@ namespace CashBorrowINFO.main.CustomerManager
         }
 
 
-
+        #region BtnOk
         private void btenOk_Click(object sender, EventArgs e)
         {
             try {
@@ -88,9 +88,9 @@ namespace CashBorrowINFO.main.CustomerManager
             }
         }
 
+        #endregion
 
-
-
+        #region CheckDate
         /// <summary>
         /// 数据校验
         /// </summary>
@@ -161,7 +161,9 @@ namespace CashBorrowINFO.main.CustomerManager
             return err;
         }
 
+        #endregion
 
+        #region FaceToData
         public BORROW FaceToData() {
             BORROW b = new BORROW();
             b.B_AMOUNT = edtBAmount.Text.Trim();
@@ -201,6 +203,9 @@ namespace CashBorrowINFO.main.CustomerManager
             return b;
         }
 
+        #endregion
+
+        #region DataToFace
 
         public void DataToFace(BORROW b) {
             edtBAmount.Text = b.B_AMOUNT;
@@ -233,6 +238,9 @@ namespace CashBorrowINFO.main.CustomerManager
             lblAmount.Text = lblAmount.Text = (Convert.ToDouble(edtBAmount.Text) * Convert.ToDouble(edtBInterest.Text) / 100).ToString("#0.00") + "元";
         }
 
+        #endregion
+
+        #region pbClick
         private void pbID_Click(object sender, EventArgs e)
         {
             openPic.Title = "选择身份证图片";
@@ -243,7 +251,9 @@ namespace CashBorrowINFO.main.CustomerManager
                 pbID.ImageLocation = openPic.FileName;
             }
         }
+        #endregion
 
+        #region Load
         private void Borrow_form_Load(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(b_sysid))
@@ -271,6 +281,8 @@ namespace CashBorrowINFO.main.CustomerManager
             }
         }
 
+        #endregion
+
         private void btnCancle_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -280,6 +292,8 @@ namespace CashBorrowINFO.main.CustomerManager
         {
             Print_form f = new Print_form(FaceToData());
             f.Show();
+
+
         }
 
         private void edtBInterest_TextChanged(object sender, EventArgs e)
@@ -294,6 +308,8 @@ namespace CashBorrowINFO.main.CustomerManager
             if (edtBAmount.Text != "" && edtBInterest.Text != "")
                 lblAmount.Text = (Convert.ToDouble(edtBAmount.Text) * Convert.ToDouble(edtBInterest.Text)/100).ToString("#0.00")+"元";
         }
+
+        #region KeyPress
 
         private void edtBInterest_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -428,5 +444,9 @@ namespace CashBorrowINFO.main.CustomerManager
 
             }
         }
+        #endregion
+
+
+
     }
 }
