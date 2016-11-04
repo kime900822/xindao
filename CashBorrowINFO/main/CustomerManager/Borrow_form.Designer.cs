@@ -29,24 +29,31 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Borrow_form));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.edtCEmergencyName = new System.Windows.Forms.TextBox();
-            this.label32 = new System.Windows.Forms.Label();
-            this.ddlCSex = new System.Windows.Forms.ComboBox();
-            this.edtCEmergency = new System.Windows.Forms.TextBox();
-            this.edtCAddress = new System.Windows.Forms.TextBox();
-            this.edtCContact = new System.Windows.Forms.TextBox();
-            this.edtCID = new System.Windows.Forms.TextBox();
-            this.edtCName = new System.Windows.Forms.TextBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.pbID = new System.Windows.Forms.PictureBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.openPic = new System.Windows.Forms.OpenFileDialog();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.btnOk = new System.Windows.Forms.Button();
+            this.btnCancle = new System.Windows.Forms.Button();
+            this.btnPrint = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.lblAmount = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.edtRemind = new System.Windows.Forms.TextBox();
+            this.edtRepay = new System.Windows.Forms.TextBox();
+            this.edtBTerm = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.edtBInterest = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.ddlType = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.edtBAmount = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ddlGJob4 = new System.Windows.Forms.ComboBox();
             this.label21 = new System.Windows.Forms.Label();
@@ -72,37 +79,529 @@
             this.label8 = new System.Windows.Forms.Label();
             this.edtGName1 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.lblAmount = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
-            this.edtRemind = new System.Windows.Forms.TextBox();
-            this.edtRepay = new System.Windows.Forms.TextBox();
-            this.edtBTerm = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.edtBInterest = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.ddlType = new System.Windows.Forms.ComboBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.edtBAmount = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.btnOk = new System.Windows.Forms.Button();
-            this.btnCancle = new System.Windows.Forms.Button();
-            this.btnPrint = new System.Windows.Forms.Button();
-            this.openPic = new System.Windows.Forms.OpenFileDialog();
-            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
-            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.edtCEmergencyName = new System.Windows.Forms.TextBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.ddlCSex = new System.Windows.Forms.ComboBox();
+            this.edtCEmergency = new System.Windows.Forms.TextBox();
+            this.edtCAddress = new System.Windows.Forms.TextBox();
+            this.edtCContact = new System.Windows.Forms.TextBox();
+            this.edtCID = new System.Windows.Forms.TextBox();
+            this.edtCName = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.pbID = new System.Windows.Forms.PictureBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbID)).BeginInit();
-            this.groupBox2.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // openPic
+            // 
+            this.openPic.Filter = "jpg|*.jpg|png|*.png|gif|*.gif";
+            // 
+            // printPreviewDialog1
+            // 
+            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog1.Enabled = true;
+            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+            this.printPreviewDialog1.Name = "printPreviewDialog1";
+            this.printPreviewDialog1.Visible = false;
+            // 
+            // btnOk
+            // 
+            this.btnOk.Location = new System.Drawing.Point(509, 476);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.TabIndex = 3;
+            this.btnOk.Text = "确定";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btenOk_Click);
+            // 
+            // btnCancle
+            // 
+            this.btnCancle.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancle.Location = new System.Drawing.Point(607, 476);
+            this.btnCancle.Name = "btnCancle";
+            this.btnCancle.Size = new System.Drawing.Size(75, 23);
+            this.btnCancle.TabIndex = 4;
+            this.btnCancle.Text = "关闭";
+            this.btnCancle.UseVisualStyleBackColor = true;
+            this.btnCancle.Click += new System.EventHandler(this.btnCancle_Click);
+            // 
+            // btnPrint
+            // 
+            this.btnPrint.Location = new System.Drawing.Point(697, 476);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(75, 23);
+            this.btnPrint.TabIndex = 5;
+            this.btnPrint.Text = "打印";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label31);
+            this.groupBox4.Controls.Add(this.lblAmount);
+            this.groupBox4.Controls.Add(this.label30);
+            this.groupBox4.Controls.Add(this.label28);
+            this.groupBox4.Controls.Add(this.label27);
+            this.groupBox4.Controls.Add(this.label26);
+            this.groupBox4.Controls.Add(this.edtRemind);
+            this.groupBox4.Controls.Add(this.edtRepay);
+            this.groupBox4.Controls.Add(this.edtBTerm);
+            this.groupBox4.Controls.Add(this.label24);
+            this.groupBox4.Controls.Add(this.edtBInterest);
+            this.groupBox4.Controls.Add(this.label14);
+            this.groupBox4.Controls.Add(this.ddlType);
+            this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Controls.Add(this.label12);
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.edtBAmount);
+            this.groupBox4.Controls.Add(this.label10);
+            this.groupBox4.Location = new System.Drawing.Point(6, 210);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(760, 124);
+            this.groupBox4.TabIndex = 2;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "借款信息";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(160, 71);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(35, 12);
+            this.label31.TabIndex = 37;
+            this.label31.Text = "利息:";
+            // 
+            // lblAmount
+            // 
+            this.lblAmount.AutoSize = true;
+            this.lblAmount.Location = new System.Drawing.Point(203, 71);
+            this.lblAmount.Name = "lblAmount";
+            this.lblAmount.Size = new System.Drawing.Size(23, 12);
+            this.lblAmount.TabIndex = 36;
+            this.lblAmount.Text = "0元";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.ForeColor = System.Drawing.Color.Red;
+            this.label30.Location = new System.Drawing.Point(22, 98);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(593, 12);
+            this.label30.TabIndex = 35;
+            this.label30.Text = "按照国家相关部门的规定，年利率不超过24%，月利率不得超过1.89%。否则属于高利贷，将不受国家法律保护。";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.ForeColor = System.Drawing.Color.Red;
+            this.label28.Location = new System.Drawing.Point(671, 68);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(53, 12);
+            this.label28.TabIndex = 33;
+            this.label28.Text = "输入数字";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.ForeColor = System.Drawing.Color.Red;
+            this.label27.Location = new System.Drawing.Point(671, 45);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(77, 12);
+            this.label27.TabIndex = 32;
+            this.label27.Text = "输入1-31之间";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.ForeColor = System.Drawing.Color.Red;
+            this.label26.Location = new System.Drawing.Point(671, 22);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(77, 12);
+            this.label26.TabIndex = 31;
+            this.label26.Text = "输入1-31之间";
+            // 
+            // edtRemind
+            // 
+            this.edtRemind.Location = new System.Drawing.Point(473, 39);
+            this.edtRemind.Name = "edtRemind";
+            this.edtRemind.Size = new System.Drawing.Size(186, 21);
+            this.edtRemind.TabIndex = 12;
+            this.edtRemind.TextChanged += new System.EventHandler(this.edtRemind_TextChanged);
+            this.edtRemind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtRemind_KeyPress);
+            // 
+            // edtRepay
+            // 
+            this.edtRepay.Location = new System.Drawing.Point(473, 16);
+            this.edtRepay.Name = "edtRepay";
+            this.edtRepay.Size = new System.Drawing.Size(186, 21);
+            this.edtRepay.TabIndex = 11;
+            this.edtRepay.TextChanged += new System.EventHandler(this.edtRepay_TextChanged);
+            this.edtRepay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtRepay_KeyPress);
+            // 
+            // edtBTerm
+            // 
+            this.edtBTerm.Location = new System.Drawing.Point(473, 65);
+            this.edtBTerm.Name = "edtBTerm";
+            this.edtBTerm.Size = new System.Drawing.Size(186, 21);
+            this.edtBTerm.TabIndex = 13;
+            this.edtBTerm.TextChanged += new System.EventHandler(this.edtBTerm_TextChanged);
+            this.edtBTerm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtBTerm_KeyPress);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(388, 74);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(53, 12);
+            this.label24.TabIndex = 28;
+            this.label24.Text = "还款期数";
+            // 
+            // edtBInterest
+            // 
+            this.edtBInterest.Location = new System.Drawing.Point(111, 65);
+            this.edtBInterest.Name = "edtBInterest";
+            this.edtBInterest.Size = new System.Drawing.Size(45, 21);
+            this.edtBInterest.TabIndex = 10;
+            this.edtBInterest.TextChanged += new System.EventHandler(this.edtBInterest_TextChanged);
+            this.edtBInterest.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtBInterest_KeyPress);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(22, 74);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(59, 12);
+            this.label14.TabIndex = 26;
+            this.label14.Text = "年利率(%)";
+            // 
+            // ddlType
+            // 
+            this.ddlType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlType.FormattingEnabled = true;
+            this.ddlType.Items.AddRange(new object[] {
+            "现金",
+            "银行转账",
+            "支付宝"});
+            this.ddlType.Location = new System.Drawing.Point(111, 42);
+            this.ddlType.Name = "ddlType";
+            this.ddlType.Size = new System.Drawing.Size(186, 20);
+            this.ddlType.TabIndex = 9;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(388, 51);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(77, 12);
+            this.label13.TabIndex = 21;
+            this.label13.Text = "还款提示时间";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(388, 22);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(53, 12);
+            this.label12.TabIndex = 19;
+            this.label12.Text = "还款时间";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(22, 50);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(53, 12);
+            this.label11.TabIndex = 17;
+            this.label11.Text = "借款方式";
+            // 
+            // edtBAmount
+            // 
+            this.edtBAmount.Location = new System.Drawing.Point(111, 16);
+            this.edtBAmount.Name = "edtBAmount";
+            this.edtBAmount.Size = new System.Drawing.Size(186, 21);
+            this.edtBAmount.TabIndex = 8;
+            this.edtBAmount.TextChanged += new System.EventHandler(this.edtBAmount_TextChanged);
+            this.edtBAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtBAmount_KeyPress);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(22, 25);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 15;
+            this.label10.Text = "借款金额";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.ddlGJob4);
+            this.groupBox2.Controls.Add(this.label21);
+            this.groupBox2.Controls.Add(this.edtGID4);
+            this.groupBox2.Controls.Add(this.label22);
+            this.groupBox2.Controls.Add(this.edtGName4);
+            this.groupBox2.Controls.Add(this.label23);
+            this.groupBox2.Controls.Add(this.ddlGJob3);
+            this.groupBox2.Controls.Add(this.label18);
+            this.groupBox2.Controls.Add(this.edtGID3);
+            this.groupBox2.Controls.Add(this.label19);
+            this.groupBox2.Controls.Add(this.edtGName3);
+            this.groupBox2.Controls.Add(this.label20);
+            this.groupBox2.Controls.Add(this.ddlGJob2);
+            this.groupBox2.Controls.Add(this.label15);
+            this.groupBox2.Controls.Add(this.edtGID2);
+            this.groupBox2.Controls.Add(this.label16);
+            this.groupBox2.Controls.Add(this.edtGName2);
+            this.groupBox2.Controls.Add(this.label17);
+            this.groupBox2.Controls.Add(this.ddlGJob1);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.edtGID1);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.edtGName1);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Location = new System.Drawing.Point(12, 340);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(760, 130);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "担保人信息";
+            // 
+            // ddlGJob4
+            // 
+            this.ddlGJob4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlGJob4.FormattingEnabled = true;
+            this.ddlGJob4.Items.AddRange(new object[] {
+            "公职人员",
+            "企业管理者",
+            "公司员工",
+            "自由职业"});
+            this.ddlGJob4.Location = new System.Drawing.Point(578, 99);
+            this.ddlGJob4.Name = "ddlGJob4";
+            this.ddlGJob4.Size = new System.Drawing.Size(153, 20);
+            this.ddlGJob4.TabIndex = 25;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(527, 102);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(35, 12);
+            this.label21.TabIndex = 35;
+            this.label21.Text = "职业4";
+            // 
+            // edtGID4
+            // 
+            this.edtGID4.Location = new System.Drawing.Point(298, 99);
+            this.edtGID4.Name = "edtGID4";
+            this.edtGID4.Size = new System.Drawing.Size(186, 21);
+            this.edtGID4.TabIndex = 24;
+            this.edtGID4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtGID4_KeyPress);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(239, 103);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(59, 12);
+            this.label22.TabIndex = 33;
+            this.label22.Text = "身份证号4";
+            // 
+            // edtGName4
+            // 
+            this.edtGName4.Location = new System.Drawing.Point(74, 99);
+            this.edtGName4.Name = "edtGName4";
+            this.edtGName4.Size = new System.Drawing.Size(132, 21);
+            this.edtGName4.TabIndex = 23;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(16, 103);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(35, 12);
+            this.label23.TabIndex = 31;
+            this.label23.Text = "姓名4";
+            // 
+            // ddlGJob3
+            // 
+            this.ddlGJob3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlGJob3.FormattingEnabled = true;
+            this.ddlGJob3.Items.AddRange(new object[] {
+            "公职人员",
+            "企业管理者",
+            "公司员工",
+            "自由职业"});
+            this.ddlGJob3.Location = new System.Drawing.Point(578, 72);
+            this.ddlGJob3.Name = "ddlGJob3";
+            this.ddlGJob3.Size = new System.Drawing.Size(153, 20);
+            this.ddlGJob3.TabIndex = 22;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(527, 75);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(35, 12);
+            this.label18.TabIndex = 29;
+            this.label18.Text = "职业3";
+            // 
+            // edtGID3
+            // 
+            this.edtGID3.Location = new System.Drawing.Point(298, 72);
+            this.edtGID3.Name = "edtGID3";
+            this.edtGID3.Size = new System.Drawing.Size(186, 21);
+            this.edtGID3.TabIndex = 21;
+            this.edtGID3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtGID3_KeyPress);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(239, 76);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(59, 12);
+            this.label19.TabIndex = 27;
+            this.label19.Text = "身份证号3";
+            // 
+            // edtGName3
+            // 
+            this.edtGName3.Location = new System.Drawing.Point(74, 72);
+            this.edtGName3.Name = "edtGName3";
+            this.edtGName3.Size = new System.Drawing.Size(132, 21);
+            this.edtGName3.TabIndex = 20;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(16, 76);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(35, 12);
+            this.label20.TabIndex = 25;
+            this.label20.Text = "姓名3";
+            // 
+            // ddlGJob2
+            // 
+            this.ddlGJob2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlGJob2.FormattingEnabled = true;
+            this.ddlGJob2.Items.AddRange(new object[] {
+            "公职人员",
+            "企业管理者",
+            "公司员工",
+            "自由职业"});
+            this.ddlGJob2.Location = new System.Drawing.Point(578, 45);
+            this.ddlGJob2.Name = "ddlGJob2";
+            this.ddlGJob2.Size = new System.Drawing.Size(153, 20);
+            this.ddlGJob2.TabIndex = 19;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(527, 48);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(35, 12);
+            this.label15.TabIndex = 23;
+            this.label15.Text = "职业2";
+            // 
+            // edtGID2
+            // 
+            this.edtGID2.Location = new System.Drawing.Point(298, 45);
+            this.edtGID2.Name = "edtGID2";
+            this.edtGID2.Size = new System.Drawing.Size(186, 21);
+            this.edtGID2.TabIndex = 18;
+            this.edtGID2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtGID2_KeyPress);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(239, 49);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(59, 12);
+            this.label16.TabIndex = 21;
+            this.label16.Text = "身份证号2";
+            // 
+            // edtGName2
+            // 
+            this.edtGName2.Location = new System.Drawing.Point(74, 45);
+            this.edtGName2.Name = "edtGName2";
+            this.edtGName2.Size = new System.Drawing.Size(132, 21);
+            this.edtGName2.TabIndex = 17;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(16, 49);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(35, 12);
+            this.label17.TabIndex = 19;
+            this.label17.Text = "姓名2";
+            // 
+            // ddlGJob1
+            // 
+            this.ddlGJob1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlGJob1.FormattingEnabled = true;
+            this.ddlGJob1.Items.AddRange(new object[] {
+            "公职人员",
+            "企业管理者",
+            "公司员工",
+            "自由职业"});
+            this.ddlGJob1.Location = new System.Drawing.Point(578, 18);
+            this.ddlGJob1.Name = "ddlGJob1";
+            this.ddlGJob1.Size = new System.Drawing.Size(153, 20);
+            this.ddlGJob1.TabIndex = 16;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(527, 21);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(35, 12);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "职业1";
+            // 
+            // edtGID1
+            // 
+            this.edtGID1.Location = new System.Drawing.Point(298, 18);
+            this.edtGID1.Name = "edtGID1";
+            this.edtGID1.Size = new System.Drawing.Size(186, 21);
+            this.edtGID1.TabIndex = 15;
+            this.edtGID1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtGID1_KeyPress);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(239, 22);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(59, 12);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "身份证号1";
+            // 
+            // edtGName1
+            // 
+            this.edtGName1.Location = new System.Drawing.Point(74, 18);
+            this.edtGName1.Name = "edtGName1";
+            this.edtGName1.Size = new System.Drawing.Size(132, 21);
+            this.edtGName1.TabIndex = 14;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(16, 22);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 12);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "姓名1";
             // 
             // groupBox1
             // 
@@ -133,7 +632,7 @@
             this.edtCEmergencyName.Location = new System.Drawing.Point(111, 141);
             this.edtCEmergencyName.Name = "edtCEmergencyName";
             this.edtCEmergencyName.Size = new System.Drawing.Size(186, 21);
-            this.edtCEmergencyName.TabIndex = 21;
+            this.edtCEmergencyName.TabIndex = 6;
             // 
             // label32
             // 
@@ -154,14 +653,14 @@
             this.ddlCSex.Location = new System.Drawing.Point(111, 37);
             this.ddlCSex.Name = "ddlCSex";
             this.ddlCSex.Size = new System.Drawing.Size(186, 20);
-            this.ddlCSex.TabIndex = 19;
+            this.ddlCSex.TabIndex = 2;
             // 
             // edtCEmergency
             // 
             this.edtCEmergency.Location = new System.Drawing.Point(111, 165);
             this.edtCEmergency.Name = "edtCEmergency";
             this.edtCEmergency.Size = new System.Drawing.Size(186, 21);
-            this.edtCEmergency.TabIndex = 12;
+            this.edtCEmergency.TabIndex = 7;
             this.edtCEmergency.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtCEmergency_KeyPress);
             // 
             // edtCAddress
@@ -169,14 +668,14 @@
             this.edtCAddress.Location = new System.Drawing.Point(111, 114);
             this.edtCAddress.Name = "edtCAddress";
             this.edtCAddress.Size = new System.Drawing.Size(186, 21);
-            this.edtCAddress.TabIndex = 11;
+            this.edtCAddress.TabIndex = 5;
             // 
             // edtCContact
             // 
             this.edtCContact.Location = new System.Drawing.Point(111, 88);
             this.edtCContact.Name = "edtCContact";
             this.edtCContact.Size = new System.Drawing.Size(186, 21);
-            this.edtCContact.TabIndex = 10;
+            this.edtCContact.TabIndex = 4;
             this.edtCContact.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtCContact_KeyPress);
             // 
             // edtCID
@@ -184,7 +683,7 @@
             this.edtCID.Location = new System.Drawing.Point(111, 62);
             this.edtCID.Name = "edtCID";
             this.edtCID.Size = new System.Drawing.Size(186, 21);
-            this.edtCID.TabIndex = 9;
+            this.edtCID.TabIndex = 3;
             this.edtCID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtCID_KeyPress);
             // 
             // edtCName
@@ -192,7 +691,7 @@
             this.edtCName.Location = new System.Drawing.Point(111, 12);
             this.edtCName.Name = "edtCName";
             this.edtCName.Size = new System.Drawing.Size(186, 21);
-            this.edtCName.TabIndex = 7;
+            this.edtCName.TabIndex = 1;
             // 
             // groupBox3
             // 
@@ -280,502 +779,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "姓名";
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.ddlGJob4);
-            this.groupBox2.Controls.Add(this.label21);
-            this.groupBox2.Controls.Add(this.edtGID4);
-            this.groupBox2.Controls.Add(this.label22);
-            this.groupBox2.Controls.Add(this.edtGName4);
-            this.groupBox2.Controls.Add(this.label23);
-            this.groupBox2.Controls.Add(this.ddlGJob3);
-            this.groupBox2.Controls.Add(this.label18);
-            this.groupBox2.Controls.Add(this.edtGID3);
-            this.groupBox2.Controls.Add(this.label19);
-            this.groupBox2.Controls.Add(this.edtGName3);
-            this.groupBox2.Controls.Add(this.label20);
-            this.groupBox2.Controls.Add(this.ddlGJob2);
-            this.groupBox2.Controls.Add(this.label15);
-            this.groupBox2.Controls.Add(this.edtGID2);
-            this.groupBox2.Controls.Add(this.label16);
-            this.groupBox2.Controls.Add(this.edtGName2);
-            this.groupBox2.Controls.Add(this.label17);
-            this.groupBox2.Controls.Add(this.ddlGJob1);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.edtGID1);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.edtGName1);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Location = new System.Drawing.Point(12, 340);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(760, 130);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "担保人信息";
-            // 
-            // ddlGJob4
-            // 
-            this.ddlGJob4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlGJob4.FormattingEnabled = true;
-            this.ddlGJob4.Items.AddRange(new object[] {
-            "公职人员",
-            "企业管理者",
-            "公司员工",
-            "自由职业"});
-            this.ddlGJob4.Location = new System.Drawing.Point(578, 99);
-            this.ddlGJob4.Name = "ddlGJob4";
-            this.ddlGJob4.Size = new System.Drawing.Size(153, 20);
-            this.ddlGJob4.TabIndex = 36;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(527, 102);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(35, 12);
-            this.label21.TabIndex = 35;
-            this.label21.Text = "职业4";
-            // 
-            // edtGID4
-            // 
-            this.edtGID4.Location = new System.Drawing.Point(298, 99);
-            this.edtGID4.Name = "edtGID4";
-            this.edtGID4.Size = new System.Drawing.Size(186, 21);
-            this.edtGID4.TabIndex = 34;
-            this.edtGID4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtGID4_KeyPress);
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(239, 103);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(59, 12);
-            this.label22.TabIndex = 33;
-            this.label22.Text = "身份证号4";
-            // 
-            // edtGName4
-            // 
-            this.edtGName4.Location = new System.Drawing.Point(74, 99);
-            this.edtGName4.Name = "edtGName4";
-            this.edtGName4.Size = new System.Drawing.Size(132, 21);
-            this.edtGName4.TabIndex = 32;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(16, 103);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(35, 12);
-            this.label23.TabIndex = 31;
-            this.label23.Text = "姓名4";
-            // 
-            // ddlGJob3
-            // 
-            this.ddlGJob3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlGJob3.FormattingEnabled = true;
-            this.ddlGJob3.Items.AddRange(new object[] {
-            "公职人员",
-            "企业管理者",
-            "公司员工",
-            "自由职业"});
-            this.ddlGJob3.Location = new System.Drawing.Point(578, 72);
-            this.ddlGJob3.Name = "ddlGJob3";
-            this.ddlGJob3.Size = new System.Drawing.Size(153, 20);
-            this.ddlGJob3.TabIndex = 30;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(527, 75);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(35, 12);
-            this.label18.TabIndex = 29;
-            this.label18.Text = "职业3";
-            // 
-            // edtGID3
-            // 
-            this.edtGID3.Location = new System.Drawing.Point(298, 72);
-            this.edtGID3.Name = "edtGID3";
-            this.edtGID3.Size = new System.Drawing.Size(186, 21);
-            this.edtGID3.TabIndex = 28;
-            this.edtGID3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtGID3_KeyPress);
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(239, 76);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(59, 12);
-            this.label19.TabIndex = 27;
-            this.label19.Text = "身份证号3";
-            // 
-            // edtGName3
-            // 
-            this.edtGName3.Location = new System.Drawing.Point(74, 72);
-            this.edtGName3.Name = "edtGName3";
-            this.edtGName3.Size = new System.Drawing.Size(132, 21);
-            this.edtGName3.TabIndex = 26;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(16, 76);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(35, 12);
-            this.label20.TabIndex = 25;
-            this.label20.Text = "姓名3";
-            // 
-            // ddlGJob2
-            // 
-            this.ddlGJob2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlGJob2.FormattingEnabled = true;
-            this.ddlGJob2.Items.AddRange(new object[] {
-            "公职人员",
-            "企业管理者",
-            "公司员工",
-            "自由职业"});
-            this.ddlGJob2.Location = new System.Drawing.Point(578, 45);
-            this.ddlGJob2.Name = "ddlGJob2";
-            this.ddlGJob2.Size = new System.Drawing.Size(153, 20);
-            this.ddlGJob2.TabIndex = 24;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(527, 48);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(35, 12);
-            this.label15.TabIndex = 23;
-            this.label15.Text = "职业2";
-            // 
-            // edtGID2
-            // 
-            this.edtGID2.Location = new System.Drawing.Point(298, 45);
-            this.edtGID2.Name = "edtGID2";
-            this.edtGID2.Size = new System.Drawing.Size(186, 21);
-            this.edtGID2.TabIndex = 22;
-            this.edtGID2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtGID2_KeyPress);
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(239, 49);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(59, 12);
-            this.label16.TabIndex = 21;
-            this.label16.Text = "身份证号2";
-            // 
-            // edtGName2
-            // 
-            this.edtGName2.Location = new System.Drawing.Point(74, 45);
-            this.edtGName2.Name = "edtGName2";
-            this.edtGName2.Size = new System.Drawing.Size(132, 21);
-            this.edtGName2.TabIndex = 20;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(16, 49);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(35, 12);
-            this.label17.TabIndex = 19;
-            this.label17.Text = "姓名2";
-            // 
-            // ddlGJob1
-            // 
-            this.ddlGJob1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlGJob1.FormattingEnabled = true;
-            this.ddlGJob1.Items.AddRange(new object[] {
-            "公职人员",
-            "企业管理者",
-            "公司员工",
-            "自由职业"});
-            this.ddlGJob1.Location = new System.Drawing.Point(578, 18);
-            this.ddlGJob1.Name = "ddlGJob1";
-            this.ddlGJob1.Size = new System.Drawing.Size(153, 20);
-            this.ddlGJob1.TabIndex = 18;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(527, 21);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(35, 12);
-            this.label9.TabIndex = 17;
-            this.label9.Text = "职业1";
-            // 
-            // edtGID1
-            // 
-            this.edtGID1.Location = new System.Drawing.Point(298, 18);
-            this.edtGID1.Name = "edtGID1";
-            this.edtGID1.Size = new System.Drawing.Size(186, 21);
-            this.edtGID1.TabIndex = 16;
-            this.edtGID1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtGID1_KeyPress);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(239, 22);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(59, 12);
-            this.label8.TabIndex = 15;
-            this.label8.Text = "身份证号1";
-            // 
-            // edtGName1
-            // 
-            this.edtGName1.Location = new System.Drawing.Point(74, 18);
-            this.edtGName1.Name = "edtGName1";
-            this.edtGName1.Size = new System.Drawing.Size(132, 21);
-            this.edtGName1.TabIndex = 14;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(16, 22);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(35, 12);
-            this.label7.TabIndex = 13;
-            this.label7.Text = "姓名1";
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.label31);
-            this.groupBox4.Controls.Add(this.lblAmount);
-            this.groupBox4.Controls.Add(this.label30);
-            this.groupBox4.Controls.Add(this.label28);
-            this.groupBox4.Controls.Add(this.label27);
-            this.groupBox4.Controls.Add(this.label26);
-            this.groupBox4.Controls.Add(this.edtRemind);
-            this.groupBox4.Controls.Add(this.edtRepay);
-            this.groupBox4.Controls.Add(this.edtBTerm);
-            this.groupBox4.Controls.Add(this.label24);
-            this.groupBox4.Controls.Add(this.edtBInterest);
-            this.groupBox4.Controls.Add(this.label14);
-            this.groupBox4.Controls.Add(this.ddlType);
-            this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Controls.Add(this.label12);
-            this.groupBox4.Controls.Add(this.label11);
-            this.groupBox4.Controls.Add(this.edtBAmount);
-            this.groupBox4.Controls.Add(this.label10);
-            this.groupBox4.Location = new System.Drawing.Point(6, 210);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(760, 124);
-            this.groupBox4.TabIndex = 2;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "借款信息";
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(160, 71);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(35, 12);
-            this.label31.TabIndex = 37;
-            this.label31.Text = "利息:";
-            // 
-            // lblAmount
-            // 
-            this.lblAmount.AutoSize = true;
-            this.lblAmount.Location = new System.Drawing.Point(203, 71);
-            this.lblAmount.Name = "lblAmount";
-            this.lblAmount.Size = new System.Drawing.Size(23, 12);
-            this.lblAmount.TabIndex = 36;
-            this.lblAmount.Text = "0元";
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.ForeColor = System.Drawing.Color.Red;
-            this.label30.Location = new System.Drawing.Point(22, 98);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(611, 12);
-            this.label30.TabIndex = 35;
-            this.label30.Text = "注:按照国家相关部门的规定，年利率不超过24%，月利率不得超过1.89%。否则属于高利贷，将不受国家法律保护。";
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.ForeColor = System.Drawing.Color.Red;
-            this.label28.Location = new System.Drawing.Point(671, 68);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(53, 12);
-            this.label28.TabIndex = 33;
-            this.label28.Text = "输入数字";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.ForeColor = System.Drawing.Color.Red;
-            this.label27.Location = new System.Drawing.Point(671, 45);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(77, 12);
-            this.label27.TabIndex = 32;
-            this.label27.Text = "输入1-31之间";
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.ForeColor = System.Drawing.Color.Red;
-            this.label26.Location = new System.Drawing.Point(671, 22);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(77, 12);
-            this.label26.TabIndex = 31;
-            this.label26.Text = "输入1-31之间";
-            // 
-            // edtRemind
-            // 
-            this.edtRemind.Location = new System.Drawing.Point(473, 39);
-            this.edtRemind.Name = "edtRemind";
-            this.edtRemind.Size = new System.Drawing.Size(186, 21);
-            this.edtRemind.TabIndex = 30;
-            this.edtRemind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtRemind_KeyPress);
-            // 
-            // edtRepay
-            // 
-            this.edtRepay.Location = new System.Drawing.Point(473, 16);
-            this.edtRepay.Name = "edtRepay";
-            this.edtRepay.Size = new System.Drawing.Size(186, 21);
-            this.edtRepay.TabIndex = 29;
-            this.edtRepay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtRepay_KeyPress);
-            // 
-            // edtBTerm
-            // 
-            this.edtBTerm.Location = new System.Drawing.Point(473, 65);
-            this.edtBTerm.Name = "edtBTerm";
-            this.edtBTerm.Size = new System.Drawing.Size(186, 21);
-            this.edtBTerm.TabIndex = 28;
-            this.edtBTerm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtBTerm_KeyPress);
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(388, 74);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(53, 12);
-            this.label24.TabIndex = 28;
-            this.label24.Text = "还款期数";
-            // 
-            // edtBInterest
-            // 
-            this.edtBInterest.Location = new System.Drawing.Point(111, 65);
-            this.edtBInterest.Name = "edtBInterest";
-            this.edtBInterest.Size = new System.Drawing.Size(45, 21);
-            this.edtBInterest.TabIndex = 27;
-            this.edtBInterest.TextChanged += new System.EventHandler(this.edtBInterest_TextChanged);
-            this.edtBInterest.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtBInterest_KeyPress);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(22, 74);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(59, 12);
-            this.label14.TabIndex = 26;
-            this.label14.Text = "年利率(%)";
-            // 
-            // ddlType
-            // 
-            this.ddlType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlType.FormattingEnabled = true;
-            this.ddlType.Items.AddRange(new object[] {
-            "现金",
-            "银行转账",
-            "支付宝"});
-            this.ddlType.Location = new System.Drawing.Point(111, 42);
-            this.ddlType.Name = "ddlType";
-            this.ddlType.Size = new System.Drawing.Size(186, 20);
-            this.ddlType.TabIndex = 25;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(388, 51);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(77, 12);
-            this.label13.TabIndex = 21;
-            this.label13.Text = "还款提示时间";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(388, 22);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(53, 12);
-            this.label12.TabIndex = 19;
-            this.label12.Text = "还款时间";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(22, 50);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(53, 12);
-            this.label11.TabIndex = 17;
-            this.label11.Text = "借款方式";
-            // 
-            // edtBAmount
-            // 
-            this.edtBAmount.Location = new System.Drawing.Point(111, 16);
-            this.edtBAmount.Name = "edtBAmount";
-            this.edtBAmount.Size = new System.Drawing.Size(186, 21);
-            this.edtBAmount.TabIndex = 16;
-            this.edtBAmount.TextChanged += new System.EventHandler(this.edtBAmount_TextChanged);
-            this.edtBAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtBAmount_KeyPress);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(22, 25);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 12);
-            this.label10.TabIndex = 15;
-            this.label10.Text = "借款金额";
-            // 
-            // btnOk
-            // 
-            this.btnOk.Location = new System.Drawing.Point(509, 476);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 3;
-            this.btnOk.Text = "确定";
-            this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btenOk_Click);
-            // 
-            // btnCancle
-            // 
-            this.btnCancle.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancle.Location = new System.Drawing.Point(607, 476);
-            this.btnCancle.Name = "btnCancle";
-            this.btnCancle.Size = new System.Drawing.Size(75, 23);
-            this.btnCancle.TabIndex = 4;
-            this.btnCancle.Text = "关闭";
-            this.btnCancle.UseVisualStyleBackColor = true;
-            this.btnCancle.Click += new System.EventHandler(this.btnCancle_Click);
-            // 
-            // btnPrint
-            // 
-            this.btnPrint.Location = new System.Drawing.Point(697, 476);
-            this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Size = new System.Drawing.Size(75, 23);
-            this.btnPrint.TabIndex = 5;
-            this.btnPrint.Text = "打印";
-            this.btnPrint.UseVisualStyleBackColor = true;
-            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
-            // 
-            // openPic
-            // 
-            this.openPic.Filter = "jpg|*.jpg|png|*.png|gif|*.gif";
-            // 
-            // printPreviewDialog1
-            // 
-            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
-            this.printPreviewDialog1.Enabled = true;
-            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
-            this.printPreviewDialog1.Name = "printPreviewDialog1";
-            this.printPreviewDialog1.Visible = false;
-            // 
             // Borrow_form
             // 
             this.AcceptButton = this.btnOk;
@@ -798,15 +801,15 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "借款";
             this.Load += new System.EventHandler(this.Borrow_form_Load);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbID)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }

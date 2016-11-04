@@ -18,7 +18,7 @@ namespace WinForm_Test
         private IAsyncResult _AsyncResult;
         private EventHandler<EventArgs> _Method;
         private bool _IsShown = true;
-        private readonly int _EffectCount = 10;
+        private readonly int _EffectCount = 5;
         private readonly int _EffectTime = 500;
         /// <summary>
         /// 控制界面显示的特性

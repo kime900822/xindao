@@ -86,9 +86,9 @@
             this.label3.Font = new System.Drawing.Font("微軟正黑體", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label3.Location = new System.Drawing.Point(144, 57);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(285, 35);
+            this.label3.Size = new System.Drawing.Size(351, 35);
             this.label3.TabIndex = 6;
-            this.label3.Text = "社会借贷数据共享中心";
+            this.label3.Text = "信导-社会借贷数据共享中心";
             // 
             // edtPassword
             // 
@@ -195,7 +195,7 @@
             this.MinimizeBox = false;
             this.Name = "login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "登录";
+            this.Text = "信导-登录";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.login_FormClosing);
             this.Load += new System.EventHandler(this.login_Load);
             this.ResumeLayout(false);

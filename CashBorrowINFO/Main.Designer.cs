@@ -37,6 +37,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.M10 = new System.Windows.Forms.ToolStripMenuItem();
             this.M11 = new System.Windows.Forms.ToolStripMenuItem();
+            this.M111 = new System.Windows.Forms.ToolStripMenuItem();
+            this.M112 = new System.Windows.Forms.ToolStripMenuItem();
+            this.M113 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.M12 = new System.Windows.Forms.ToolStripMenuItem();
             this.M13 = new System.Windows.Forms.ToolStripMenuItem();
@@ -124,22 +127,46 @@
             // 
             // M11
             // 
+            this.M11.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.M111,
+            this.M112,
+            this.M113});
             this.M11.Image = ((System.Drawing.Image)(resources.GetObject("M11.Image")));
             this.M11.Name = "M11";
-            this.M11.Size = new System.Drawing.Size(148, 22);
-            this.M11.Text = "借款信息查询";
-            this.M11.Click += new System.EventHandler(this.M11_Click);
+            this.M11.Size = new System.Drawing.Size(152, 22);
+            this.M11.Text = "资料管理中心";
+            // 
+            // M111
+            // 
+            this.M111.Name = "M111";
+            this.M111.Size = new System.Drawing.Size(152, 22);
+            this.M111.Text = "客户查询";
+            this.M111.Click += new System.EventHandler(this.M111_Click);
+            // 
+            // M112
+            // 
+            this.M112.Name = "M112";
+            this.M112.Size = new System.Drawing.Size(152, 22);
+            this.M112.Text = "借款记录查询";
+            this.M112.Click += new System.EventHandler(this.M112_Click);
+            // 
+            // M113
+            // 
+            this.M113.Name = "M113";
+            this.M113.Size = new System.Drawing.Size(152, 22);
+            this.M113.Text = "短信发送查询";
+            this.M113.Click += new System.EventHandler(this.M113_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(145, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // M12
             // 
             this.M12.Image = ((System.Drawing.Image)(resources.GetObject("M12.Image")));
             this.M12.Name = "M12";
-            this.M12.Size = new System.Drawing.Size(148, 22);
+            this.M12.Size = new System.Drawing.Size(152, 22);
             this.M12.Text = "借款";
             this.M12.Click += new System.EventHandler(this.M12_Click);
             // 
@@ -147,7 +174,7 @@
             // 
             this.M13.Image = ((System.Drawing.Image)(resources.GetObject("M13.Image")));
             this.M13.Name = "M13";
-            this.M13.Size = new System.Drawing.Size(148, 22);
+            this.M13.Size = new System.Drawing.Size(152, 22);
             this.M13.Text = "还款";
             this.M13.Click += new System.EventHandler(this.M13_Click);
             // 
@@ -326,7 +353,7 @@
             this.MaximizeBox = false;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "社会借贷数据共享中心";
+            this.Text = "信导-社会借贷数据共享中心";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
             this.statusStrip1.ResumeLayout(false);
@@ -370,6 +397,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem N35;
+        private System.Windows.Forms.ToolStripMenuItem M111;
+        private System.Windows.Forms.ToolStripMenuItem M112;
+        private System.Windows.Forms.ToolStripMenuItem M113;
     }
 }
 

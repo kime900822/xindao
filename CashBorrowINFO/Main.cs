@@ -49,13 +49,6 @@ namespace CashBorrowINFO
 
         private void M11_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("借款信息查询"))
-            {
-                BorrowInfo_form f = new BorrowInfo_form();
-                f.MdiParent = this;
-                f.WindowState = FormWindowState.Maximized;
-                f.Show();
-            }
 
         }
 
@@ -258,6 +251,39 @@ namespace CashBorrowINFO
             }
             
 
+        }
+
+        private void M112_Click(object sender, EventArgs e)
+        {
+            if (!ShowChildrenForm("借款信息查询"))
+            {
+                BorrowInfo_form f = new BorrowInfo_form();
+                f.MdiParent = this;
+                f.WindowState = FormWindowState.Maximized;
+                f.Show();
+            }
+        }
+
+        private void M111_Click(object sender, EventArgs e)
+        {
+            if (!ShowChildrenForm("客户查询"))
+            {
+                Customer_form f = new Customer_form();
+                f.MdiParent = this;
+                f.WindowState = FormWindowState.Maximized;
+                f.Show();
+            }
+        }
+
+        private void M113_Click(object sender, EventArgs e)
+        {
+            if (!ShowChildrenForm("短信发送查询"))
+            {
+                MessageQuery_form f = new MessageQuery_form();
+                f.MdiParent = this;
+                f.WindowState = FormWindowState.Maximized;
+                f.Show();
+            }
         }
     }
 }

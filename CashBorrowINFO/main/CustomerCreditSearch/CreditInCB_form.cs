@@ -39,45 +39,7 @@ namespace CashBorrowINFO.main.CustomerCreditSearch
                         {
                             user_sql.Debit_Amount(d);
                             logonUser.U_BALANCE = (Convert.ToInt32(balance) - 5).ToString();
-                            string where = string.Empty;
-                            if (dateS.Checked == true)
-                            {
-                                where += string.Format(" AND B_DATE >= '{0}' ", dateS.Text);
-                            }
-                            if (dateE.Checked == true)
-                            {
-                                where += string.Format(" AND B_DATE <= '{0}' ", dateE.Text);
-                            }
-
-                            if (!string.IsNullOrEmpty(edtCName.Text.Trim()))
-                            {
-                                where += " AND C_ID LIKE '%" + edtCName.Text.Trim() + "%' ";
-                            }
-                            if (!string.IsNullOrEmpty(edtGName.Text.Trim()))
-                            {
-                                where += " AND ( G_ID1 LIKE '%" + edtGName.Text.Trim() + "%'OR G_ID2 LIKE '%" + edtGName.Text.Trim() + "%' OR G_ID3 LIKE '%" + edtGName.Text.Trim() + "%' OR G_ID4 LIKE '%" + edtGName.Text.Trim() + "%' )";
-                            }
-
-                            string res;
-                            DataTable dt = new DataTable();
-                            frmWaitingBox f = new frmWaitingBox((obj, args) =>
-                            {
-                                Thread.Sleep(threadTime);
-                                dt = borrow_sql.QueryByWhere(where);
-                            }, waitTime, "Plase Wait...", false, false);
-                            f.ShowDialog(this);
-                            res = f.Message;
-                            if (!string.IsNullOrEmpty(res))
-                                MessageBox.Show(res);
-                            else
-                            {
-                                if (dt.Rows.Count == 0)
-                                {
-                                    MessageBox.Show("无数据", "查询结果", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                }
-                                else
-                                    dataGridBorrow.DataSource = dt;
-                            }
+                            bindData();
 
                         }
                         else
@@ -98,6 +60,55 @@ namespace CashBorrowINFO.main.CustomerCreditSearch
             }
         }
 
+        public void bindData() {
+            dataGridBorrow.DataSource = null;
+            string where = string.Empty;
+            if (dateS.Checked == true)
+            {
+                where += string.Format(" AND B_DATE >= '{0}' ", dateS.Text);
+            }
+            if (dateE.Checked == true)
+            {
+                where += string.Format(" AND B_DATE <= '{0}' ", dateE.Text);
+            }
+
+            if (!string.IsNullOrEmpty(edtCName.Text.Trim()))
+            {
+                where += " AND C_ID LIKE '%" + edtCName.Text.Trim() + "%' ";
+            }
+            if (!string.IsNullOrEmpty(edtGName.Text.Trim()))
+            {
+                where += " AND ( G_ID1 LIKE '%" + edtGName.Text.Trim() + "%'OR G_ID2 LIKE '%" + edtGName.Text.Trim() + "%' OR G_ID3 LIKE '%" + edtGName.Text.Trim() + "%' OR G_ID4 LIKE '%" + edtGName.Text.Trim() + "%' )";
+            }
+            int count = 0;
+            string res;
+            DataTable dt = new DataTable();
+            frmWaitingBox f = new frmWaitingBox((obj, args) =>
+            {
+                Thread.Sleep(threadTime);
+                count = Convert.ToInt32(borrow_sql.GetTotal(where));
+                dt = borrow_sql.QueryByWhere(where, pagerControl1.PageIndex - 1, pagerControl1.PageSize);
+            }, waitTime, "Plase Wait...", false, false);
+            f.ShowDialog(this);
+            res = f.Message;
+            if (!string.IsNullOrEmpty(res))
+                MessageBox.Show(res);
+            else
+            {
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("无数据", "查询结果", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else {
+                    pagerControl1.DrawControl(count);
+                    dataGridBorrow.DataSource = dt;
+                }
+                    
+            }
+
+
+        }
+
         private void edtCName_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar) && e.KeyChar != 88)
@@ -112,6 +123,11 @@ namespace CashBorrowINFO.main.CustomerCreditSearch
             {
                 e.Handled = true;
             }
+        }
+
+        private void pagerControl1_OnPageChanged(object sender, EventArgs e)
+        {
+            bindData();
         }
     }
 }

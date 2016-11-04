@@ -253,7 +253,7 @@ namespace CashBorrowINFO.main.CustomerManager
                 frmWaitingBox f = new frmWaitingBox((obj, args) =>
                 {
                     Thread.Sleep(threadTime);
-                    borrow = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", b_sysid));
+                    borrow = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", b_sysid),true);
                 }, waitTime, "Plase Wait...", false, false);
                 f.ShowDialog(this);
                 res = f.Message;
@@ -284,14 +284,14 @@ namespace CashBorrowINFO.main.CustomerManager
 
         private void edtBInterest_TextChanged(object sender, EventArgs e)
         {
-            if (edtBAmount.Text != "")
+            if (edtBAmount.Text != ""&& edtBInterest.Text != "")
                 lblAmount.Text = (Convert.ToDouble(edtBAmount.Text) * Convert.ToDouble(edtBInterest.Text)/100).ToString("#0.00")+"元";
 
         }
 
         private void edtBAmount_TextChanged(object sender, EventArgs e)
         {
-            if (edtBInterest.Text != "")
+            if (edtBAmount.Text != "" && edtBInterest.Text != "")
                 lblAmount.Text = (Convert.ToDouble(edtBAmount.Text) * Convert.ToDouble(edtBInterest.Text)/100).ToString("#0.00")+"元";
         }
 
@@ -388,6 +388,44 @@ namespace CashBorrowINFO.main.CustomerManager
             if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar) && e.KeyChar != 88)
             {
                 e.Handled = true;
+            }
+        }
+
+        private void edtRepay_TextChanged(object sender, EventArgs e)
+        {
+            if (edtRepay.Text.Trim() != "") {
+                if (Convert.ToInt16(edtRepay.Text.Trim()) > 31 || Convert.ToInt16(edtRepay.Text.Trim()) < 1) {
+                    MessageBox.Show("请输入1-31号之间！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    edtRepay.Text = "";
+                }
+
+            }
+        }
+
+        private void edtRemind_TextChanged(object sender, EventArgs e)
+        {
+            if (edtRemind.Text.Trim() != "")
+            {
+                if (Convert.ToInt16(edtRemind.Text.Trim()) > 31 || Convert.ToInt16(edtRemind.Text.Trim()) < 1)
+                {
+                    MessageBox.Show("请输入1-31号之间！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    edtRemind.Text = "";
+                }
+
+            }
+
+        }
+
+        private void edtBTerm_TextChanged(object sender, EventArgs e)
+        {
+            if (edtBTerm.Text.Trim() != "")
+            {
+                if ( Convert.ToInt16(edtBTerm.Text.Trim()) < 1)
+                {
+                    MessageBox.Show("请输入大于0的整数！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    edtBTerm.Text = "";
+                }
+
             }
         }
     }

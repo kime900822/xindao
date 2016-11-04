@@ -31,7 +31,7 @@ namespace DbHelp.SQlHelp
             {
                 conn.Open();
 
-                string sql = string.Format("SELECT B_SYSID AS '借款单号',C_NAME AS '姓名',C_ID AS '身份证号',C_CONTACT AS '联系方式',C_EMERGENCYNAME AS '紧急联系人姓名',C_EMERGENCY AS '紧急联系人方式',C_ADDRESS AS '联系地址',C_SEX AS '性别',G_NAME1 AS '担保人姓名1',G_ID1 AS '担保人身份证号1',G_JOB1 AS '担保人职业1',G_NAME2 AS '担保人姓名2',G_ID2 AS '担保人身份证号2',G_JOB2 AS '担保人职业2',G_NAME3 AS '担保人姓名3',G_ID3 AS '担保人身份证号3',G_JOB3 AS '担保人职业3',G_NAME4 AS '担保人姓名4',G_ID4 AS '担保人身份证号4',G_JOB4 AS '担保人职业4', B_AMOUNT AS '借款金额',B_REPAYMENT AS '已还金额',B_INTEREST AS '利息',B_TERM AS '期数',B_TYPE AS '借款方式',B_REPAYDATE AS '还款日',B_REMINDDATE AS '提醒日', B_DATE AS '借款日',B_DATETMP AS '借款时间' FROM T_BORROW WHERE B_ISDEL='1' {0} ", where);
+                string sql = string.Format("SELECT B_SYSID AS '借款单号',case when B_AMOUNT>B_REPAYMENT THEN '未还清' else  '已还清' end AS '借款状态',C_NAME AS '姓名',C_ID AS '身份证号',C_CONTACT AS '联系方式',C_EMERGENCYNAME AS '紧急联系人姓名',C_EMERGENCY AS '紧急联系人方式',C_ADDRESS AS '联系地址',C_SEX AS '性别',G_NAME1 AS '担保人姓名1',G_ID1 AS '担保人身份证号1',G_JOB1 AS '担保人职业1',G_NAME2 AS '担保人姓名2',G_ID2 AS '担保人身份证号2',G_JOB2 AS '担保人职业2',G_NAME3 AS '担保人姓名3',G_ID3 AS '担保人身份证号3',G_JOB3 AS '担保人职业3',G_NAME4 AS '担保人姓名4',G_ID4 AS '担保人身份证号4',G_JOB4 AS '担保人职业4', B_AMOUNT AS '借款金额',B_REPAYMENT AS '已还金额',B_INTEREST AS '利息',B_TERM AS '期数',B_TYPE AS '借款方式',B_REPAYDATE AS '还款日',B_REMINDDATE AS '提醒日', B_DATE AS '借款日',B_DATETMP AS '借款时间' FROM T_BORROW WHERE B_ISDEL='1' {0} ", where);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                 da.Fill(dt);
@@ -39,6 +39,24 @@ namespace DbHelp.SQlHelp
 
             }
         }
+
+        public DataTable QueryByWhere(string where, int pageid, int num)
+        {
+
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+
+                string sql_t = string.Format("SELECT ROW_NUMBER()OVER (order by B_DATETMP DESC) NUM, B_SYSID AS '借款单号',case when B_AMOUNT>B_REPAYMENT THEN '未还清' else  '已还清' end AS '借款状态',C_NAME AS '姓名',C_ID AS '身份证号',C_CONTACT AS '联系方式',C_EMERGENCYNAME AS '紧急联系人姓名',C_EMERGENCY AS '紧急联系人方式',C_ADDRESS AS '联系地址',C_SEX AS '性别',G_NAME1 AS '担保人姓名1',G_ID1 AS '担保人身份证号1',G_JOB1 AS '担保人职业1',G_NAME2 AS '担保人姓名2',G_ID2 AS '担保人身份证号2',G_JOB2 AS '担保人职业2',G_NAME3 AS '担保人姓名3',G_ID3 AS '担保人身份证号3',G_JOB3 AS '担保人职业3',G_NAME4 AS '担保人姓名4',G_ID4 AS '担保人身份证号4',G_JOB4 AS '担保人职业4', B_AMOUNT AS '借款金额',B_REPAYMENT AS '已还金额',B_INTEREST AS '利息',B_TERM AS '期数',B_TYPE AS '借款方式',B_REPAYDATE AS '还款日',B_REMINDDATE AS '提醒日', B_DATE AS '借款日',B_DATETMP AS '借款时间' FROM T_BORROW WHERE B_ISDEL='1' {0} ", where);
+                string sql = string.Format("SELECT * FROM ({0}) T WHERE NUM>{1} AND NUM<={2}", sql_t, pageid * num, (pageid + 1) * num);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                da.Fill(dt);
+                return dt;
+
+            }
+        }
+
 
         public string GetTotal(string where) {
             using (SqlConnection conn = new SqlConnection(connstring))
@@ -53,6 +71,40 @@ namespace DbHelp.SQlHelp
             }
         }
 
+
+        public string GetTotalCustomer(string where)
+        {
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = string.Format("SELECT COUNT(distinct(C_ID)) FROM T_BORROW WHERE B_ISDEL='1' {0}", where);
+                    return cmd.ExecuteScalar().ToString();
+                }
+            }
+
+        }
+
+
+
+        public DataTable CustomerQueryByWhere(string where, int pageid, int num)
+        {
+
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+
+                string sql_t = string.Format("SELECT ROW_NUMBER()OVER (order by B_DATETMP DESC) NUM, C_NAME AS '姓名',C_ID AS '身份证号',C_CONTACT AS '联系方式',C_EMERGENCYNAME AS '紧急联系人姓名',C_EMERGENCY AS '紧急联系人方式',C_ADDRESS AS '联系地址',C_SEX AS '性别'  FROM T_BORROW WHERE B_ISDEL='1' {0} ", where);
+                string sql = string.Format("SELECT * FROM ({0}) T WHERE NUM>{1} AND NUM<={2}", sql_t, pageid * num, (pageid + 1) * num);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                da.Fill(dt);
+                return dt;
+
+            }
+        }
 
         public DataTable GetItem(string u_sysid)
         {
@@ -69,27 +121,8 @@ namespace DbHelp.SQlHelp
         }
 
 
-        /// <summary>
-        /// 还款
-        /// </summary>
-        /// <param name="b_sysid"></param>
-        /// <param name="repayamount"></param>
-        /// <returns></returns>
-        public int Repay (string b_sysid,string repayamount)
-        {
-            using (SqlConnection conn = new SqlConnection(connstring))
-            {
-                conn.Open();
 
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = string.Format("UPDATE T_BORROW SET B_REPAYMENT=B_REPAYMENT+'{0}' WHERE B_SYSID='{1}' AND B_ISDEL='1' ", repayamount, b_sysid);
-                    return cmd.ExecuteNonQuery();
-                }
-             }
-        }
-
-        public List<BORROW> QueryByWhere_XP(string where)
+        public List<BORROW> QueryByWhere_XP(string where,bool flag)
         {
             try
             {
@@ -97,12 +130,86 @@ namespace DbHelp.SQlHelp
                 {
 
                     conn.Open();
+                    string sql = "";
+                    if (flag)
+                    {
+                        sql = string.Format(@"SELECT ROW_NUMBER()OVER (order by B_DATETMP DESC) NUM ,
+                 A.B_SYSID        ,
+                 A.U_SYSID        ,
+                 A.C_NAME         ,
+                 A.C_ID           ,
+                 A.C_PIC          ,
+                 A.C_CONTACT      ,
+                 A.C_EMERGENCY    ,
+                 A.C_ADDRESS      ,
+                 A.C_SEX          ,
+                 A.G_NAME1        ,
+                 A.G_ID1          ,
+                 A.G_JOB1         ,
+                 A.G_NAME2        ,
+                 A.G_ID2          ,
+                 A.G_JOB2         ,
+                 A.G_NAME3        ,
+                 A.G_ID3          ,
+                 A.G_JOB3         ,
+                 A.G_NAME4        ,
+                 A.G_ID4          ,
+                 A.G_JOB4         ,
+                 A.B_AMOUNT       ,
+                 A.B_REPAYMENT    ,
+                 A.B_INTEREST     ,
+                 A.B_TYPE         ,
+                 A.B_REPAYDATE    ,
+                 A.B_REMINDDATE   ,
+                 A.B_DATE         ,
+                 A.B_DATETMP      ,
+                 A.B_ISDEL        ,
+                 A.B_TERM         ,
+                 A.C_EMERGENCYNAME                   
+                    FROM T_BORROW A LEFT JOIN T_USER B ON A.U_SYSID=B.U_SYSID WHERE B_ISDEL='1' {0} ", where);
+                    }
+                    else
+                    {
+                        sql = string.Format(@"SELECT ROW_NUMBER()OVER (order by B_DATETMP DESC) NUM ,
+                 A.B_SYSID        ,
+                 A.U_SYSID        ,
+                 A.C_NAME         ,
+                 A.C_ID           ,
+                 A.C_CONTACT      ,
+                 A.C_EMERGENCY    ,
+                 A.C_ADDRESS      ,
+                 A.C_SEX          ,
+                 A.G_NAME1        ,
+                 A.G_ID1          ,
+                 A.G_JOB1         ,
+                 A.G_NAME2        ,
+                 A.G_ID2          ,
+                 A.G_JOB2         ,
+                 A.G_NAME3        ,
+                 A.G_ID3          ,
+                 A.G_JOB3         ,
+                 A.G_NAME4        ,
+                 A.G_ID4          ,
+                 A.G_JOB4         ,
+                 A.B_AMOUNT       ,
+                 A.B_REPAYMENT    ,
+                 A.B_INTEREST     ,
+                 A.B_TYPE         ,
+                 A.B_REPAYDATE    ,
+                 A.B_REMINDDATE   ,
+                 A.B_DATE         ,
+                 A.B_DATETMP      ,
+                 A.B_ISDEL        ,
+                 A.B_TERM         ,
+                 A.C_EMERGENCYNAME                 
+                    FROM T_BORROW A LEFT JOIN T_USER B ON A.U_SYSID=B.U_SYSID WHERE B_ISDEL='1' {0} ", where);
 
-                    string sql = string.Format("SELECT ROW_NUMBER()OVER (order by B_DATETMP DESC) NUM ,A.* FROM T_BORROW A LEFT JOIN T_USER B ON A.U_SYSID=B.U_SYSID WHERE B_ISDEL='1' {0} ", where);
+                    }
+
                     DataTable dt = new DataTable();
                     SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                     da.Fill(dt);
-                    return DataToCustomer(dt);
+                    return DataToCustomer(dt, flag);
 
                 }
             }
@@ -123,7 +230,7 @@ namespace DbHelp.SQlHelp
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                 da.Fill(dt);
-                return DataToCustomer(dt);
+                return DataToCustomer(dt,false);
 
             }
 
@@ -148,7 +255,7 @@ namespace DbHelp.SQlHelp
                     b_sysid = cmd.ExecuteScalar().ToString();
                     if (string.IsNullOrEmpty(b_sysid))
                     {
-                        b_sysid = DateTime.Now.ToString("yyyyMMdd")+ b.U_SYSID.Substring(9, 4) + "20001";
+                        b_sysid = DateTime.Now.ToString("yyyyMMdd")+ b.U_SYSID.Substring(9, 3) + "001";
                     }
                     else
                         b_sysid = (Convert.ToInt64(b_sysid) + 1).ToString();
@@ -359,8 +466,56 @@ b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b
         }
 
 
+        public void UpdateByRepayDelete(REPAY_HIS r) {
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = string.Format(@"UPDATE T_BORROW SET B_REPAYMENT=B_REPAYMENT-{0} WHERE B_SYSID='{1}'", r.R_AMOUNT,r.B_SYSID);
+                    cmd.ExecuteNonQuery();
+                }
 
-        public  List<BORROW> DataToCustomer(DataTable dt)
+
+            }
+
+        }
+
+
+        public void UpdateByRepayInsert(REPAY_HIS r)
+        {
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = string.Format(@"UPDATE T_BORROW SET B_REPAYMENT=B_REPAYMENT+{0} WHERE B_SYSID='{1}'", r.R_AMOUNT, r.B_SYSID);
+                    cmd.ExecuteNonQuery();
+                }
+
+
+            }
+
+        }
+
+        public void UpdateByRepayUpdate(REPAY_HIS r,double diff)
+        {
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = string.Format(@"UPDATE T_BORROW SET B_REPAYMENT=B_REPAYMENT+{0} WHERE B_SYSID='{1}'", diff, r.B_SYSID);
+                    cmd.ExecuteNonQuery();
+                }
+
+
+            }
+
+        }
+
+
+        public  List<BORROW> DataToCustomer(DataTable dt,bool flag)
         {
             List<BORROW> list = new List<BORROW>();
             if (dt.Rows.Count > 0)
@@ -373,10 +528,12 @@ b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b
                     b.U_SYSID= dt.Rows[i]["U_SYSID"].ToString();
                     b.C_NAME = dt.Rows[i]["C_NAME"].ToString();
                     b.C_ID = dt.Rows[i]["C_ID"].ToString();
-                    if (dt.Rows[i]["C_PIC"].ToString()=="")
-                        b.C_PIC = null;
-                    else
-                        b.C_PIC = (byte[])dt.Rows[i]["C_PIC"];
+                    if (flag) {
+                        if (dt.Rows[i]["C_PIC"].ToString() == "")
+                            b.C_PIC = null;
+                        else
+                            b.C_PIC = (byte[])dt.Rows[i]["C_PIC"];
+                    }
                     b.C_CONTACT = dt.Rows[i]["C_CONTACT"].ToString();
                     b.C_EMERGENCY = dt.Rows[i]["C_EMERGENCY"].ToString();
                     b.C_ADDRESS = dt.Rows[i]["C_ADDRESS"].ToString();
@@ -394,7 +551,10 @@ b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b
                     b.G_ID4 = dt.Rows[i]["G_ID4"].ToString();
                     b.G_JOB4 = dt.Rows[i]["G_JOB4"].ToString();
                     b.B_AMOUNT = dt.Rows[i]["B_AMOUNT"].ToString();
+
                     b.B_REPAYMENT = dt.Rows[i]["B_REPAYMENT"].ToString();
+                    //b.B_REPAYMENT = new T_REPAY_HIS_SQL(connstring).GetRepayAmount(b.B_SYSID);
+
                     b.B_INTEREST = dt.Rows[i]["B_INTEREST"].ToString();
                     b.B_TYPE = dt.Rows[i]["B_TYPE"].ToString();
                     b.B_REPAYDATE = dt.Rows[i]["B_REPAYDATE"].ToString();

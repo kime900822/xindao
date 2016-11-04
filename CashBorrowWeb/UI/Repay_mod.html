@@ -11,7 +11,7 @@
 
         load_repay(title[1]);
         $.CurrentDialog.find("#AddRepay").click(function () {
-            if (pass_r_id == null) {
+            if (title[1] == null) {
                 $(this).alertmsg('confirm', '确认添加？', { okCall: function () { AddRepay(); } });
 
                 //AddRepay();

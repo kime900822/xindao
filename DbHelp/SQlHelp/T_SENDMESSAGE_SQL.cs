@@ -31,7 +31,7 @@ namespace DbHelp.SQlHelp
                     s_sysid = cmd.ExecuteScalar().ToString();
                     if (string.IsNullOrEmpty(s_sysid))
                     {
-                        s_sysid = DateTime.Now.ToString("yyyyMMdd") + m.U_SYSID.Substring(9, 4) + "40001";
+                        s_sysid = DateTime.Now.ToString("yyyyMMdd") + m.U_SYSID.Substring(9, 3) + "40001";
                     }
                     else
                         s_sysid = (Convert.ToInt64(s_sysid) + 1).ToString(); 
@@ -125,6 +125,25 @@ namespace DbHelp.SQlHelp
                 SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                 da.Fill(dt);
                 return DataToMessage(dt);
+
+            }
+
+        }
+
+
+        public DataTable QueryByWhere(string where, int pageid, int num)
+        {
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+
+
+                string sql_t = string.Format("SELECT ROW_NUMBER()OVER (order by S_SENDDATE DESC) NUM,A.* FROM T_SENDMESSAGE A LEFT JOIN T_USER B ON A.U_SYSID=B.U_SYSID WHERE S_ISDEL='1' {0}", where);
+                string sql = string.Format("SELECT * FROM ({0}) T WHERE NUM>{1} AND NUM<={2}", sql_t, pageid * num, (pageid + 1) * num);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                da.Fill(dt);
+                return dt;
 
             }
 

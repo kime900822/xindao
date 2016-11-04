@@ -20,9 +20,14 @@ namespace CashBorrowINFO.main.AmountRecharge
 
         private void button1_Click(object sender, EventArgs e)
         {
+            bindData();
+        }
+
+        public void bindData() {
             try
             {
-                string where = string.Format(" AND U_SYSID = '{0}' ", logonUser.U_SYSID);
+                dataGridDeductions.DataSource = null;
+                string where = string.Format(" AND A.U_SYSID = '{0}' ", logonUser.U_SYSID);
                 if (dateS.Checked == true)
                 {
                     where += string.Format(" AND SUBSTRING(D_DATE,1,10) >= '{0}' ", dateS.Text);
@@ -34,10 +39,12 @@ namespace CashBorrowINFO.main.AmountRecharge
 
                 string res;
                 DataTable dt = new DataTable();
+                int count = 0;
                 frmWaitingBox f = new frmWaitingBox((obj, args) =>
                 {
                     Thread.Sleep(threadTime);
-                    dt = debit_his_sql.QueryByWhere(where);
+                    count = Convert.ToInt32(debit_his_sql.GetTotal(where));
+                    dt = debit_his_sql.QueryByWhere(where, pagerControl1.PageIndex - 1, pagerControl1.PageSize);
                 }, waitTime, "Plase Wait...", false, false);
                 f.ShowDialog(this);
                 res = f.Message;
@@ -50,8 +57,11 @@ namespace CashBorrowINFO.main.AmountRecharge
                         MessageBox.Show("无数据", "查询结果", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         dataGridDeductions.DataSource = null;
                     }
-                    else
+                    else {
+                        pagerControl1.DrawControl(count);
                         dataGridDeductions.DataSource = dt;
+                    }
+                        
                 }
 
 
@@ -60,6 +70,11 @@ namespace CashBorrowINFO.main.AmountRecharge
             {
                 MessageBox.Show(e1.Message, "报错", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void pagerControl1_OnPageChanged(object sender, EventArgs e)
+        {
+            bindData();
         }
     }
 }

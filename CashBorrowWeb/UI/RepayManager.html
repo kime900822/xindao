@@ -79,7 +79,9 @@
         });
     }
 
-    function DeleteRepay(id) {
+
+
+    function DeleteRepay(id,r_sysid) {
         $(this).alertmsg('confirm', '确认删除？', {
             okCall: function () {
                 var tr = $(id).parent().parent();
@@ -87,7 +89,7 @@
                     type: "post",
                     contentType: "application/json",
                     url: "WebService.asmx/DeleteRepay",
-                    data: "{b_sysid:'" + tr.find("td").eq(1).html() + "'}",
+                    data: "{r_sysid:'" + r_sysid + "'}",
                     dataType: "json",
                     success: function (result) {
                         if (result.d.state == 0) {
@@ -96,7 +98,7 @@
                             tr.remove();
                         } else {
                             $(this).alertmsg('error', result.d.message);
-                        }                  
+                        }
 
                     },
                     error: function (e) {
@@ -113,13 +115,10 @@
     }
 
 
-    function passR_ID(id) {
-        $.cookie("pass_r_id", id);
-    }
 
     function LoadRepay(data) {
         $.each(data, function (i, item) {
-            var tr = "<tr data-id='" + item.NUM + "'><td>" + item.NUM + "</td><td>" + item.BORROW.USER.U_NAME + "</td><td>" + item.BORROW.C_NAME + "</td><td>" + item.BORROW.C_ID + "</td><td>" + item.R_AMOUNT + "</td><td>" + item.R_INTEREST + "</td><td>" + item.R_FINE + "</td><td>" + item.R_TYPE + "</td><td>" + item.R_DATE + "</td><td><a href='Repay_mod.html' class='btn btn-green' data-toggle='dialog' data-width='1000' data-height='450' data-id='dialog-mask' onclick='passR_ID(" + item.R_SYSID + ")'  data-mask='true' data-title='编辑-" + item.R_SYSID + "'>编辑</a>&nbsp;<a href='javascript:;' class='btn btn-red'  onclick='DeleteRepay(this)' >删</a></td></tr>";
+            var tr = "<tr data-id='" + item.NUM + "' r_sysid='" + item.R_SYSID + "'><td>" + item.NUM + "</td><td>" + item.BORROW.USER.U_NAME + "</td><td>" + item.BORROW.C_NAME + "</td><td>" + item.BORROW.C_ID + "</td><td>" + item.R_AMOUNT + "</td><td>" + item.R_INTEREST + "</td><td>" + item.R_FINE + "</td><td>" + item.R_TYPE + "</td><td>" + item.R_DATE + "</td><td><a href='Repay_mod.html' class='btn btn-green' data-toggle='dialog' data-width='1000' data-height='450' data-id='dialog-mask'  data-mask='true' data-title='编辑-" + item.R_SYSID + "'>编辑</a>&nbsp;<a href='javascript:;' class='btn btn-red'  onclick='DeleteRepay(this," + item.R_SYSID+"" + ")' >删</a></td></tr>";
                 $.CurrentNavtab.find("#repay_tabel").find("tbody").append(tr);
             })
         

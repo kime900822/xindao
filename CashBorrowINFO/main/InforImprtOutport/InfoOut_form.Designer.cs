@@ -41,6 +41,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dataGridBorrow = new System.Windows.Forms.DataGridView();
+            this.pagerControl1 = new TActionProject.PagerControl();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridBorrow)).BeginInit();
@@ -69,14 +70,14 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(760, 100);
+            this.groupBox1.Size = new System.Drawing.Size(760, 85);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "条件选择";
             // 
             // edtOut
             // 
-            this.edtOut.Location = new System.Drawing.Point(593, 58);
+            this.edtOut.Location = new System.Drawing.Point(593, 48);
             this.edtOut.Name = "edtOut";
             this.edtOut.Size = new System.Drawing.Size(75, 23);
             this.edtOut.TabIndex = 8;
@@ -99,7 +100,7 @@
             this.dateE.Checked = false;
             this.dateE.CustomFormat = "yyyy-MM-dd";
             this.dateE.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateE.Location = new System.Drawing.Point(345, 58);
+            this.dateE.Location = new System.Drawing.Point(345, 48);
             this.dateE.Name = "dateE";
             this.dateE.ShowCheckBox = true;
             this.dateE.Size = new System.Drawing.Size(156, 21);
@@ -108,7 +109,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(272, 67);
+            this.label4.Location = new System.Drawing.Point(272, 57);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(29, 12);
             this.label4.TabIndex = 6;
@@ -119,7 +120,7 @@
             this.dateS.Checked = false;
             this.dateS.CustomFormat = "yyyy-MM-dd";
             this.dateS.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateS.Location = new System.Drawing.Point(101, 60);
+            this.dateS.Location = new System.Drawing.Point(101, 50);
             this.dateS.Name = "dateS";
             this.dateS.ShowCheckBox = true;
             this.dateS.Size = new System.Drawing.Size(156, 21);
@@ -128,7 +129,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 68);
+            this.label3.Location = new System.Drawing.Point(18, 58);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(77, 12);
             this.label3.TabIndex = 4;
@@ -140,6 +141,7 @@
             this.edtCID.Name = "edtCID";
             this.edtCID.Size = new System.Drawing.Size(156, 21);
             this.edtCID.TabIndex = 1;
+            this.edtCID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtCID_KeyPress);
             // 
             // label1
             // 
@@ -152,10 +154,11 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.pagerControl1);
             this.groupBox2.Controls.Add(this.dataGridBorrow);
-            this.groupBox2.Location = new System.Drawing.Point(12, 118);
+            this.groupBox2.Location = new System.Drawing.Point(13, 103);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(759, 344);
+            this.groupBox2.Size = new System.Drawing.Size(759, 367);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "借款信息";
@@ -173,6 +176,20 @@
             this.dataGridBorrow.RowTemplate.Height = 23;
             this.dataGridBorrow.Size = new System.Drawing.Size(746, 317);
             this.dataGridBorrow.TabIndex = 0;
+            // 
+            // pagerControl1
+            // 
+            this.pagerControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(228)))), ((int)(((byte)(233)))));
+            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
+            this.pagerControl1.JumpText = "Go";
+            this.pagerControl1.Location = new System.Drawing.Point(7, 338);
+            this.pagerControl1.Name = "pagerControl1";
+            this.pagerControl1.PageIndex = 1;
+            this.pagerControl1.PageSize = 100;
+            this.pagerControl1.RecordCount = 0;
+            this.pagerControl1.Size = new System.Drawing.Size(746, 29);
+            this.pagerControl1.TabIndex = 3;
+            this.pagerControl1.OnPageChanged += new System.EventHandler(this.pagerControl1_OnPageChanged);
             // 
             // InfoOut_form
             // 
@@ -212,5 +229,6 @@
         private System.Windows.Forms.Button edtOut;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView dataGridBorrow;
+        private TActionProject.PagerControl pagerControl1;
     }
 }

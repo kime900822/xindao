@@ -83,7 +83,7 @@ namespace DbHelp.SQlHelp
                     u_sysid = cmd.ExecuteScalar().ToString();
                     if (string.IsNullOrEmpty(u_sysid))
                     {
-                        u_sysid = DateTime.Now.ToString("yyyyMMdd")+"10001";
+                        u_sysid = DateTime.Now.ToString("yyyyMMdd")+"1001";
                     }
                     else
                         u_sysid = (Convert.ToInt64(u_sysid) + 1).ToString();

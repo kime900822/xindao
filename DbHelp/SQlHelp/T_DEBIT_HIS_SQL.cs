@@ -53,14 +53,15 @@ namespace DbHelp.SQlHelp
         /// </summary>
         /// <param name="where"></param>
         /// <returns></returns>
-        public DataTable QueryByWhere(string where)
+        public DataTable QueryByWhere(string where, int pageid, int num)
         {
 
             using (SqlConnection conn = new SqlConnection(connstring))
             {
                 conn.Open();
 
-                string sql = string.Format("SELECT D_REASON AS '扣款原因',D_AMOUNT AS '扣款金额',D_DATE AS '扣款时间' FROM T_DEBIT_HIS WHERE D_ISDEL='1' {0} ", where);
+                string sql_t = string.Format("SELECT  ROW_NUMBER()OVER (order by D_DATE DESC) NUM,D_REASON AS '扣款原因',D_AMOUNT AS '扣款金额',D_DATE AS '扣款时间' FROM T_DEBIT_HIS A WHERE D_ISDEL='1' {0} ", where);
+                string sql = string.Format("SELECT * FROM ({0}) T WHERE NUM>{1} AND NUM<={2}", sql_t, pageid * num, (pageid + 1) * num);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                 da.Fill(dt);

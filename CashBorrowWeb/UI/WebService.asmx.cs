@@ -324,9 +324,12 @@ namespace WageManagerSystem.UI
 
                 if (lu.Count > 0)
                 {
-                    lu[0].U_PROVINCE = province_sql.GetValue_Province(lu[0].U_PROVINCE);
-                    lu[0].U_CITY = province_sql.GetValue_City(lu[0].U_CITY);
-                    lu[0].U_AREA = province_sql.GetValue_Area(lu[0].U_AREA);
+                    if(lu[0].U_PROVINCE!="")
+                        lu[0].U_PROVINCE = province_sql.GetValue_Province(lu[0].U_PROVINCE);
+                    if (lu[0].U_CITY != "")
+                        lu[0].U_CITY = province_sql.GetValue_City(lu[0].U_CITY);
+                    if (lu[0].U_AREA != "")
+                        lu[0].U_AREA = province_sql.GetValue_Area(lu[0].U_AREA);
 
                     return new { state = 0, data = lu[0] };
                 }
@@ -1066,7 +1069,7 @@ namespace WageManagerSystem.UI
                 {
                     where += string.Format(" AND B_SYSID ='{0}'", b_sysid);
                 }
-                List<BORROW> ld = borrow_sql.QueryByWhere_XP(where);
+                List<BORROW> ld = borrow_sql.QueryByWhere_XP(where,false);
 
                 if (ld.Count > 0)
                 {
@@ -1194,9 +1197,10 @@ namespace WageManagerSystem.UI
         {
             try
             {
+               
                 if (repay_his_sql.Delete(r_sysid) == 1)
                 {
-
+                    borrow_sql.UpdateByRepayDelete(repay_his_sql.QueryByWhere_Borrow(string.Format(" R_SYSID='{0}'", r_sysid)));
                     return new { state = 0, message = "删除成功" };
                 }
                 else
@@ -1253,10 +1257,10 @@ namespace WageManagerSystem.UI
             try
             {
                 REPAY_HIS r = new JavaScriptSerializer().Deserialize<REPAY_HIS>(repay);
-
+                REPAY_HIS ro = repay_his_sql.QueryByWhere_XP(string.Format(" AND R_SYSID='{0}'", r.R_SYSID))[0];
                 if (repay_his_sql.Update(r) == 1)
                 {
-
+                    borrow_sql.UpdateByRepayUpdate(r,Convert.ToDouble(r.R_AMOUNT) - Convert.ToDouble(ro.R_AMOUNT));
                     return new { state = 0, message = "修改成功" };
                 }
                 else

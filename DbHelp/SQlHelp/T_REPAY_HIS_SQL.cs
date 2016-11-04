@@ -26,12 +26,12 @@ namespace DbHelp.SQlHelp
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
 
-                    cmd.CommandText = string.Format("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;SELECT MAX(R_SYSID) FROM T_REPAY_HIS WHERE B_SYSID='{0}' AND SUBSTRING(R_SYSID,1,8)='{1}';", r.B_SYSID, DateTime.Now.ToString("yyyyMMdd"));
+                    cmd.CommandText = string.Format("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;SELECT MAX(R_SYSID) FROM T_REPAY_HIS WHERE B_SYSID='{0}' ;", r.B_SYSID);
                     string r_sysid = string.Empty;
                     r_sysid = cmd.ExecuteScalar().ToString();
                     if (string.IsNullOrEmpty(r_sysid))
                     {
-                        r_sysid = DateTime.Now.ToString("yyyyMMdd") + r.B_SYSID.Substring(9,9) + "30001";
+                        r_sysid = r.B_SYSID + "01";
                     }
                     else
                         r_sysid = (Convert.ToInt64(r_sysid) + 1).ToString();
@@ -68,6 +68,11 @@ namespace DbHelp.SQlHelp
 
         }
 
+        /// <summary>
+        /// 取总数据
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
         public string GetTotal(string where)
         {
             using (SqlConnection conn = new SqlConnection(connstring))
@@ -82,6 +87,7 @@ namespace DbHelp.SQlHelp
             }
         }
 
+        
         public int Delete_Borrow(string b_sysid)
         {
             using (SqlConnection conn = new SqlConnection(connstring))
@@ -119,7 +125,7 @@ namespace DbHelp.SQlHelp
                      R_FINE='{3}',
                      R_DATE='{4}',
                      R_INTEREST='{6}'
-                    WHERE R_SYSID={5}",r.R_AMOUNT,r.R_TYPE,r.R_OVERTIME,r.R_FINE,r.R_DATE,r.R_SYSID,r.R_INTEREST);
+                    WHERE R_SYSID='{5}'",r.R_AMOUNT,r.R_TYPE,r.R_OVERTIME,r.R_FINE,r.R_DATE,r.R_SYSID,r.R_INTEREST);
                     return cmd.ExecuteNonQuery();
                 }
 
@@ -133,7 +139,7 @@ namespace DbHelp.SQlHelp
         /// </summary>
         /// <param name="where"></param>
         /// <returns></returns>
-        public DataTable QueryByWhere(string where )
+        public DataTable QueryByWhere(string where)
         {
             using (SqlConnection conn = new SqlConnection(connstring))
             {
@@ -151,6 +157,21 @@ namespace DbHelp.SQlHelp
 
         }
 
+
+        public string GetRepayAmount(string b_sysid) {
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = string.Format(@"SELECT SUM(CAST(R_AMOUNT as numeric(10,2)))  AS R_AMOUNT FROM T_REPAY_HIS WHERE  R_ISDEL='1' AND B_SYSID='{0}' ", b_sysid);
+                    return cmd.ExecuteScalar().ToString();
+                }
+
+
+            }
+
+        }
 
         public List<REPAY_HIS> QueryByWhere_XP(string where)
         {
@@ -171,6 +192,32 @@ namespace DbHelp.SQlHelp
             }
             catch {
                 return new List<REPAY_HIS>();
+            }
+
+        }
+
+
+        public REPAY_HIS QueryByWhere_Borrow(string where)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connstring))
+                {
+                    conn.Open();
+
+                    DataTable dt = new DataTable();
+
+                    string sql = string.Format("SELECT  ROW_NUMBER()OVER (order by R_DATE DESC) NUM,* FROM T_REPAY_HIS A LEFT JOIN T_BORROW B ON A.B_SYSID=B.B_SYSID LEFT JOIN T_USER C ON B.U_SYSID=C.U_SYSID WHERE  {0} ", where);
+                    SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                    da.Fill(dt);
+                    return DataToRepay(dt)[0];
+
+
+                }
+            }
+            catch
+            {
+                return new REPAY_HIS();
             }
 
         }
@@ -210,7 +257,7 @@ namespace DbHelp.SQlHelp
                     r.R_ISDEL = dt.Rows[i]["R_ISDEL"].ToString();
                     r.R_SYSID = dt.Rows[i]["R_SYSID"].ToString();
                     r.R_INTEREST = dt.Rows[i]["R_INTEREST"].ToString();
-                    r.BORROW = new T_BORROW_SQL(connstring).QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", dt.Rows[i]["B_SYSID"].ToString()))[0];
+                    r.BORROW = new T_BORROW_SQL(connstring).QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", dt.Rows[i]["B_SYSID"].ToString()),false)[0];
                     r.NUM= dt.Rows[i]["NUM"].ToString();
                     list.Add(r);
                 }

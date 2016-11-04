@@ -67,6 +67,8 @@ namespace CashBorrowINFO
 
         public static T_EDIT_SQL edit_sql { get { return new T_EDIT_SQL(connString); } }
 
+        public static T_SENDMESSAGE_SQL sendmessage_sql { get { return new T_SENDMESSAGE_SQL(connString); } }
+
         /// <summary>
         /// 等待时间
         /// </summary>

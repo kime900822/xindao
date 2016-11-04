@@ -96,14 +96,15 @@ namespace DbHelp.SQlHelp
         }
 
 
-        public DataTable QueryByWhere(string where)
+        public DataTable QueryByWhere(string where, int pageid, int num)
         {
 
             using (SqlConnection conn = new SqlConnection(connstring))
             {
                 conn.Open();
 
-                string sql = string.Format(@" SELECT top 8 ROW_NUMBER()OVER (order by E_DATETIME DESC) AS  '序号' ,E_SYSID AS  '编号', E_TITLE AS '标题', E_DATETIME AS '时间' FROM T_EDIT  WHERE E_ISDEL='1' {0} ", where);
+                string sql_t = string.Format(@" SELECT ROW_NUMBER()OVER (order by E_DATETIME DESC) AS  NUM ,E_SYSID AS  '编号', E_TITLE AS '标题', E_DATETIME AS '时间' FROM T_EDIT  WHERE E_ISDEL='1' {0} ", where);
+                string sql = string.Format("SELECT * FROM ({0}) T WHERE NUM>{1} AND NUM<={2}", sql_t, pageid * num, (pageid + 1) * num);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                 da.Fill(dt);

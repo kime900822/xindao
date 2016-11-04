@@ -7,7 +7,9 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
+using WinForm_Test;
 
 namespace CashBorrowINFO.main.CustomerManager
 {
@@ -18,7 +20,33 @@ namespace CashBorrowINFO.main.CustomerManager
         public Print_form(BORROW b)
         {
             InitializeComponent();
-            borrow = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID={0}", b.B_SYSID))[0];
+            string res;
+            List<BORROW> lborrow=new List<BORROW>();
+            frmWaitingBox f = new frmWaitingBox((obj, args) =>
+            {
+                Thread.Sleep(threadTime);
+                lborrow = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", b.B_SYSID),false);
+            }, waitTime, "Plase Wait...", false, false);
+            f.ShowDialog(this);
+            res = f.Message;
+            if (!string.IsNullOrEmpty(res))
+                MessageBox.Show(res);
+            else
+            {
+                if (lborrow.Count > 0)
+                    borrow = lborrow[0];
+                else
+                {
+                    MessageBox.Show("数据读取异常！");
+                    btnPrePrint.Enabled = false;
+                    btnPrint.Enabled = false;
+                    btnSetPrint.Enabled = false;
+                }
+            }
+
+
+            
+
             this.printDocument1.OriginAtMargins = true;//启用页边距
             this.pageSetupDialog1.EnableMetric = true; //以毫米为单位
         }

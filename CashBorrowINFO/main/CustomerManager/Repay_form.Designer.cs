@@ -67,7 +67,7 @@
             // btnCancle
             // 
             this.btnCancle.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancle.Location = new System.Drawing.Point(685, 433);
+            this.btnCancle.Location = new System.Drawing.Point(683, 476);
             this.btnCancle.Name = "btnCancle";
             this.btnCancle.Size = new System.Drawing.Size(75, 23);
             this.btnCancle.TabIndex = 5;
@@ -77,7 +77,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(576, 433);
+            this.btnOK.Location = new System.Drawing.Point(580, 476);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -106,7 +106,7 @@
             this.edtRInterest.Location = new System.Drawing.Point(109, 39);
             this.edtRInterest.Name = "edtRInterest";
             this.edtRInterest.Size = new System.Drawing.Size(258, 21);
-            this.edtRInterest.TabIndex = 7;
+            this.edtRInterest.TabIndex = 3;
             this.edtRInterest.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtRInterest_KeyPress);
             // 
             // label8
@@ -123,14 +123,14 @@
             this.edtRType.Location = new System.Drawing.Point(109, 64);
             this.edtRType.Name = "edtRType";
             this.edtRType.Size = new System.Drawing.Size(258, 21);
-            this.edtRType.TabIndex = 5;
+            this.edtRType.TabIndex = 4;
             // 
             // edtRamount
             // 
             this.edtRamount.Location = new System.Drawing.Point(109, 15);
             this.edtRamount.Name = "edtRamount";
             this.edtRamount.Size = new System.Drawing.Size(258, 21);
-            this.edtRamount.TabIndex = 4;
+            this.edtRamount.TabIndex = 2;
             this.edtRamount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtRamount_KeyPress);
             // 
             // groupBox3
@@ -151,14 +151,14 @@
             this.edtOverTime.Location = new System.Drawing.Point(89, 24);
             this.edtOverTime.Name = "edtOverTime";
             this.edtOverTime.Size = new System.Drawing.Size(258, 21);
-            this.edtOverTime.TabIndex = 8;
+            this.edtOverTime.TabIndex = 5;
             // 
             // edtRFine
             // 
             this.edtRFine.Location = new System.Drawing.Point(89, 48);
             this.edtRFine.Name = "edtRFine";
             this.edtRFine.Size = new System.Drawing.Size(258, 21);
-            this.edtRFine.TabIndex = 7;
+            this.edtRFine.TabIndex = 6;
             this.edtRFine.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtRFine_KeyPress);
             // 
             // label10
@@ -316,7 +316,7 @@
             this.groupBox4.Controls.Add(this.dataGridRepay);
             this.groupBox4.Location = new System.Drawing.Point(12, 272);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(753, 155);
+            this.groupBox4.Size = new System.Drawing.Size(753, 191);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "还款历史";
@@ -332,7 +332,7 @@
             this.dataGridRepay.Location = new System.Drawing.Point(0, 21);
             this.dataGridRepay.Name = "dataGridRepay";
             this.dataGridRepay.RowTemplate.Height = 23;
-            this.dataGridRepay.Size = new System.Drawing.Size(746, 128);
+            this.dataGridRepay.Size = new System.Drawing.Size(746, 164);
             this.dataGridRepay.TabIndex = 0;
             // 
             // Repay_form

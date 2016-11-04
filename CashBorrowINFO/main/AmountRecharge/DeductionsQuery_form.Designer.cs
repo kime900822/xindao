@@ -35,6 +35,7 @@
             this.dateS = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.pagerControl1 = new TActionProject.PagerControl();
             this.dataGridDeductions = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -50,7 +51,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(760, 79);
+            this.groupBox1.Size = new System.Drawing.Size(760, 64);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "条件选择";
@@ -107,13 +108,28 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.pagerControl1);
             this.groupBox2.Controls.Add(this.dataGridDeductions);
-            this.groupBox2.Location = new System.Drawing.Point(12, 97);
+            this.groupBox2.Location = new System.Drawing.Point(12, 82);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(760, 402);
+            this.groupBox2.Size = new System.Drawing.Size(760, 425);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "扣款记录";
+            // 
+            // pagerControl1
+            // 
+            this.pagerControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(228)))), ((int)(((byte)(233)))));
+            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
+            this.pagerControl1.JumpText = "Go";
+            this.pagerControl1.Location = new System.Drawing.Point(6, 390);
+            this.pagerControl1.Name = "pagerControl1";
+            this.pagerControl1.PageIndex = 1;
+            this.pagerControl1.PageSize = 100;
+            this.pagerControl1.RecordCount = 0;
+            this.pagerControl1.Size = new System.Drawing.Size(746, 29);
+            this.pagerControl1.TabIndex = 2;
+            this.pagerControl1.OnPageChanged += new System.EventHandler(this.pagerControl1_OnPageChanged);
             // 
             // dataGridDeductions
             // 
@@ -126,7 +142,7 @@
             this.dataGridDeductions.Name = "dataGridDeductions";
             this.dataGridDeductions.ReadOnly = true;
             this.dataGridDeductions.RowTemplate.Height = 23;
-            this.dataGridDeductions.Size = new System.Drawing.Size(746, 375);
+            this.dataGridDeductions.Size = new System.Drawing.Size(746, 367);
             this.dataGridDeductions.TabIndex = 0;
             // 
             // DeductionsQuery_form
@@ -161,5 +177,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView dataGridDeductions;
+        private TActionProject.PagerControl pagerControl1;
     }
 }

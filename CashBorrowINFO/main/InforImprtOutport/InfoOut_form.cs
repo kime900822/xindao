@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using WinForm_Test;
 
 namespace CashBorrowINFO.main.InforImprtOutport
 {
@@ -26,21 +27,63 @@ namespace CashBorrowINFO.main.InforImprtOutport
 
         private void button1_Click(object sender, EventArgs e)
         {
-                try
+            bindDate();
+        }
+        public void bindDate() {
+
+            try
+            {
+                dataGridBorrow.DataSource = null;
+
+                string where = string.Format(" AND  U_SYSID='{0}'", logonUser.U_SYSID);
+                if (dateS.Checked == true)
                 {
-                    DataTable dt = GetData();
+                    where += string.Format(" AND B_DATE >= '{0}' ", dateS.Text);
+                }
+                if (dateE.Checked == true)
+                {
+                    where += string.Format(" AND B_DATE <= '{0}' ", dateE.Text);
+                }
+
+                if (!string.IsNullOrEmpty(edtCID.Text.Trim()))
+                {
+                    where += " AND C_ID LIKE '%" + edtCID.Text.Trim() + "%' ";
+                }
+
+
+                DataTable dt = new DataTable();
+                string res;
+                int count = 0;
+                frmWaitingBox f = new frmWaitingBox((obj, args) =>
+                {
+                    Thread.Sleep(threadTime);
+                    count = Convert.ToInt32(borrow_sql.GetTotal(where));
+                    dt = borrow_sql.QueryByWhere(where, pagerControl1.PageIndex - 1, pagerControl1.PageSize);
+                }, waitTime, "Plase Wait...", false, false);
+                f.ShowDialog(this);
+                res = f.Message;
+                if (!string.IsNullOrEmpty(res))
+                    MessageBox.Show(res);
+                else
+                {
                     if (dt.Rows.Count == 0)
                     {
-                        MessageBox.Show("无数据", "查询结果", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("无数据", "查询结果", MessageBoxButtons.OK, MessageBoxIcon.Information);              
                     }
-                    else
+                    else {
+                        pagerControl1.DrawControl(count);
                         dataGridBorrow.DataSource = dt;
+                    }
 
                 }
-                catch (Exception e1)
-                {
-                    MessageBox.Show(e1.Message, "报错", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+
+
+
+            }
+            catch (Exception e1)
+            {
+                MessageBox.Show(e1.Message, "报错", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 
@@ -141,6 +184,17 @@ namespace CashBorrowINFO.main.InforImprtOutport
 
         }
 
+        private void edtCID_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar) && e.KeyChar != 88)
+            {
+                e.Handled = true;
+            }
+        }
 
+        private void pagerControl1_OnPageChanged(object sender, EventArgs e)
+        {
+            bindDate();
+        }
     }
 }

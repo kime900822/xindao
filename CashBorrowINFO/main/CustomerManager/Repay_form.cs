@@ -54,7 +54,7 @@ namespace CashBorrowINFO.main.CustomerManager
                     frmWaitingBox f = new frmWaitingBox((obj, args) =>
                     {
                         Thread.Sleep(threadTime);
-                        borrow = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", b_sysid));
+                        borrow = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", b_sysid),false);
                     }, waitTime, "Plase Wait...", false, false);
                     f.ShowDialog(this);
                     res = f.Message;
@@ -67,7 +67,7 @@ namespace CashBorrowINFO.main.CustomerManager
                             lblCID.Text = borrow[0].C_ID;
                             lblBAMOUNT.Text = borrow[0].B_AMOUNT;
                             lblBLimit.Text = (Convert.ToDecimal(borrow[0].B_AMOUNT) - Convert.ToDecimal(borrow[0].B_REPAYMENT)).ToString();
-                            Bind(b_sysid);
+                            bindData(b_sysid);
                         }
 
                     }
@@ -112,36 +112,52 @@ namespace CashBorrowINFO.main.CustomerManager
         {
             try
             {
-                if (MessageBox.Show("确定保存？", "保存提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                if (Convert.ToDouble(lblBLimit.Text) > 0)
                 {
-                    string err = CheckData();
-                    if (string.IsNullOrEmpty(err))
+                    if (MessageBox.Show("确定保存？", "保存提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
-                        REPAY_HIS r = FaceToDate();
-
-                        string res;
-                        int i = 0;
-                        frmWaitingBox f = new frmWaitingBox((obj, args) =>
+                        string err = CheckData();
+                        if (string.IsNullOrEmpty(err))
                         {
-                            i = repay_his_sql.Insert(r);
-                        }, waitTime, "Plase Wait...", false, false);
-                        f.ShowDialog(this);
-                        res = f.Message;
-                        if (!string.IsNullOrEmpty(res))
-                            MessageBox.Show(res);
+                            REPAY_HIS r = FaceToDate();
 
-                        if (i == 1)
-                        {
-                            borrow_sql.Repay(r.B_SYSID, r.R_AMOUNT);
-                            Bind(ddlBSysid.Text.Split('-')[0]);
-                            MessageBox.Show("保存成功", "保存提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            string res;
+                            int i = 0;
+                            frmWaitingBox f = new frmWaitingBox((obj, args) =>
+                            {
+                                Thread.Sleep(threadTime);
+                                i = repay_his_sql.Insert(r);
+                            }, waitTime, "Plase Wait...", false, false);
+                            f.ShowDialog(this);
+                            res = f.Message;
+                            if (!string.IsNullOrEmpty(res))
+                                MessageBox.Show(res);
+                            else {
+                                if (i == 1)
+                                {
+                                    borrow_sql.UpdateByRepayInsert(r);
+                                    lblBLimit.Text = (Convert.ToDouble(lblBLimit.Text) - Convert.ToDouble(edtRamount.Text)).ToString();
+                                    bindData(ddlBSysid.Text.Split('-')[0]);
+                                    edtOverTime.Text = "";
+                                    edtRamount.Text = "";
+                                    edtRFine.Text = "";
+                                    edtRInterest.Text = "";
+                                    edtRType.Text = "";
+                                    MessageBox.Show("保存成功", "保存提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                else
+                                    MessageBox.Show("保存失败", "保存提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
                         }
                         else
-                            MessageBox.Show("保存失败", "保存提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(err, "保存提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-                    else
-                        MessageBox.Show(err, "保存提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+                else
+                {
+                    MessageBox.Show("已经还清！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                
             }
             catch (Exception e1) {
                 MessageBox.Show(e1.Message, "保存提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -155,9 +171,14 @@ namespace CashBorrowINFO.main.CustomerManager
         }
 
 
-        public  void Bind(string b_sysid) {
+        public  void bindData(string b_sysid) {
+            dataGridRepay.DataSource = null;
             DataTable dt = repay_his_sql.QueryByWhere(string.Format(" AND B_SYSID='{0}'", b_sysid));
-            dataGridRepay.DataSource = dt;
+                if (dt.Rows.Count > 0)
+                {
+                    dataGridRepay.DataSource = dt;
+                }
+
 
         }
 
@@ -184,5 +205,6 @@ namespace CashBorrowINFO.main.CustomerManager
                 e.Handled = true;
             }
         }
+
     }
 }
