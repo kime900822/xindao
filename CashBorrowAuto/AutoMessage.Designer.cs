@@ -38,6 +38,9 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtBid = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.edtPhone = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.send = new System.Windows.Forms.Button();
@@ -101,9 +104,13 @@
             // styleManager1
             // 
             this.styleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2010Silver;
+            this.styleManager1.MetroColorParameters = new DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(163)))), ((int)(((byte)(26))))));
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtBid);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.edtPhone);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.send);
@@ -113,6 +120,32 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "短信发送";
+            // 
+            // txtBid
+            // 
+            this.txtBid.Location = new System.Drawing.Point(101, 66);
+            this.txtBid.Name = "txtBid";
+            this.txtBid.Size = new System.Drawing.Size(268, 21);
+            this.txtBid.TabIndex = 12;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(17, 69);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "借款编号";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(287, 93);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(82, 23);
+            this.button3.TabIndex = 10;
+            this.button3.Text = "手动发送";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // edtPhone
             // 
@@ -132,11 +165,11 @@
             // 
             // send
             // 
-            this.send.Location = new System.Drawing.Point(287, 62);
+            this.send.Location = new System.Drawing.Point(287, 38);
             this.send.Name = "send";
             this.send.Size = new System.Drawing.Size(82, 23);
             this.send.TabIndex = 6;
-            this.send.Text = "短信发送测试";
+            this.send.Text = "发送测试";
             this.send.UseVisualStyleBackColor = true;
             this.send.Click += new System.EventHandler(this.send_Click);
             // 
@@ -146,7 +179,7 @@
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.edtrshource);
             this.groupBox2.Controls.Add(this.edtsource);
-            this.groupBox2.Location = new System.Drawing.Point(19, 134);
+            this.groupBox2.Location = new System.Drawing.Point(12, 134);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(394, 307);
             this.groupBox2.TabIndex = 7;
@@ -197,7 +230,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(425, 441);
+            this.ClientSize = new System.Drawing.Size(404, 441);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.DoubleBuffered = true;
@@ -239,6 +272,9 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.TextBox txtBid;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button button3;
     }
 }
 

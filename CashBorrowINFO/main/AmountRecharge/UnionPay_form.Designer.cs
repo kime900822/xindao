@@ -66,6 +66,7 @@
             this.Name = "UnionPay_form";
             this.ShowIcon = false;
             this.Text = "银联支付";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.UnionPay_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

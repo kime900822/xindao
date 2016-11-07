@@ -182,6 +182,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "客户查询";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Customer_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

@@ -72,7 +72,7 @@
             this.webBrowser.TabIndex = 0;
             this.webBrowser.Url = new System.Uri("http://www.baidu.com", System.UriKind.Absolute);
             // 
-            // IndustryInformation_form
+            // Information_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -83,9 +83,10 @@
             this.DoubleBuffered = true;
             this.EnableGlass = false;
             this.MinimizeBox = false;
-            this.Name = "IndustryInformation_form";
+            this.Name = "Information_form";
             this.ShowIcon = false;
             this.Text = "行业资讯";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Information_form_FormClosed);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);

@@ -35,14 +35,23 @@ namespace CashBorrowINFO.main.CustomerManager
         public void bindData()
         {
             dataGridMessage.DataSource = null;
-            string where = string.Format(" AND  U_SYSID='{0}'", logonUser.U_SYSID);
+            string where = string.Format(" AND  S_SYSID='{0}'", logonUser.U_SYSID);
             if (dateS.Checked == true)
             {
-                where += string.Format(" AND B_DATE >= '{0}' ", dateS.Text);
+                where += string.Format(" AND S_SENDDATE >= '{0}' ", dateS.Text);
             }
             if (dateE.Checked == true)
             {
-                where += string.Format(" AND B_DATE <= '{0}' ", dateE.Text);
+                where += string.Format(" AND S_SENDDATE <= '{0}' ", dateE.Text);
+            }
+
+
+            if (ddlType.Text == "发送成功")
+            {
+                where += " AND S_FLAG ='0' ";
+            }
+            else if (ddlType.Text == "发送失败") {
+                where += " AND S_FLAG <>'0' ";
             }
 
             if (!string.IsNullOrEmpty(edtSTelephone.Text.Trim()))
@@ -80,6 +89,15 @@ namespace CashBorrowINFO.main.CustomerManager
         private void pagerControl1_OnPageChanged(object sender, EventArgs e)
         {
             bindData();
+        }
+
+        private void MessageQuery_form_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (this.MdiParent.MdiChildren.Length == 1)
+            {
+                this.MdiParent.Controls.Find("pictureBox1", true)[0].Visible = true;
+
+            }
         }
     }
 }

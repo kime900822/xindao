@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ddlType = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.dateE = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
@@ -46,6 +48,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ddlType);
+            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.dateE);
             this.groupBox1.Controls.Add(this.label4);
@@ -59,6 +63,28 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "条件选择";
+            // 
+            // ddlType
+            // 
+            this.ddlType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlType.FormattingEnabled = true;
+            this.ddlType.Items.AddRange(new object[] {
+            "全部",
+            "已还清",
+            "未还清"});
+            this.ddlType.Location = new System.Drawing.Point(345, 13);
+            this.ddlType.Name = "ddlType";
+            this.ddlType.Size = new System.Drawing.Size(156, 20);
+            this.ddlType.TabIndex = 13;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(279, 21);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(29, 12);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "状态";
             // 
             // button1
             // 
@@ -182,6 +208,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "短信发送查询";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MessageQuery_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -203,5 +230,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private TActionProject.PagerControl pagerControl1;
         private System.Windows.Forms.DataGridView dataGridMessage;
+        private System.Windows.Forms.ComboBox ddlType;
+        private System.Windows.Forms.Label label5;
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DbHelp.SQlHelp
 {
-    public  class T_USER_SQL
+    public class T_USER_SQL
     {
 
         private string connstring;
@@ -25,17 +25,17 @@ namespace DbHelp.SQlHelp
         /// <param name="name"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public  bool logon( string name,string password,out USER logonUser) {
+        public bool logon(string name, string password, out USER logonUser) {
             bool flag = false;
             using (SqlConnection conn = new SqlConnection(connstring)) {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand()) {
-                    cmd.CommandText = string.Format("SELECT COUNT(*) FROM T_USER WHERE U_ID='{0}' AND U_PASSWORD='{1}' AND U_ISDEL='1' ",name,password);
+                    cmd.CommandText = string.Format("SELECT COUNT(*) FROM T_USER WHERE U_ID='{0}' AND U_PASSWORD='{1}' AND U_ISDEL='1' ", name, password);
                     string where = string.Empty;
                     DataTable dt = new DataTable();
                     if (cmd.ExecuteScalar().ToString() == "1") {
                         flag = true;
-                        where = string.Format(" AND U_ID='{0}'", name); 
+                        where = string.Format(" AND U_ID='{0}'", name);
                     }
 
                     cmd.CommandText = string.Format("SELECT COUNT(*) FROM T_USER WHERE U_TELEPHONE='{0}' AND U_PASSWORD='{1}' AND U_ISDEL='1'  ", name, password);
@@ -71,32 +71,32 @@ namespace DbHelp.SQlHelp
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public  int Insert( USER user)
+        public int Insert(USER user)
         {
             using (SqlConnection conn = new SqlConnection(connstring))
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = string.Format("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;SELECT MAX(U_SYSID) FROM T_USER WHERE SUBSTRING(U_SYSID,1,8)='{0}';",DateTime.Now.ToString("yyyyMMdd"));
+                    cmd.CommandText = string.Format("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;SELECT MAX(U_SYSID) FROM T_USER WHERE SUBSTRING(U_SYSID,1,8)='{0}';", DateTime.Now.ToString("yyyyMMdd"));
                     string u_sysid = string.Empty;
                     u_sysid = cmd.ExecuteScalar().ToString();
                     if (string.IsNullOrEmpty(u_sysid))
                     {
-                        u_sysid = DateTime.Now.ToString("yyyyMMdd")+"1001";
+                        u_sysid = DateTime.Now.ToString("yyyyMMdd") + "1001";
                     }
                     else
                         u_sysid = (Convert.ToInt64(u_sysid) + 1).ToString();
 
-                    cmd.CommandText=string.Format(@"INSERT INTO T_USER (U_SYSID,U_ID,U_TELEPHONE,U_MAIL,U_PASSWORD,U_NAME,U_DATE,U_PROVINCE,U_CITY,U_AREA) VALUES (                      
-                         '{0}','{1}','{2}','{3}','{4}',N'{5}','{6}',N'{7}',N'{8}',N'{9}' )", u_sysid, user.U_ID,user.U_TELEPHONE,user.U_MAIL,user.U_PASSWORD,user.U_NAME,DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),user.U_PROVINCE,user.U_CITY,user.U_AREA);
+                    cmd.CommandText = string.Format(@"INSERT INTO T_USER (U_SYSID,U_ID,U_TELEPHONE,U_MAIL,U_PASSWORD,U_NAME,U_DATE,U_PROVINCE,U_CITY,U_AREA) VALUES (                      
+                         '{0}','{1}','{2}','{3}','{4}',N'{5}','{6}',N'{7}',N'{8}',N'{9}' )", u_sysid, user.U_ID, user.U_TELEPHONE, user.U_MAIL, user.U_PASSWORD, user.U_NAME, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), user.U_PROVINCE, user.U_CITY, user.U_AREA);
                     return cmd.ExecuteNonQuery();
                 }
             }
 
         }
 
-        
+
 
         /// <summary>
         /// 删除用户
@@ -104,14 +104,14 @@ namespace DbHelp.SQlHelp
         /// <param name="connstring"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        public  int DeleteUser( string u_sysid)
+        public int DeleteUser(string u_sysid)
         {
             using (SqlConnection conn = new SqlConnection(connstring))
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText =string.Format( "UPDATE T_USER SET U_ISDEL='0' WHERE U_SYSID={0};", u_sysid);
+                    cmd.CommandText = string.Format("UPDATE T_USER SET U_ISDEL='0' WHERE U_SYSID={0};", u_sysid);
                     return cmd.ExecuteNonQuery();
                 }
             }
@@ -137,7 +137,7 @@ namespace DbHelp.SQlHelp
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public  bool CheckUser( string data,string type)
+        public bool CheckUser(string data, string type)
         {
             using (SqlConnection conn = new SqlConnection(connstring))
             {
@@ -146,7 +146,7 @@ namespace DbHelp.SQlHelp
                 {
                     if (type == "id")
                         cmd.CommandText = string.Format("SELECT COUNT(*) FROM T_USER WHERE U_ID='{0}' AND U_ISDEL='1' ", data);
-                    else if((type == "telephone"))
+                    else if ((type == "telephone"))
                         cmd.CommandText = string.Format("SELECT COUNT(*) FROM T_USER WHERE U_TELEPHONE='{0}' AND U_ISDEL='1' ", data);
                     else
                         cmd.CommandText = string.Format("SELECT COUNT(*) FROM T_USER WHERE U_MAIL='{0}' AND U_ISDEL='1' ", data);
@@ -156,7 +156,7 @@ namespace DbHelp.SQlHelp
                         return true;
                     }
                     else
-                        return false; 
+                        return false;
 
 
                 }
@@ -171,14 +171,14 @@ namespace DbHelp.SQlHelp
         /// <param name="data"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public  string  GetPassword( string telephone)
+        public string GetPassword(string telephone)
         {
             using (SqlConnection conn = new SqlConnection(connstring))
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                      cmd.CommandText = string.Format("SELECT U_PASSWORD FROM T_USER WHERE U_TELEPHONE='{0}' AND U_ISDEL='1' ", telephone);
+                    cmd.CommandText = string.Format("SELECT U_PASSWORD FROM T_USER WHERE U_TELEPHONE='{0}' AND U_ISDEL='1' ", telephone);
 
                     return cmd.ExecuteScalar().ToString();
                 }
@@ -214,7 +214,7 @@ namespace DbHelp.SQlHelp
         /// <param name="connstring"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        public  bool ModPassword(USER user,string npass)
+        public bool ModPassword(USER user, string npass)
         {
             using (SqlConnection conn = new SqlConnection(connstring))
             {
@@ -241,7 +241,7 @@ namespace DbHelp.SQlHelp
         /// <param name="connstring"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        public  DataTable QueryByWhere(string where)
+        public DataTable QueryByWhere(string where)
         {
             using (SqlConnection conn = new SqlConnection(connstring))
             {
@@ -250,7 +250,7 @@ namespace DbHelp.SQlHelp
                 DataTable dt = new DataTable();
 
                 string sql = string.Format("SELECT * FROM T_USER WHERE U_ISDEL='1'  AND U_SYSID<>'1' {0} ", where);
-                SqlDataAdapter da = new SqlDataAdapter(sql,conn);
+                SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                 da.Fill(dt);
                 return dt;
 
@@ -305,7 +305,7 @@ namespace DbHelp.SQlHelp
                 conn.Open();
 
                 using (SqlCommand cmd = conn.CreateCommand()) {
-                    cmd.CommandText = string.Format(@"UPDATE T_USER SET U_ID='{0}',U_TELEPHONE='{1}',U_MAIL='{2}',U_NAME=N'{3}',U_FREEMESSAGE='{4}',U_BALANCE='{5}',U_PASSWORD='{7}',U_PROVINCE=N'{8}',U_CITY=N'{9}',U_AREA=N'{10}' WHERE U_SYSID='{6}' AND U_ISDEL='1' ", u.U_ID, u.U_TELEPHONE, u.U_MAIL, u.U_NAME, u.U_FREEMESSAGE, u.U_BALANCE, u.U_SYSID,u.U_PASSWORD,u.U_PROVINCE,u.U_CITY,u.U_AREA);
+                    cmd.CommandText = string.Format(@"UPDATE T_USER SET U_ID='{0}',U_TELEPHONE='{1}',U_MAIL='{2}',U_NAME=N'{3}',U_FREEMESSAGE='{4}',U_BALANCE='{5}',U_PASSWORD='{7}',U_PROVINCE=N'{8}',U_CITY=N'{9}',U_AREA=N'{10}' WHERE U_SYSID='{6}' AND U_ISDEL='1' ", u.U_ID, u.U_TELEPHONE, u.U_MAIL, u.U_NAME, u.U_FREEMESSAGE, u.U_BALANCE, u.U_SYSID, u.U_PASSWORD, u.U_PROVINCE, u.U_CITY, u.U_AREA);
                     return cmd.ExecuteNonQuery();
 
                 }
@@ -323,7 +323,7 @@ namespace DbHelp.SQlHelp
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = string.Format(@"UPDATE T_USER SET U_FREEMESSAGE=U_FREEMESSAGE+'{0}',U_BALANCE=U_BALANCE+'{1}' WHERE U_SYSID='{2}' AND U_ISDEL='1' ", p.P_FREEMESSAGE,p.P_AMOUNT,p.U_SYSID);
+                    cmd.CommandText = string.Format(@"UPDATE T_USER SET U_FREEMESSAGE=U_FREEMESSAGE+'{0}',U_BALANCE=U_BALANCE+'{1}' WHERE U_SYSID='{2}' AND U_ISDEL='1' ", p.P_FREEMESSAGE, p.P_AMOUNT, p.U_SYSID);
                     return cmd.ExecuteNonQuery();
 
                 }
@@ -341,7 +341,7 @@ namespace DbHelp.SQlHelp
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = string.Format(@"UPDATE T_USER SET U_BALANCE=U_BALANCE-'{0}' WHERE U_SYSID='{1}' AND U_ISDEL='1' ", d.D_AMOUNT,d.U_SYSID);
+                    cmd.CommandText = string.Format(@"UPDATE T_USER SET U_BALANCE=U_BALANCE-'{0}' WHERE U_SYSID='{1}' AND U_ISDEL='1' ", d.D_AMOUNT, d.U_SYSID);
                     return cmd.ExecuteNonQuery();
 
                 }
@@ -358,13 +358,28 @@ namespace DbHelp.SQlHelp
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = string.Format(@"UPDATE T_USER SET U_FREEMESSAGE=U_FREEMESSAGE-'{0}' WHERE U_SYSID='{1}' AND U_ISDEL='1' ", 1,m.U_SYSID);
+                    cmd.CommandText = string.Format(@"UPDATE T_USER SET U_FREEMESSAGE=U_FREEMESSAGE-'{0}' WHERE U_SYSID='{1}' AND U_ISDEL='1' ", 1, m.U_SYSID);
                     return cmd.ExecuteNonQuery();
 
                 }
 
             }
 
+        }
+
+        public int GetMessage(MESSAGE m) {
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = string.Format(@"SELECT U_FREEMESSAGE FROM T_USER WHERE U_SYSID='{0}'", m.U_SYSID);
+                    return Convert.ToInt32(cmd.ExecuteScalar());
+
+                }
+
+            }
         }
 
 

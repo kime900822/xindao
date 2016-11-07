@@ -355,6 +355,7 @@
             this.Name = "Repay_form";
             this.ShowIcon = false;
             this.Text = " 还款";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Repay_form_FormClosed);
             this.Load += new System.EventHandler(this.Repay_form_Load);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();

@@ -39,8 +39,8 @@
             this.edtCName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dataGridBorrow = new System.Windows.Forms.DataGridView();
             this.pagerControl1 = new TActionProject.PagerControl();
+            this.dataGridBorrow = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridBorrow)).BeginInit();
@@ -159,20 +159,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "借款信息";
             // 
-            // dataGridBorrow
-            // 
-            this.dataGridBorrow.AllowUserToAddRows = false;
-            this.dataGridBorrow.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dataGridBorrow.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dataGridBorrow.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dataGridBorrow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridBorrow.Location = new System.Drawing.Point(7, 21);
-            this.dataGridBorrow.Name = "dataGridBorrow";
-            this.dataGridBorrow.ReadOnly = true;
-            this.dataGridBorrow.RowTemplate.Height = 23;
-            this.dataGridBorrow.Size = new System.Drawing.Size(746, 353);
-            this.dataGridBorrow.TabIndex = 0;
-            // 
             // pagerControl1
             // 
             this.pagerControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(228)))), ((int)(((byte)(233)))));
@@ -186,6 +172,20 @@
             this.pagerControl1.Size = new System.Drawing.Size(746, 29);
             this.pagerControl1.TabIndex = 2;
             this.pagerControl1.OnPageChanged += new System.EventHandler(this.pagerControl1_OnPageChanged);
+            // 
+            // dataGridBorrow
+            // 
+            this.dataGridBorrow.AllowUserToAddRows = false;
+            this.dataGridBorrow.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridBorrow.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataGridBorrow.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.dataGridBorrow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridBorrow.Location = new System.Drawing.Point(7, 21);
+            this.dataGridBorrow.Name = "dataGridBorrow";
+            this.dataGridBorrow.ReadOnly = true;
+            this.dataGridBorrow.RowTemplate.Height = 23;
+            this.dataGridBorrow.Size = new System.Drawing.Size(746, 353);
+            this.dataGridBorrow.TabIndex = 0;
             // 
             // CreditInCB_form
             // 
@@ -202,6 +202,7 @@
             this.Name = "CreditInCB_form";
             this.ShowIcon = false;
             this.Text = "本平台内查询";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CreditInCB_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

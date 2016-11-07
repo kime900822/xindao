@@ -20,5 +20,14 @@ namespace CashBorrowINFO.main.CustomerCreditSearch
         {
             System.Diagnostics.Process.Start("http://gsxt.saic.gov.cn/");
         }
+
+        private void Corporateloans_form_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (this.MdiParent.MdiChildren.Length == 1)
+            {
+                this.MdiParent.Controls.Find("pictureBox1", true)[0].Visible = true;
+
+            }
+        }
     }
 }

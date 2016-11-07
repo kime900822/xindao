@@ -97,11 +97,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.edtB_date = new System.Windows.Forms.DateTimePicker();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbID)).BeginInit();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // openPic
@@ -298,7 +302,7 @@
             "支付宝"});
             this.ddlType.Location = new System.Drawing.Point(111, 42);
             this.ddlType.Name = "ddlType";
-            this.ddlType.Size = new System.Drawing.Size(186, 20);
+            this.ddlType.Size = new System.Drawing.Size(192, 20);
             this.ddlType.TabIndex = 9;
             // 
             // label13
@@ -332,7 +336,7 @@
             // 
             this.edtBAmount.Location = new System.Drawing.Point(111, 16);
             this.edtBAmount.Name = "edtBAmount";
-            this.edtBAmount.Size = new System.Drawing.Size(186, 21);
+            this.edtBAmount.Size = new System.Drawing.Size(192, 21);
             this.edtBAmount.TabIndex = 8;
             this.edtBAmount.TextChanged += new System.EventHandler(this.edtBAmount_TextChanged);
             this.edtBAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtBAmount_KeyPress);
@@ -779,6 +783,30 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "姓名";
             // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "doc|*.doc";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.edtB_date);
+            this.groupBox5.Location = new System.Drawing.Point(12, 476);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(297, 33);
+            this.groupBox5.TabIndex = 6;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "借款日期";
+            // 
+            // edtB_date
+            // 
+            this.edtB_date.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+            this.edtB_date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.edtB_date.Location = new System.Drawing.Point(73, 6);
+            this.edtB_date.Name = "edtB_date";
+            this.edtB_date.Size = new System.Drawing.Size(184, 21);
+            this.edtB_date.TabIndex = 0;
+            this.edtB_date.Value = new System.DateTime(2016, 11, 7, 14, 48, 49, 0);
+            // 
             // Borrow_form
             // 
             this.AcceptButton = this.btnOk;
@@ -787,6 +815,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(228)))), ((int)(((byte)(233)))));
             this.CancelButton = this.btnCancle;
             this.ClientSize = new System.Drawing.Size(784, 511);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.btnCancle);
             this.Controls.Add(this.btnOk);
@@ -800,6 +829,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "借款";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Borrow_form_FormClosed);
             this.Load += new System.EventHandler(this.Borrow_form_Load);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -810,6 +840,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbID)).EndInit();
+            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -884,5 +915,8 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.TextBox edtCEmergencyName;
         private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.DateTimePicker edtB_date;
     }
 }

@@ -69,6 +69,7 @@
             this.Name = "Corporateloans_form";
             this.ShowIcon = false;
             this.Text = "企业贷款信息查询";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Corporateloans_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

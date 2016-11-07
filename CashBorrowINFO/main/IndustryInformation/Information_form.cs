@@ -21,5 +21,14 @@ namespace CashBorrowINFO.main.IndustryInformation
             webBrowser.Url = new Uri("http://www.baidu.com");
 
         }
+
+        private void Information_form_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (this.MdiParent.MdiChildren.Length == 1)
+            {
+                this.MdiParent.Controls.Find("pictureBox1", true)[0].Visible = true;
+
+            }
+        }
     }
 }

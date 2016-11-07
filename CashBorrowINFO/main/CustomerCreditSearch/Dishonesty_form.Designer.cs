@@ -70,6 +70,7 @@
             this.Name = "Dishonesty_form";
             this.ShowIcon = false;
             this.Text = "失信人员查询";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Dishonesty_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

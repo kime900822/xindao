@@ -159,6 +159,7 @@
             this.Name = "PrepaidQuery_form";
             this.ShowIcon = false;
             this.Text = "充值记录查询";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PrepaidQuery_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

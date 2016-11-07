@@ -26,16 +26,21 @@ namespace CashBorrowAuto
             InitializeComponent();
         }
 
+
         #region 初始化
         public static T_SENDMESSAGE_SQL sendmessage_sql = new T_SENDMESSAGE_SQL(ConfigurationManager.ConnectionStrings["connString"].ConnectionString.ToString());
 
         public static T_BORROW_SQL borrow_sql = new T_BORROW_SQL(ConfigurationManager.ConnectionStrings["connString"].ConnectionString.ToString());
+
+        public static T_USER_SQL user_sql = new T_USER_SQL(ConfigurationManager.ConnectionStrings["connString"].ConnectionString.ToString());
 
         public static string message = ConfigurationManager.AppSettings.Get("messgae");
 
         private static string Key_64 = "shdsfjdk";
         private static string Iv_64 = "zjxdtzgl";
 
+        private string path = "C:\\XINDAILOG";
+        private string filename = DateTime.Now.ToString("yyyy-MM-dd") + "短信发送记录.txt";
 
         #endregion
 
@@ -216,8 +221,12 @@ namespace CashBorrowAuto
         #endregion
 
 
+
+
+
         private void AutoMessage_Load(object sender, EventArgs e)
         {
+
 
         }
 
@@ -232,6 +241,7 @@ namespace CashBorrowAuto
 
         private void 启动ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             timer1.Start();
             notifyIcon1.BalloonTipTitle = "程序启动！";
             notifyIcon1.BalloonTipText = "程序启动！";
@@ -254,6 +264,54 @@ namespace CashBorrowAuto
                 this.Close();
         }
 
+
+
+        /// <summary>
+        /// 写入文件
+        /// </summary>
+        /// <param name="log"></param>
+        public void WriteFile(MESSAGE m)
+        {
+
+            if (Directory.Exists(path))
+            {
+                if (!File.Exists(path + "\\" + filename))
+                {
+                    File.Create(path + "\\" + filename).Close();
+
+                }
+            }
+            else
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(path);
+                directoryInfo.Create();
+            }
+
+            StringBuilder log = new StringBuilder();
+            if (m.S_NUM =="3")
+                log.Append(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")+"   发送失败3次，不再发送！" + "\r\n");
+            else
+                log.Append(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") +"      第"+m.S_NUM+"次发送   \r\n");
+            log.Append("                  手机号码: " + m.S_TELEPHONE + "\r\n");
+            log.Append("                  借款单号: " + m.S_COMMIT + "\r\n");
+            log.Append("                  发送状态: " + m.S_FLAG+ "\r\n");
+            StreamWriter sw = File.AppendText(path + "\\" + filename);
+            sw.WriteLine(log.ToString());
+            sw.Close();
+        }
+
+        /// <summary>
+        /// 读取文件
+        /// </summary>
+        public void ReadFile()
+        {
+                StreamReader sr = new StreamReader(path + "\\" + filename, Encoding.UTF8);
+                string content = sr.ReadToEnd().ToString();
+                sr.Close();
+
+        }
+
+
         private void timer1_Tick(object sender, EventArgs e)
         {
 
@@ -261,51 +319,6 @@ namespace CashBorrowAuto
                 backgroundWorker1.RunWorkerAsync();
             }
 
-                //if (DateTime.Now.Hour > 7 && DateTime.Now.Hour < 10)
-                //{
-                //    //List<MESSAGE> lm = sendmessage_sql.QueryByWhere_XP(string.Format("  AND SUBSTR(S_SENDDATE,1,8)='{0}' AND S_FALG='1'", DateTime.Now.ToString("yyyy-MM-dd")));
-                //    //List<string> l = new List<string>();
-                //    //lm.ForEach(m => l.Add(m.S_TELEPHONE));
-                //    List<BORROW> lb = borrow_sql.QueryByWhere_XP(string.Format(" and B_REMINDDATE='{0}'  AND B_CONTACT NOT IN (SELECT S_TELEPHONE FROM T_SENDMESSAGE WHERE S_ISDEL='1' AND S_FLAG='1' AND  SUBSTR(S_SENDDATE,1,8)='{1}')", DateTime.Now.Day, DateTime.Now.ToString("yyyy-MM-dd")));
-
-                ////var queryResult = from b in lb
-                ////                  where !l.Contains(b.C_CONTACT)
-                ////                  select b;
-                ////List<BORROW> rb = queryResult.ToList();
-                //    for (int i = 0; i < rb.Count; i++)
-                //    {
-                //        MESSAGE m = new MESSAGE();
-                //        m.S_MESSAGE = string.Format(message, rb[i].C_NAME, rb[i].B_AMOUNT, rb[i].B_INTEREST, rb[i].B_REPAYDATE);
-                //        m.S_TELEPHONE = rb[i].C_CONTACT;
-                //        m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
-                //        m.U_SYSID = rb[i].U_SYSID;
-                //        string PostUrl = ConfigurationManager.AppSettings.Get("PostUrl");
-                //        string username = ConfigurationManager.AppSettings.Get("username");
-                //        string password = ConfigurationManager.AppSettings.Get("password");
-                //        string timestamps = (DateTime.Now.Ticks / 1000).ToString();
-                //        StringBuilder PostData = new StringBuilder();
-                //        PostData.Append(string.Format("account={0}", username));
-                //        PostData.Append(string.Format("&password={0}", md5(password + m.S_TELEPHONE + timestamps)));
-                //        PostData.Append(string.Format("&mobile={0}", m.S_TELEPHONE));
-                //        PostData.Append(string.Format("&content={0}", m.S_MESSAGE));
-                //        PostData.Append(string.Format("&timestamps={0}", timestamps));
-                        
-                //    try
-                //    {
-                //        m.S_COMMIT = RequestData(PostUrl + "?" + PostData.ToString());
-                //    }
-                //    catch (Exception e1)
-                //    {
-                //        m.S_COMMIT = e1.Message;
-                //        m.S_FLAG = "0";
-                //    }
-                //    sendmessage_sql.Insert(m);
-
-
-                //    }
-
-
-                //}
 
 
 
@@ -348,7 +361,7 @@ namespace CashBorrowAuto
                 if (m.S_COMMIT == "0")
  
                 sendmessage_sql.Insert(m);
-                 MessageBox.Show("短信发送返回值:"+ m.S_FLAG);
+                MessageBox.Show("短信发送返回值:"+ m.S_FLAG);
 
 
             }
@@ -379,16 +392,35 @@ namespace CashBorrowAuto
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
 
-            List<BORROW> lb = borrow_sql.QueryByWhere_XP(string.Format(" and B_REMINDDATE='{0}' AND B_AMOUNT<>B_REPAYMENT   AND B_SYSID NOT IN (SELECT S_COMMIT FROM T_SENDMESSAGE WHERE S_ISDEL='1' AND S_FLAG='0' AND  SUBSTRING(S_SENDDATE,1,10)='{1}')", DateTime.Now.Day, DateTime.Now.ToString("yyyy-MM-dd")),false);
+
+            List<BORROW> lb = borrow_sql.QueryByWhere_XP(string.Format(" and B_REMINDDATE='{0}' AND B_AMOUNT<>B_REPAYMENT   AND B_SYSID NOT IN (SELECT S_COMMIT FROM T_SENDMESSAGE WHERE S_ISDEL='1' AND (S_FLAG ='0' OR S_NUM>=3) AND  SUBSTRING(S_SENDDATE,1,10)='{1}')", DateTime.Now.Day, DateTime.Now.ToString("yyyy-MM-dd")),false);
 
                 for (int i = 0; i < lb.Count; i++)
                 {
-                    MESSAGE m = new MESSAGE();
-                    m.S_MESSAGE = string.Format(message, lb[i].C_NAME, lb[i].B_AMOUNT, (Convert.ToDecimal(lb[i].B_AMOUNT) *(1+ Convert.ToDecimal(lb[i].B_INTEREST))/Convert.ToDecimal(lb[i].B_TERM)/100).ToString("#0.00"), lb[i].B_REPAYDATE);
+                MESSAGE m = new MESSAGE();
+                List<MESSAGE> lm = sendmessage_sql.QueryByWhere_XP(string.Format(" AND S_COMMIT ='{0}' AND SUBSTRING(S_SENDDATE,1,10)='{1}' ", lb[i].B_SYSID, DateTime.Now.ToString("yyyy-MM-dd")));
+                if (lm.Count > 0)
+                {
+                    m = lm[0];
+                    m.S_NUM = (Convert.ToInt16(m.S_NUM) +1).ToString();
+                    m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+                }
+                else
+                {
+                    m.S_MESSAGE = string.Format(message, lb[i].C_NAME, lb[i].B_AMOUNT, (Convert.ToDecimal(lb[i].B_AMOUNT) *  Convert.ToDecimal(lb[i].B_INTEREST) / 12 / 100).ToString("#0.00"), lb[i].B_REPAYDATE);
                     m.S_TELEPHONE = lb[i].C_CONTACT;
                     m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
                     m.U_SYSID = lb[i].U_SYSID;
                     m.S_COMMIT = lb[i].B_SYSID;
+                    m.S_NUM = "1";
+                }
+                   
+
+                    //m.S_MESSAGE = string.Format(message, lb[i].C_NAME, lb[i].B_AMOUNT, (Convert.ToDecimal(lb[i].B_AMOUNT) *(1+ Convert.ToDecimal(lb[i].B_INTEREST))/Convert.ToDecimal(lb[i].B_TERM)/100).ToString("#0.00"), lb[i].B_REPAYDATE);
+                    //m.S_TELEPHONE = lb[i].C_CONTACT;
+                    //m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+                    //m.U_SYSID = lb[i].U_SYSID;
+                    //m.S_COMMIT = lb[i].B_SYSID;
                     string PostUrl = ConfigurationManager.AppSettings.Get("PostUrl");
                     string username = ConfigurationManager.AppSettings.Get("username");
                     string password = ConfigurationManager.AppSettings.Get("password");
@@ -399,29 +431,87 @@ namespace CashBorrowAuto
                     PostData.Append(string.Format("&mobile={0}", m.S_TELEPHONE));
                     PostData.Append(string.Format("&content={0}", m.S_MESSAGE));
                     PostData.Append(string.Format("&timestamps={0}", timestamps));
-                    
+                if (user_sql.GetMessage(m) > 0) {
                     try
                     {
-                       m.S_FLAG = RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim();
+                        m.S_FLAG = RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim();
                     }
                     catch (Exception e1)
                     {
                         m.S_COMMIT = e1.Message;
-                        m.S_FLAG = "0";
+                        m.S_FLAG = "e";
                     }
-                    sendmessage_sql.Insert(m);
+                    if (m.S_NUM == "1")
+                        sendmessage_sql.Insert(m);
+                    else
+                        sendmessage_sql.Update(m);
+
+                    if (m.S_FLAG == "0")
+                        user_sql.Debit_Message(m);
+
+                    WriteFile(m);
                     Thread.Sleep(30000);
+
+                }
+
 
             }
 
 
         }
-    }
-    public class Rets
-    {
-        public string Rspcode { get; set; }
-        public string Msg_Id { get; set; }
-        public string Mobile { get; set; }
-        public string Fee { get; set; }
+
+
+        /// <summary>
+        /// 手动发送
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtBid.Text.Trim()))
+            {
+                List<BORROW> lb = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID='{0}' ", txtBid.Text.Trim()), false);
+                if (lb.Count > 0) {
+                    MESSAGE m = new MESSAGE();
+                    m.S_MESSAGE = string.Format(message, lb[0].C_NAME, lb[0].B_AMOUNT, (Convert.ToDecimal(lb[0].B_AMOUNT) * (1 + Convert.ToDecimal(lb[0].B_INTEREST)) / Convert.ToDecimal(lb[0].B_TERM) / 100).ToString("#0.00"), lb[0].B_REPAYDATE);
+                    m.S_TELEPHONE = lb[0].C_CONTACT;
+                    m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+                    m.U_SYSID = lb[0].U_SYSID;
+                    m.S_COMMIT = lb[0].B_SYSID;
+                    string PostUrl = ConfigurationManager.AppSettings.Get("PostUrl");
+                    string username = ConfigurationManager.AppSettings.Get("username");
+                    string password = ConfigurationManager.AppSettings.Get("password");
+                    string timestamps = (DateTime.Now.Ticks / 1000).ToString();
+                    StringBuilder PostData = new StringBuilder();
+                    PostData.Append(string.Format("account={0}", username));
+                    PostData.Append(string.Format("&password={0}", md5(password + m.S_TELEPHONE + timestamps)));
+                    PostData.Append(string.Format("&mobile={0}", m.S_TELEPHONE));
+                    PostData.Append(string.Format("&content={0}", m.S_MESSAGE));
+                    PostData.Append(string.Format("&timestamps={0}", timestamps));
+                    if (user_sql.GetMessage(m) > 0)
+                    {
+                        try
+                        {
+                            m.S_FLAG = RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim();
+                        }
+                        catch (Exception e1)
+                        {
+                            m.S_COMMIT = e1.Message;
+                            m.S_FLAG = "e";
+                        }
+                        sendmessage_sql.Insert(m);
+                        if (m.S_FLAG == "0")
+                            user_sql.Debit_Message(m);
+                        WriteFile(m);
+                    }
+
+                    MessageBox.Show("短信发送返回值:" + m.S_FLAG);
+
+                }
+
+                MessageBox.Show("无此借款单号！");
+
+            }
+        }
     }
 }

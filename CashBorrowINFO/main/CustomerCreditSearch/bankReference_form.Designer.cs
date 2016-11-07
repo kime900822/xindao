@@ -69,6 +69,7 @@
             this.Name = "bankReference_form";
             this.ShowIcon = false;
             this.Text = "银行征信";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.bankReference_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

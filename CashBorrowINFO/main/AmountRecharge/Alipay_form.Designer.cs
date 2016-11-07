@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,15 +47,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "支付宝";
             // 
-            // label1
+            // label3
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(264, 114);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(236, 27);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "xindaors@163.com";
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label3.Location = new System.Drawing.Point(135, 210);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(329, 20);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "注：转账后请联系后台人员充值账号";
             // 
             // label2
             // 
@@ -67,15 +67,15 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "支付宝：";
             // 
-            // label3
+            // label1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(135, 210);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(329, 20);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "注：转账后请联系后台人员充值账号";
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(264, 114);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(236, 27);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "xindaors@163.com";
             // 
             // Alipay_form
             // 
@@ -90,6 +90,7 @@
             this.Name = "Alipay_form";
             this.ShowIcon = false;
             this.Text = "支付宝支付";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Alipay_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

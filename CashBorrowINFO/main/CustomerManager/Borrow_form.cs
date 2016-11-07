@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
@@ -10,12 +11,14 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using WinForm_Test;
+using Word = Microsoft.Office.Interop.Word;
 
 namespace CashBorrowINFO.main.CustomerManager
 {
     public partial class Borrow_form : baseForm
     {
         private string b_sysid;
+        private BORROW b;
         public Borrow_form(string b_sysid)
         {
             InitializeComponent();
@@ -32,6 +35,7 @@ namespace CashBorrowINFO.main.CustomerManager
                     if (string.IsNullOrEmpty(err))
                     {
                         BORROW borrow = FaceToData();
+                        b = borrow;
                         if (string.IsNullOrEmpty(b_sysid))
                         {
                             string res;
@@ -189,9 +193,9 @@ namespace CashBorrowINFO.main.CustomerManager
             b.G_ID4 = edtGID4.Text.Trim();
             b.G_NAME4 = edtGName4.Text.Trim();
             b.G_JOB4 = ddlGJob4.Text;
-            b.B_DATE = DateTime.Now.ToString("yyyy-MM-dd");
+            b.B_DATE = edtB_date.Text.Substring(0, 10);
             b.B_INTEREST = edtBInterest.Text.Trim();
-            b.B_DATETMP= DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            b.B_DATETMP= edtB_date.Text;
             b.B_REPAYMENT = "0";
             b.B_REPAYDATE = edtRepay.Text;
             b.B_REMINDDATE = edtRemind.Text;
@@ -208,6 +212,7 @@ namespace CashBorrowINFO.main.CustomerManager
         #region DataToFace
 
         public void DataToFace(BORROW b) {
+            edtB_date.Text = b.B_DATETMP;
             edtBAmount.Text = b.B_AMOUNT;
             edtCName.Text = b.C_NAME;
             edtCID.Text = b.C_ID;
@@ -256,6 +261,7 @@ namespace CashBorrowINFO.main.CustomerManager
         #region Load
         private void Borrow_form_Load(object sender, EventArgs e)
         {
+            saveFileDialog1.FileName = logonUser.U_NAME + "_" + DateTime.Now.ToString("yyyyMMdd");
             if (!string.IsNullOrEmpty(b_sysid))
             {
                 string res;
@@ -271,6 +277,7 @@ namespace CashBorrowINFO.main.CustomerManager
                     MessageBox.Show(res);
                 else {
                     if (borrow.Count > 0)
+                        b = borrow[0];
                         DataToFace(borrow[0]);
                 }
                    
@@ -290,10 +297,22 @@ namespace CashBorrowINFO.main.CustomerManager
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            Print_form f = new Print_form(FaceToData());
-            f.Show();
-
-
+            //Print_form f = new Print_form(FaceToData());
+            //f.Show();
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string res;
+                frmWaitingBox f = new frmWaitingBox((obj, args) =>
+                {
+                    Thread.Sleep(threadTime);
+                    print(saveFileDialog1.FileName);
+                }, waitTime, "Plase Wait...", false, false);
+                f.ShowDialog(this);
+                res = f.Message;
+                if (!string.IsNullOrEmpty(res))
+                    MessageBox.Show(res);
+            }
+            //print();
         }
 
         private void edtBInterest_TextChanged(object sender, EventArgs e)
@@ -446,7 +465,44 @@ namespace CashBorrowINFO.main.CustomerManager
         }
         #endregion
 
+        public void print(string filename) {
+            try
+            {
+                string str2 = Environment.CurrentDirectory;
+                //MessageBox.Show(str2 + "\\print.doc");
+                CS.WordHelp word = new CS.WordHelp();
+                word.CreateNewWordDocument(str2 + "\\print.doc");
+                word.Replace("借款编号", b.B_SYSID);
+                word.Replace("日期", b.B_DATE);
+                word.Replace("已方", b.USER.U_NAME);
+                word.Replace("借款方式", b.B_TYPE);
+                word.Replace("借款期限", b.B_TERM);
+                word.Replace("借款金额", b.B_AMOUNT);
+                word.Replace("利息", (Convert.ToDouble(b.B_INTEREST) * Convert.ToDouble(b.B_AMOUNT) / 100).ToString("#0.00"));
+                word.Replace("还款日期", b.B_REPAYDATE);
+                word.Replace("提醒日期", b.B_REMINDDATE);
+                word.Replace("甲方", b.C_NAME);
+                word.Replace("身份证号码", b.C_ID);
 
+                word.SaveAs(filename);
+                word.Close();
+                Process.Start(filename);
+            }
+            catch (Exception e) {
+                MessageBox.Show(e.Message, "保存提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+           
+        }
 
+        private void Borrow_form_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (b_sysid == "") {
+                if (this.MdiParent.MdiChildren.Length == 1)
+                {
+                    this.MdiParent.Controls.Find("pictureBox1", true)[0].Visible = true;
+
+                }
+            }
+        }
     }
 }

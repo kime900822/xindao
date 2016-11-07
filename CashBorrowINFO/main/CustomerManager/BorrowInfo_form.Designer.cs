@@ -114,8 +114,8 @@
             this.ddlType.FormattingEnabled = true;
             this.ddlType.Items.AddRange(new object[] {
             "全部",
-            "已还清",
-            "未还清"});
+            "发送成功",
+            "发送失败"});
             this.ddlType.Location = new System.Drawing.Point(567, 20);
             this.ddlType.Name = "ddlType";
             this.ddlType.Size = new System.Drawing.Size(172, 20);
@@ -229,6 +229,7 @@
             this.Name = "BorrowInfo_form";
             this.ShowIcon = false;
             this.Text = "借款信息查询";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BorrowInfo_form_FormClosed);
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridBorrow)).EndInit();
             this.groupBox1.ResumeLayout(false);

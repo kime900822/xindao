@@ -1,4 +1,6 @@
-﻿namespace CashBorrowINFO
+﻿using System.Windows.Forms;
+
+namespace CashBorrowINFO
 {
     partial class Main
     {
@@ -63,8 +65,10 @@
             this.M61 = new System.Windows.Forms.ToolStripMenuItem();
             this.M62 = new System.Windows.Forms.ToolStripMenuItem();
             this.N70 = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -133,40 +137,40 @@
             this.M113});
             this.M11.Image = ((System.Drawing.Image)(resources.GetObject("M11.Image")));
             this.M11.Name = "M11";
-            this.M11.Size = new System.Drawing.Size(152, 22);
+            this.M11.Size = new System.Drawing.Size(148, 22);
             this.M11.Text = "资料管理中心";
             // 
             // M111
             // 
             this.M111.Name = "M111";
-            this.M111.Size = new System.Drawing.Size(152, 22);
+            this.M111.Size = new System.Drawing.Size(148, 22);
             this.M111.Text = "客户查询";
             this.M111.Click += new System.EventHandler(this.M111_Click);
             // 
             // M112
             // 
             this.M112.Name = "M112";
-            this.M112.Size = new System.Drawing.Size(152, 22);
+            this.M112.Size = new System.Drawing.Size(148, 22);
             this.M112.Text = "借款记录查询";
             this.M112.Click += new System.EventHandler(this.M112_Click);
             // 
             // M113
             // 
             this.M113.Name = "M113";
-            this.M113.Size = new System.Drawing.Size(152, 22);
+            this.M113.Size = new System.Drawing.Size(148, 22);
             this.M113.Text = "短信发送查询";
             this.M113.Click += new System.EventHandler(this.M113_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(145, 6);
             // 
             // M12
             // 
             this.M12.Image = ((System.Drawing.Image)(resources.GetObject("M12.Image")));
             this.M12.Name = "M12";
-            this.M12.Size = new System.Drawing.Size(152, 22);
+            this.M12.Size = new System.Drawing.Size(148, 22);
             this.M12.Text = "借款";
             this.M12.Click += new System.EventHandler(this.M12_Click);
             // 
@@ -174,7 +178,7 @@
             // 
             this.M13.Image = ((System.Drawing.Image)(resources.GetObject("M13.Image")));
             this.M13.Name = "M13";
-            this.M13.Size = new System.Drawing.Size(152, 22);
+            this.M13.Size = new System.Drawing.Size(148, 22);
             this.M13.Text = "还款";
             this.M13.Click += new System.EventHandler(this.M13_Click);
             // 
@@ -336,12 +340,23 @@
             this.N70.Text = "退出登录";
             this.N70.Click += new System.EventHandler(this.N70_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::CashBorrowINFO.Properties.Resources.BackgroundImage;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 26);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(784, 511);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 6;
+            this.pictureBox1.TabStop = false;
+            // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(228)))), ((int)(((byte)(233)))));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
@@ -360,6 +375,7 @@
             this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -400,6 +416,7 @@
         private System.Windows.Forms.ToolStripMenuItem M111;
         private System.Windows.Forms.ToolStripMenuItem M112;
         private System.Windows.Forms.ToolStripMenuItem M113;
+        private PictureBox pictureBox1;
     }
 }
 

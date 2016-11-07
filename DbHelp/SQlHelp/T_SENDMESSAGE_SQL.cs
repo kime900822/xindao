@@ -26,7 +26,7 @@ namespace DbHelp.SQlHelp
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = string.Format("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;SELECT MAX(S_SYSID) FROM T_SENDMESSAGE WHERE U_SYSID='{0}' AND SUBSTRING(S_SYSID,1,8)='{1}';", m.U_SYSID,DateTime.Now.ToString("yyyyMMdd"));
+                    cmd.CommandText = string.Format("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;SELECT MAX(S_SYSID) FROM T_SENDMESSAGE WHERE U_SYSID='{0}' AND SUBSTRING(S_SYSID,1,8)='{1}';", m.U_SYSID, DateTime.Now.ToString("yyyyMMdd"));
                     string s_sysid = string.Empty;
                     s_sysid = cmd.ExecuteScalar().ToString();
                     if (string.IsNullOrEmpty(s_sysid))
@@ -34,11 +34,11 @@ namespace DbHelp.SQlHelp
                         s_sysid = DateTime.Now.ToString("yyyyMMdd") + m.U_SYSID.Substring(9, 3) + "40001";
                     }
                     else
-                        s_sysid = (Convert.ToInt64(s_sysid) + 1).ToString(); 
+                        s_sysid = (Convert.ToInt64(s_sysid) + 1).ToString();
 
 
                     cmd.CommandText = string.Format(@"INSERT INTO T_SENDMESSAGE (S_SYSID,U_SYSID,S_TELEPHONE,S_SENDDATE,S_MESSAGE,S_COMMIT,S_FLAG) VALUES                      ('{0}','{1}',N'{2}','{3}',N'{4}',N'{5}','{6}')",
-                         s_sysid, m.U_SYSID,m.S_TELEPHONE,m.S_SENDDATE,m.S_MESSAGE,m.S_COMMIT,m.S_FLAG);
+                         s_sysid, m.U_SYSID, m.S_TELEPHONE, m.S_SENDDATE, m.S_MESSAGE, m.S_COMMIT, m.S_FLAG);
                     return cmd.ExecuteNonQuery();
                 }
 
@@ -149,6 +149,29 @@ namespace DbHelp.SQlHelp
 
         }
 
+        public void Update(MESSAGE m){
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = string.Format(@"UPDATE T_SENDMESSAGE SET 
+                    S_NUM='{0}',
+                    S_TELEPHONE='{1}',
+                    S_SENDDATE='{2}',
+                    U_SYSID='{3}',
+                    S_MESSAGE=N'{4}',
+                    S_COMMIT=N'{5}',
+                    S_FLAG='{6}'
+                    WHERE S_SYSID='{7}'",m.S_NUM,m.S_TELEPHONE,m.S_SENDDATE,m.U_SYSID,m.S_MESSAGE,m.S_COMMIT,m.S_FLAG, m.S_SYSID);
+                    cmd.ExecuteNonQuery();
+                }
+
+
+            }
+
+        }
+
         public  List<MESSAGE> DataToMessage(DataTable dt)
         {
             List<MESSAGE> list = new List<MESSAGE>();
@@ -175,6 +198,7 @@ namespace DbHelp.SQlHelp
                     m.S_COMMIT = dt.Rows[i]["S_COMMIT"].ToString();
                     m.NUM= dt.Rows[i]["NUM"].ToString();
                     m.S_FLAG= dt.Rows[i]["S_FLAG"].ToString();
+                    m.S_NUM= dt.Rows[i]["S_NUM"].ToString();
                     list.Add(m);
                 }
 

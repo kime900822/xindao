@@ -129,5 +129,14 @@ namespace CashBorrowINFO.main.CustomerCreditSearch
         {
             bindData();
         }
+
+        private void CreditInCB_form_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (this.MdiParent.MdiChildren.Length == 1)
+            {
+                this.MdiParent.Controls.Find("pictureBox1", true)[0].Visible = true;
+
+            }
+        }
     }
 }

@@ -20,5 +20,14 @@ namespace CashBorrowINFO.main.CustomerCreditSearch
         {
             System.Diagnostics.Process.Start("http://www.pbccrc.org.cn/");
         }
+
+        private void bankReference_form_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (this.MdiParent.MdiChildren.Length == 1)
+            {
+                this.MdiParent.Controls.Find("pictureBox1", true)[0].Visible = true;
+
+            }
+        }
     }
 }

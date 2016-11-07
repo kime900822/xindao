@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.dataGridEdit = new System.Windows.Forms.DataGridView();
             this.pagerControl1 = new TActionProject.PagerControl();
+            this.dataGridEdit = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridEdit)).BeginInit();
             this.SuspendLayout();
@@ -45,6 +45,20 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "行业资讯列表";
+            // 
+            // pagerControl1
+            // 
+            this.pagerControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(228)))), ((int)(((byte)(233)))));
+            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
+            this.pagerControl1.JumpText = "Go";
+            this.pagerControl1.Location = new System.Drawing.Point(8, 413);
+            this.pagerControl1.Name = "pagerControl1";
+            this.pagerControl1.PageIndex = 1;
+            this.pagerControl1.PageSize = 100;
+            this.pagerControl1.RecordCount = 0;
+            this.pagerControl1.Size = new System.Drawing.Size(746, 29);
+            this.pagerControl1.TabIndex = 3;
+            this.pagerControl1.OnPageChanged += new System.EventHandler(this.pagerControl1_OnPageChanged);
             // 
             // dataGridEdit
             // 
@@ -61,20 +75,6 @@
             this.dataGridEdit.TabIndex = 1;
             this.dataGridEdit.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridEdit_CellContentDoubleClick);
             // 
-            // pagerControl1
-            // 
-            this.pagerControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(228)))), ((int)(((byte)(233)))));
-            this.pagerControl1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(78)))), ((int)(((byte)(151)))));
-            this.pagerControl1.JumpText = "Go";
-            this.pagerControl1.Location = new System.Drawing.Point(8, 413);
-            this.pagerControl1.Name = "pagerControl1";
-            this.pagerControl1.PageIndex = 1;
-            this.pagerControl1.PageSize = 100;
-            this.pagerControl1.RecordCount = 0;
-            this.pagerControl1.Size = new System.Drawing.Size(746, 29);
-            this.pagerControl1.TabIndex = 3;
-            this.pagerControl1.OnPageChanged += new System.EventHandler(this.pagerControl1_OnPageChanged);
-            // 
             // IndustryInformation_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -88,6 +88,7 @@
             this.Name = "IndustryInformation_form";
             this.ShowIcon = false;
             this.Text = "行业资讯";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.IndustryInformation_form_FormClosed);
             this.Load += new System.EventHandler(this.IndustryInformation_form_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridEdit)).EndInit();

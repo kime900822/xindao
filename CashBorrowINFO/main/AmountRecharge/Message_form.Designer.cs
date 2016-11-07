@@ -66,6 +66,7 @@
             this.Name = "Message_form";
             this.ShowIcon = false;
             this.Text = "短信扣费";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Message_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

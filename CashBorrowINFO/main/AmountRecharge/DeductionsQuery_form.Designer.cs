@@ -159,6 +159,7 @@
             this.Name = "DeductionsQuery_form";
             this.ShowIcon = false;
             this.Text = "扣费查询";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DeductionsQuery_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

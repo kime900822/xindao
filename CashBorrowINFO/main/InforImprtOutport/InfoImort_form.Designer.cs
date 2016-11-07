@@ -150,6 +150,7 @@
             this.Name = "InfoImort_form";
             this.ShowIcon = false;
             this.Text = "借款信息批量导入";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.InfoImort_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

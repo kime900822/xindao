@@ -74,6 +74,7 @@ namespace CashBorrowINFO
         /// </summary>
         public static int waitTime = 20;
         public static int threadTime = 500;
+
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();

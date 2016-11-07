@@ -22,10 +22,11 @@
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
+    <MapFileExtensions>false</MapFileExtensions>
     <UpdateUrl>//120.27.150.153/myapplication/</UpdateUrl>
+    <ProductName>信导</ProductName>
     <DisallowUrlActivation>true</DisallowUrlActivation>
-    <ApplicationRevision>41</ApplicationRevision>
+    <ApplicationRevision>45</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -113,6 +114,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\DotNetBar for Windows Forms\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>E:\Desktop\Microsoft.Office.Interop.Word.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -137,6 +143,7 @@
       <DependentUpon>PagerControl.cs</DependentUpon>
     </Compile>
     <Compile Include="CS\Help.cs" />
+    <Compile Include="CS\WordHelp.cs" />
     <Compile Include="logon\FindPassword_form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -387,7 +394,7 @@
       <DependentUpon>UserInfo_form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -400,6 +407,7 @@
       <DependentUpon>frmWaitingBox.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Import\导入模板.xls" />
+    <None Include="print\print.doc" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -409,6 +417,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\print.doc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -447,6 +456,7 @@
     <Content Include="icon\upload32.ico" />
     <Content Include="icon\xindao.ico" />
     <Content Include="logo.ico" />
+    <None Include="Resources\BackgroundImage.jpg" />
     <Content Include="xindao.ico" />
   </ItemGroup>
   <ItemGroup>

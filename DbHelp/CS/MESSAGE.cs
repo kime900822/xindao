@@ -47,7 +47,7 @@ namespace DbHelp.CS
         public string S_ISDEL { set; get; }
 
         /// <summary>
-        /// 返回值
+        /// 借款编号
         /// </summary>
         public string S_COMMIT { set; get; }
 
@@ -55,6 +55,11 @@ namespace DbHelp.CS
         /// 发送标志
         /// </summary>
         public string S_FLAG { set; get; }
+
+        /// <summary>
+        /// 发送次数
+        /// </summary>
+        public string S_NUM { set; get; }
 
     }
 }
