@@ -173,7 +173,7 @@
             this.groupBox4.Controls.Add(this.label11);
             this.groupBox4.Controls.Add(this.edtBAmount);
             this.groupBox4.Controls.Add(this.label10);
-            this.groupBox4.Location = new System.Drawing.Point(6, 210);
+            this.groupBox4.Location = new System.Drawing.Point(6, 207);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(760, 124);
             this.groupBox4.TabIndex = 2;
@@ -376,7 +376,7 @@
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.edtGName1);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Location = new System.Drawing.Point(12, 340);
+            this.groupBox2.Location = new System.Drawing.Point(6, 337);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(760, 130);
             this.groupBox2.TabIndex = 1;
@@ -790,9 +790,9 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.edtB_date);
-            this.groupBox5.Location = new System.Drawing.Point(12, 476);
+            this.groupBox5.Location = new System.Drawing.Point(7, 473);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(297, 33);
+            this.groupBox5.Size = new System.Drawing.Size(297, 40);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "借款日期";
@@ -801,7 +801,7 @@
             // 
             this.edtB_date.CustomFormat = "yyyy-MM-dd HH:mm:ss";
             this.edtB_date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.edtB_date.Location = new System.Drawing.Point(73, 6);
+            this.edtB_date.Location = new System.Drawing.Point(73, 13);
             this.edtB_date.Name = "edtB_date";
             this.edtB_date.Size = new System.Drawing.Size(184, 21);
             this.edtB_date.TabIndex = 0;
