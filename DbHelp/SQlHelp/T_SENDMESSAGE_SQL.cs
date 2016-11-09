@@ -26,7 +26,7 @@ namespace DbHelp.SQlHelp
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = string.Format("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;SELECT MAX(S_SYSID) FROM T_SENDMESSAGE WHERE U_SYSID='{0}' AND SUBSTRING(S_SYSID,1,8)='{1}';", m.U_SYSID, DateTime.Now.ToString("yyyyMMdd"));
+                    cmd.CommandText = string.Format("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;SELECT MAX(S_SYSID) FROM T_SENDMESSAGE WHERE  SUBSTRING(S_SYSID,1,8)='{0}';", DateTime.Now.ToString("yyyyMMdd"));
                     string s_sysid = string.Empty;
                     s_sysid = cmd.ExecuteScalar().ToString();
                     if (string.IsNullOrEmpty(s_sysid))

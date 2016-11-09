@@ -16,6 +16,9 @@ using System.Net;
 using System.IO;
 using System.Xml.Serialization;
 using System.Threading;
+using Newtonsoft.Json;
+using ConsoleApplication1;
+using HL.Framework.Utility.Network;
 
 namespace CashBorrowAuto
 {
@@ -326,45 +329,125 @@ namespace CashBorrowAuto
 
         }
 
+
+        #region 短信发送
+        /// <summary>
+        /// 短信发送
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public string SendMessage(string phone,string smessage) {
+            Random _random = new Random();
+            string _tradeno = DateTime.Now.ToString("yyyyMMddHHmmssfff") + _random.Next(100, 1000);
+            string _username = ConfigurationManager.AppSettings.Get("username");
+            string _password = ConfigurationManager.AppSettings.Get("password");
+            string _key = ConfigurationManager.AppSettings.Get("key");
+            string _url = ConfigurationManager.AppSettings.Get("PostUrl");
+            string _content = smessage;
+            string _phone = phone;
+            string json = JsonConvert.SerializeObject(new
+            {
+                userPassword = _password,
+                tradeNo = _tradeno,
+                phones = _phone,
+                etnumber = "",
+                userName = _username,
+                content = _content,
+            });
+            string _sign = AES.Encrypt(json, _key, _key);
+            _password = MD5Helper.Encrypt(_password);
+            string parm_json = JsonConvert.SerializeObject(new
+            {
+                tradeNo = _tradeno,
+                userName = _username,
+                userPassword = _password,
+                phones = _phone,
+                content = _content,
+                etnumber = "",
+                sign = _sign
+            });
+            WebAction _web = new WebAction();
+            string returnStr = HttpHelper.Post(_url, parm_json);
+            return GetResult(returnStr.Split(',')[1].Split(':')[1].Replace('"', ' ').Trim());
+
+        }
+        #endregion
+
+
         private void send_Click(object sender, EventArgs e)
         {
 
-                if ( !string.IsNullOrEmpty(edtPhone.Text.Trim()))
+
+            if (!string.IsNullOrEmpty(edtPhone.Text.Trim()))
+            {
+                try
                 {
-                    string PostUrl = ConfigurationManager.AppSettings.Get("PostUrl");
-                    string username = ConfigurationManager.AppSettings.Get("username");
-                    string password = ConfigurationManager.AppSettings.Get("password");
-                    string timestamps = (DateTime.Now.Ticks / 1000).ToString();
-                    StringBuilder PostData = new StringBuilder();
-                    PostData.Append(string.Format("account={0}", username));
-                    PostData.Append(string.Format("&password={0}", md5(password + edtPhone.Text.Trim() + timestamps)));
-                    PostData.Append(string.Format("&mobile={0}", edtPhone.Text.Trim()));
-                    PostData.Append(string.Format("&content={0}", message));
-                    PostData.Append(string.Format("&timestamps={0}", timestamps));
                     MESSAGE m = new MESSAGE();
                     m.S_SENDDATE = DateTime.Now.ToString("yyy-MM-dd hh:mm:ss");
                     m.S_TELEPHONE = edtPhone.Text.Trim();
                     m.S_MESSAGE = message;
                     m.U_SYSID = "1";
                     m.S_COMMIT = "短信发送测试";
-                try
-                {
-                    m.S_FLAG = GetResult(RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim());
-
+                    m.S_FLAG = SendMessage(edtPhone.Text.Trim(), message);
+                    sendmessage_sql.Insert(m);
+                    WriteFile(m);
+                    MessageBox.Show("短信发送返回值:" + m.S_FLAG);
                 }
                 catch (Exception e1)
                 {
-                    MessageBox.Show(e1.Message);
-                    m.S_COMMIT = e1.Message;
-                    m.S_FLAG = "0";
+                    MessageBox.Show("错误:" + e1.Message);
                 }
-                if (m.S_COMMIT == "0")
- 
-                sendmessage_sql.Insert(m);
-                MessageBox.Show("短信发送返回值:"+ m.S_FLAG);
-
 
             }
+
+
+
+
+
+
+
+
+
+
+
+
+            //    if ( !string.IsNullOrEmpty(edtPhone.Text.Trim()))
+            //    {
+            //        string PostUrl = ConfigurationManager.AppSettings.Get("PostUrl");
+            //        string username = ConfigurationManager.AppSettings.Get("username");
+            //        string password = ConfigurationManager.AppSettings.Get("password");
+            //        string timestamps = (DateTime.Now.Ticks / 1000).ToString();
+            //        StringBuilder PostData = new StringBuilder();
+            //        PostData.Append(string.Format("account={0}", username));
+            //        PostData.Append(string.Format("&password={0}", md5(password + edtPhone.Text.Trim() + timestamps)));
+            //        PostData.Append(string.Format("&mobile={0}", edtPhone.Text.Trim()));
+            //        PostData.Append(string.Format("&content={0}", message));
+            //        PostData.Append(string.Format("&timestamps={0}", timestamps));
+            //        MESSAGE m = new MESSAGE();
+            //        m.S_SENDDATE = DateTime.Now.ToString("yyy-MM-dd hh:mm:ss");
+            //        m.S_TELEPHONE = edtPhone.Text.Trim();
+            //        m.S_MESSAGE = message;
+            //        m.U_SYSID = "1";
+            //        m.S_COMMIT = "短信发送测试";
+            //    try
+            //    {
+            //        m.S_FLAG = GetResult(RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim());
+
+            //    }
+            //    catch (Exception e1)
+            //    {
+            //        MessageBox.Show(e1.Message);
+            //        m.S_COMMIT = e1.Message;
+            //        m.S_FLAG = "0";
+            //    }
+            //    if (m.S_COMMIT == "0")
+
+            //    sendmessage_sql.Insert(m);
+            //    MessageBox.Show("短信发送返回值:"+ m.S_FLAG);
+
+
+            //}
 
 
         }
@@ -421,20 +504,21 @@ namespace CashBorrowAuto
                     //m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
                     //m.U_SYSID = lb[i].U_SYSID;
                     //m.S_COMMIT = lb[i].B_SYSID;
-                    string PostUrl = ConfigurationManager.AppSettings.Get("PostUrl");
-                    string username = ConfigurationManager.AppSettings.Get("username");
-                    string password = ConfigurationManager.AppSettings.Get("password");
-                    string timestamps = (DateTime.Now.Ticks / 1000).ToString();
-                    StringBuilder PostData = new StringBuilder();
-                    PostData.Append(string.Format("account={0}", username));
-                    PostData.Append(string.Format("&password={0}", md5(password + m.S_TELEPHONE + timestamps)));
-                    PostData.Append(string.Format("&mobile={0}", m.S_TELEPHONE));
-                    PostData.Append(string.Format("&content={0}", m.S_MESSAGE));
-                    PostData.Append(string.Format("&timestamps={0}", timestamps));
+                    //string PostUrl = ConfigurationManager.AppSettings.Get("PostUrl");
+                    //string username = ConfigurationManager.AppSettings.Get("username");
+                    //string password = ConfigurationManager.AppSettings.Get("password");
+                    //string timestamps = (DateTime.Now.Ticks / 1000).ToString();
+                    //StringBuilder PostData = new StringBuilder();
+                    //PostData.Append(string.Format("account={0}", username));
+                    //PostData.Append(string.Format("&password={0}", md5(password + m.S_TELEPHONE + timestamps)));
+                    //PostData.Append(string.Format("&mobile={0}", m.S_TELEPHONE));
+                    //PostData.Append(string.Format("&content={0}", m.S_MESSAGE));
+                    //PostData.Append(string.Format("&timestamps={0}", timestamps));
                 if (user_sql.GetMessage(m) > 0) {
                     try
                     {
-                        m.S_FLAG = GetResult(RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim());
+                        //m.S_FLAG = GetResult(RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim());
+                        m.S_FLAG= SendMessage(m.S_TELEPHONE, m.S_MESSAGE);
                     }
                     catch (Exception e1)
                     {
@@ -446,11 +530,11 @@ namespace CashBorrowAuto
                     else
                         sendmessage_sql.Update(m);
 
-                    if (m.S_FLAG == "0")
+                    if (m.S_FLAG == "交易请求成功")
                         user_sql.Debit_Message(m);
 
                     WriteFile(m);
-                    Thread.Sleep(30000);
+                    Thread.Sleep(5000);
 
                 }
 
@@ -479,21 +563,22 @@ namespace CashBorrowAuto
                     m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
                     m.U_SYSID = lb[0].U_SYSID;
                     m.S_COMMIT = lb[0].B_SYSID;
-                    string PostUrl = ConfigurationManager.AppSettings.Get("PostUrl");
-                    string username = ConfigurationManager.AppSettings.Get("username");
-                    string password = ConfigurationManager.AppSettings.Get("password");
-                    string timestamps = (DateTime.Now.Ticks / 1000).ToString();
-                    StringBuilder PostData = new StringBuilder();
-                    PostData.Append(string.Format("account={0}", username));
-                    PostData.Append(string.Format("&password={0}", md5(password + m.S_TELEPHONE + timestamps)));
-                    PostData.Append(string.Format("&mobile={0}", m.S_TELEPHONE));
-                    PostData.Append(string.Format("&content={0}", m.S_MESSAGE));
-                    PostData.Append(string.Format("&timestamps={0}", timestamps));
+                    //string PostUrl = ConfigurationManager.AppSettings.Get("PostUrl");
+                    //string username = ConfigurationManager.AppSettings.Get("username");
+                    //string password = ConfigurationManager.AppSettings.Get("password");
+                    //string timestamps = (DateTime.Now.Ticks / 1000).ToString();
+                    //StringBuilder PostData = new StringBuilder();
+                    //PostData.Append(string.Format("account={0}", username));
+                    //PostData.Append(string.Format("&password={0}", md5(password + m.S_TELEPHONE + timestamps)));
+                    //PostData.Append(string.Format("&mobile={0}", m.S_TELEPHONE));
+                    //PostData.Append(string.Format("&content={0}", m.S_MESSAGE));
+                    //PostData.Append(string.Format("&timestamps={0}", timestamps));
                     if (user_sql.GetMessage(m) > 0)
                     {
                         try
                         {
-                            m.S_FLAG = GetResult(RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim());
+                            //m.S_FLAG = GetResult(RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim());
+                            m.S_FLAG = SendMessage(m.S_TELEPHONE, m.S_MESSAGE);
                         }
                         catch (Exception e1)
                         {
@@ -501,7 +586,7 @@ namespace CashBorrowAuto
                             m.S_FLAG = "e";
                         }
                         sendmessage_sql.Insert(m);
-                        if (m.S_FLAG == "0")
+                        if (m.S_FLAG == "交易请求成功")
                             user_sql.Debit_Message(m);
                         WriteFile(m);
                     }
@@ -518,38 +603,60 @@ namespace CashBorrowAuto
 
         public string GetResult(string type)
         {
-            switch (type) {
-                case "0":
-                    return "成功";
-                case "1":
-                    return "用户鉴权错误";
-                case "2":
-                    return "IP鉴权错误";
-                case "3":
-                    return "手机号码在黑名单";
-                case "4":
-                    return "手机号码格式错误";
-                case "5":
-                    return "短信内容有误";
-                case "7":
-                    return "手机号数量超限";
-                case "8":
-                    return "账户已停用";
-                case "9":
-                    return "未知错误";
-                case "10":
-                    return "时间戳已过期";
-                case "11":
-                    return "发送频率过快（默认间隔30秒）";
-                case "12":
-                    return "当天发送次数超限默认10次";
-                case "13":
-                    return "内容包含敏感字";
-                case "99":
+
+
+            switch (type)
+            {
+                case "P00000":
+                    return "交易请求成功";
+                case "P00001":
+                    return "非法用户";
+                case "P00002":
+                    return "参数错误";
+                case "P00003":
+                    return "鉴权失败";
+                case "P00004":
+                    return "系统异常";
+                case "P00005":
                     return "账户余额不足";
+                case "P00009":
+                    return "其他未知错误";
                 default:
                     return type;
-            } 
+            }
+
+            //switch (type) {
+            //    case "0":
+            //        return "成功";
+            //    case "1":
+            //        return "用户鉴权错误";
+            //    case "2":
+            //        return "IP鉴权错误";
+            //    case "3":
+            //        return "手机号码在黑名单";
+            //    case "4":
+            //        return "手机号码格式错误";
+            //    case "5":
+            //        return "短信内容有误";
+            //    case "7":
+            //        return "手机号数量超限";
+            //    case "8":
+            //        return "账户已停用";
+            //    case "9":
+            //        return "未知错误";
+            //    case "10":
+            //        return "时间戳已过期";
+            //    case "11":
+            //        return "发送频率过快（默认间隔30秒）";
+            //    case "12":
+            //        return "当天发送次数超限默认10次";
+            //    case "13":
+            //        return "内容包含敏感字";
+            //    case "99":
+            //        return "账户余额不足";
+            //    default:
+            //        return type;
+            //} 
         }
     }
 }

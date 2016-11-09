@@ -25,7 +25,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <TargetCulture>zh</TargetCulture>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -81,6 +81,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\需求\信导\发财鱼Demo C#\发财鱼Demo net\ConsoleApplication1\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -96,14 +99,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AES.cs" />
     <Compile Include="AutoMessage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AutoMessage.Designer.cs">
       <DependentUpon>AutoMessage.cs</DependentUpon>
     </Compile>
+    <Compile Include="HttpHelper.cs" />
+    <Compile Include="MD5Helper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebAction.cs" />
     <EmbeddedResource Include="AutoMessage.resx">
       <DependentUpon>AutoMessage.cs</DependentUpon>
     </EmbeddedResource>
@@ -128,7 +135,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DbHelp\DbHelp.csproj">
