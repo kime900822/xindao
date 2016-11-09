@@ -60,6 +60,7 @@ namespace CashBorrowINFO.main.AmountRecharge
                     {
                         pagerControl1.DrawControl(count);
                         dataGridPrepaid.DataSource = dt;
+                        dataGridPrepaid.Columns[0].HeaderText = "序号";
                     }
                         
                 }

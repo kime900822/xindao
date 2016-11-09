@@ -63,7 +63,16 @@ namespace CashBorrowINFO.main.CustomerManager
                 }
                 else {
                     pagerControl1.DrawControl(count);
-                    dataGridCustomer.DataSource = dt;              
+                    dataGridCustomer.DataSource = dt;
+                    dataGridCustomer.Columns[0].HeaderText = "序号";
+                    dataGridCustomer.Columns[0].Width = 80;
+                    dataGridCustomer.Columns[1].Width = 100;
+                    dataGridCustomer.Columns[2].Width = 150;
+                    dataGridCustomer.Columns[3].Width = 100;
+                    dataGridCustomer.Columns[4].Width = 150;
+                    dataGridCustomer.Columns[5].Width = 150;
+                    dataGridCustomer.Columns[6].Width = 200;
+                    dataGridCustomer.Columns[7].Width = 80;
                 }
                    
             }

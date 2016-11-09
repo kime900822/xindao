@@ -31,7 +31,7 @@ namespace TActionProject
             set { pageIndex = value; }
         }
 
-        private int pageSize = 50;
+        private int pageSize = 30;
         /// <summary>
         /// 每页记录数
         /// </summary>
@@ -245,8 +245,8 @@ namespace TActionProject
             int num = 0;
             if (!int.TryParse(txtPageSize.Text.Trim(), out num) || num <= 0)
             {
-                num = 100;
-                txtPageSize.Text = "100";
+                num = 30;
+                txtPageSize.Text = "30";
             }
             else
             {

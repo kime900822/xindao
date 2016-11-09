@@ -100,6 +100,38 @@ namespace CashBorrowINFO.main.CustomerManager
                     else {
                         pagerControl1.DrawControl(count);
                         dataGridBorrow.DataSource = dt;
+                        dataGridBorrow.Columns[0].HeaderText = "序号";
+                        dataGridBorrow.Columns[0].Width = 80;
+                        dataGridBorrow.Columns[1].Width = 100;
+                        dataGridBorrow.Columns[2].Width = 80;
+                        dataGridBorrow.Columns[3].Width = 100;
+                        dataGridBorrow.Columns[4].Width = 100;
+                        dataGridBorrow.Columns[5].Width = 100;
+                        dataGridBorrow.Columns[6].Width = 150;
+                        dataGridBorrow.Columns[7].Width = 150;
+                        dataGridBorrow.Columns[8].Width = 100;
+                        dataGridBorrow.Columns[9].Width = 80;
+                        dataGridBorrow.Columns[10].Width = 100;
+                        dataGridBorrow.Columns[11].Width = 150;
+                        dataGridBorrow.Columns[12].Width = 100;
+                        dataGridBorrow.Columns[13].Width = 100;
+                        dataGridBorrow.Columns[14].Width = 150;
+                        dataGridBorrow.Columns[15].Width = 100;
+                        dataGridBorrow.Columns[16].Width = 100;
+                        dataGridBorrow.Columns[17].Width = 150;
+                        dataGridBorrow.Columns[18].Width = 100;
+                        dataGridBorrow.Columns[19].Width = 100;
+                        dataGridBorrow.Columns[20].Width = 150;
+                        dataGridBorrow.Columns[21].Width = 100;
+                        dataGridBorrow.Columns[22].Width = 100;
+                        dataGridBorrow.Columns[23].Width = 100;
+                        dataGridBorrow.Columns[24].Width = 80;
+                        dataGridBorrow.Columns[25].Width = 80;
+                        dataGridBorrow.Columns[26].Width = 100;
+                        dataGridBorrow.Columns[27].Width = 100;
+                        dataGridBorrow.Columns[28].Width = 100;
+                        dataGridBorrow.Columns[29].Width = 100;
+                        dataGridBorrow.Columns[30].Width = 150;
                     }
                         
                 }

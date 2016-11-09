@@ -178,7 +178,8 @@ namespace CashBorrowINFO.main.CustomerManager
                 if (dt.Rows.Count > 0)
                 {
                     dataGridRepay.DataSource = dt;
-                }
+                    dataGridRepay.Columns[0].HeaderText = "序号";
+            }
 
 
         }

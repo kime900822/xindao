@@ -153,10 +153,11 @@ namespace DbHelp.SQlHelp
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
+                    List<USER> lu = new T_USER_SQL(connstring).Get_User(dt.Rows[i]["U_SYSID"].ToString());
                     PREPAID_HIS p = new PREPAID_HIS
                     {
                         U_SYSID = dt.Rows[i]["U_SYSID"].ToString(),
-                        USER = new T_USER_SQL(connstring).QueryByWhere_XP(string.Format(" AND U_SYSID='{0}'", dt.Rows[i]["U_SYSID"].ToString()))[0],
+                        USER = lu.Count > 0 ? lu[0] : new USER(),
                         P_AMOUNT = dt.Rows[i]["P_AMOUNT"].ToString(),
                         P_FREEMESSAGE = dt.Rows[i]["P_FREEMESSAGE"].ToString(),
                         P_DATE = dt.Rows[i]["P_DATE"].ToString(),

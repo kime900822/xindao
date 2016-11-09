@@ -35,7 +35,7 @@ namespace CashBorrowINFO.main.CustomerManager
         public void bindData()
         {
             dataGridMessage.DataSource = null;
-            string where = string.Format(" AND  S_SYSID='{0}'", logonUser.U_SYSID);
+            string where = string.Format(" AND  A.U_SYSID='{0}'", logonUser.U_SYSID);
             if (dateS.Checked == true)
             {
                 where += string.Format(" AND S_SENDDATE >= '{0}' ", dateS.Text);
@@ -48,10 +48,10 @@ namespace CashBorrowINFO.main.CustomerManager
 
             if (ddlType.Text == "发送成功")
             {
-                where += " AND S_FLAG ='0' ";
+                where += " AND S_FLAG ='交易请求成功' ";
             }
             else if (ddlType.Text == "发送失败") {
-                where += " AND S_FLAG <>'0' ";
+                where += " AND S_FLAG <>'交易请求成功' ";
             }
 
             if (!string.IsNullOrEmpty(edtSTelephone.Text.Trim()))
@@ -81,6 +81,8 @@ namespace CashBorrowINFO.main.CustomerManager
                 else {
                     pagerControl1.DrawControl(count);
                     dataGridMessage.DataSource = dt;
+                    dataGridMessage.Columns[0].HeaderText = "序号";
+                    dataGridMessage.Columns[0].Width = 80;
                 }
 
             }

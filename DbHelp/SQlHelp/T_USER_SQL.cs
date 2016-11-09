@@ -275,6 +275,24 @@ namespace DbHelp.SQlHelp
 
         }
 
+
+        public List<USER>Get_User(string u_sysid)
+        {
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+
+                DataTable dt = new DataTable();
+
+                string sql = string.Format("SELECT ROW_NUMBER()OVER (order by U_DATE DESC) NUM,* FROM T_USER WHERE  U_SYSID='{0}'  ", u_sysid);
+                SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                da.Fill(dt);
+                return DataToUSER(dt);
+
+            }
+
+        }
+
         public List<USER> QueryByWhere_XP(string where, int pageid, int num)
         {
             using (SqlConnection conn = new SqlConnection(connstring))

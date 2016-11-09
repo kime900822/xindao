@@ -138,7 +138,7 @@ namespace DbHelp.SQlHelp
                 conn.Open();
 
 
-                string sql_t = string.Format("SELECT ROW_NUMBER()OVER (order by S_SENDDATE DESC) NUM,A.* FROM T_SENDMESSAGE A LEFT JOIN T_USER B ON A.U_SYSID=B.U_SYSID WHERE S_ISDEL='1' {0}", where);
+                string sql_t = string.Format("SELECT ROW_NUMBER()OVER (order by S_SENDDATE DESC) NUM,A.S_TELEPHONE AS '手机号码',A.S_COMMIT AS '借款单编号',A.S_MESSAGE AS '发送内容', A.S_FLAG AS '返回结果',A.S_SENDDATE AS '发送时间' FROM T_SENDMESSAGE A LEFT JOIN T_USER B ON A.U_SYSID=B.U_SYSID WHERE S_ISDEL='1' {0}", where);
                 string sql = string.Format("SELECT * FROM ({0}) T WHERE NUM>{1} AND NUM<={2}", sql_t, pageid * num, (pageid + 1) * num);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(sql, conn);
@@ -185,7 +185,7 @@ namespace DbHelp.SQlHelp
                     m.U_SYSID = dt.Rows[i]["U_SYSID"].ToString();
                     m.S_SENDDATE = dt.Rows[i]["S_SENDDATE"].ToString();
                     m.S_MESSAGE = dt.Rows[i]["S_MESSAGE"].ToString();
-                    List<USER> lu = new T_USER_SQL(connstring).QueryByWhere_XP(string.Format(" AND U_SYSID='{0}'", dt.Rows[i]["U_SYSID"].ToString()));
+                    List<USER> lu = new T_USER_SQL(connstring).Get_User(dt.Rows[i]["U_SYSID"].ToString());
                     if (lu.Count > 0)
                     {
                         m.USER = lu[0];

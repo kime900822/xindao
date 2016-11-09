@@ -31,7 +31,7 @@ namespace DbHelp.SQlHelp
             {
                 conn.Open();
 
-                string sql = string.Format("SELECT B_SYSID AS '借款单号',case when B_AMOUNT>B_REPAYMENT THEN '未还清' else  '已还清' end AS '借款状态',C_NAME AS '姓名',C_ID AS '身份证号',C_CONTACT AS '联系方式',C_EMERGENCYNAME AS '紧急联系人姓名',C_EMERGENCY AS '紧急联系人方式',C_ADDRESS AS '联系地址',C_SEX AS '性别',G_NAME1 AS '担保人姓名1',G_ID1 AS '担保人身份证号1',G_JOB1 AS '担保人职业1',G_NAME2 AS '担保人姓名2',G_ID2 AS '担保人身份证号2',G_JOB2 AS '担保人职业2',G_NAME3 AS '担保人姓名3',G_ID3 AS '担保人身份证号3',G_JOB3 AS '担保人职业3',G_NAME4 AS '担保人姓名4',G_ID4 AS '担保人身份证号4',G_JOB4 AS '担保人职业4', B_AMOUNT AS '借款金额',B_REPAYMENT AS '已还金额',B_INTEREST AS '利息',B_TERM AS '期数',B_TYPE AS '借款方式',B_REPAYDATE AS '还款日',B_REMINDDATE AS '提醒日', B_DATE AS '借款日',B_DATETMP AS '借款时间' FROM T_BORROW WHERE B_ISDEL='1' {0} ", where);
+                string sql = string.Format("SELECT B_SYSID AS '借款单号',case when B_AMOUNT>B_REPAYMENT THEN '未还清' else  '已还清' end AS '借款状态',C_NAME AS '姓名',C_ID AS '身份证号',C_CONTACT AS '联系方式',C_EMERGENCYNAME AS '紧急联系人姓名',C_EMERGENCY AS '紧急联系人方式',C_ADDRESS AS '联系地址',C_SEX AS '性别',G_NAME1 AS '担保人姓名1',G_ID1 AS '担保人身份证号1',G_JOB1 AS '担保人职业1',G_NAME2 AS '担保人姓名2',G_ID2 AS '担保人身份证号2',G_JOB2 AS '担保人职业2',G_NAME3 AS '担保人姓名3',G_ID3 AS '担保人身份证号3',G_JOB3 AS '担保人职业3',G_NAME4 AS '担保人姓名4',G_ID4 AS '担保人身份证号4',G_JOB4 AS '担保人职业4', B_AMOUNT AS '借款金额',B_REPAYMENT AS '已还金额',B_INTEREST AS '年利率',B_TERM AS '期数',B_TYPE AS '借款方式',B_REPAYDATE AS '还款日',B_REMINDDATE AS '提醒日', B_DATE AS '借款日',B_DATETMP AS '借款时间' FROM T_BORROW WHERE B_ISDEL='1' {0} ", where);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                 da.Fill(dt);
@@ -118,6 +118,64 @@ namespace DbHelp.SQlHelp
                 da.Fill(dt);
                 return dt;
             }
+        }
+
+
+        public List<BORROW> Get_Borrow(string b_sysid)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connstring))
+                {
+
+                    conn.Open();
+                string  sql = string.Format(@"SELECT ROW_NUMBER()OVER (order by B_DATETMP DESC) NUM ,
+                 A.B_SYSID        ,
+                 A.U_SYSID        ,
+                 A.C_NAME         ,
+                 A.C_ID           ,
+                 A.C_CONTACT      ,
+                 A.C_EMERGENCY    ,
+                 A.C_ADDRESS      ,
+                 A.C_SEX          ,
+                 A.G_NAME1        ,
+                 A.G_ID1          ,
+                 A.G_JOB1         ,
+                 A.G_NAME2        ,
+                 A.G_ID2          ,
+                 A.G_JOB2         ,
+                 A.G_NAME3        ,
+                 A.G_ID3          ,
+                 A.G_JOB3         ,
+                 A.G_NAME4        ,
+                 A.G_ID4          ,
+                 A.G_JOB4         ,
+                 A.B_AMOUNT       ,
+                 A.B_REPAYMENT    ,
+                 A.B_INTEREST     ,
+                 A.B_TYPE         ,
+                 A.B_REPAYDATE    ,
+                 A.B_REMINDDATE   ,
+                 A.B_DATE         ,
+                 A.B_DATETMP      ,
+                 A.B_ISDEL        ,
+                 A.B_TERM         ,
+                 A.C_EMERGENCYNAME                 
+                    FROM T_BORROW A LEFT JOIN T_USER B ON A.U_SYSID=B.U_SYSID WHERE B_SYSID= '{0}' ", b_sysid);
+
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                    da.Fill(dt);
+                    return DataToCustomer(dt, false);
+
+                }
+            }
+            catch
+            {
+                return new List<BORROW>();
+            }
+
         }
 
 
@@ -563,7 +621,11 @@ b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b
                     b.B_DATETMP = dt.Rows[i]["B_DATETMP"].ToString();
                     b.B_ISDEL = dt.Rows[i]["B_ISDEL"].ToString();
                     b.B_TERM= dt.Rows[i]["B_TERM"].ToString();
-                    b.USER = new T_USER_SQL(connstring).QueryByWhere_XP(string.Format(" AND U_SYSID='{0}'", dt.Rows[i]["U_SYSID"].ToString()))[0];
+                    List<USER> lu = new T_USER_SQL(connstring).Get_User(dt.Rows[i]["U_SYSID"].ToString());
+                    if (lu.Count > 0)
+                        b.USER = lu[0];
+                    else
+                        b.USER = new USER();
                     b.C_EMERGENCYNAME= dt.Rows[i]["C_EMERGENCYNAME"].ToString();
                     list.Add(b);
                 }

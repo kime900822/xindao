@@ -189,6 +189,7 @@ namespace DbHelp.SQlHelp
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
+                    List<USER> lu = new T_USER_SQL(connstring).Get_User(dt.Rows[i]["U_SYSID"].ToString());
                     DEBIT_HIS d = new DEBIT_HIS
                     {
                         U_SYSID = dt.Rows[i]["U_SYSID"].ToString(),
@@ -197,8 +198,8 @@ namespace DbHelp.SQlHelp
                         D_ISDEL = dt.Rows[i]["D_ISDEL"].ToString(),
                         D_DATE = dt.Rows[i]["D_DATE"].ToString(),
                         D_SYSID = dt.Rows[i]["D_SYSID"].ToString(),
-                        USER= new T_USER_SQL(connstring).QueryByWhere_XP(string.Format(" AND U_SYSID='{0}'", dt.Rows[i]["U_SYSID"].ToString()))[0],
-                        NUM= dt.Rows[i]["NUM"].ToString()
+                        USER = lu.Count > 0 ? lu[0] : new USER(),
+                        NUM = dt.Rows[i]["NUM"].ToString()
                     };
                     list.Add(d);
                 }

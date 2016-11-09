@@ -68,6 +68,7 @@ namespace CashBorrowINFO.main.IndustryInformation
                 else {
                     pagerControl1.DrawControl(count);
                     dataGridEdit.DataSource = dt;
+                    dataGridEdit.Columns[0].HeaderText = "序号";
                 }
 
             }

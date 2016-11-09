@@ -257,7 +257,11 @@ namespace DbHelp.SQlHelp
                     r.R_ISDEL = dt.Rows[i]["R_ISDEL"].ToString();
                     r.R_SYSID = dt.Rows[i]["R_SYSID"].ToString();
                     r.R_INTEREST = dt.Rows[i]["R_INTEREST"].ToString();
-                    r.BORROW = new T_BORROW_SQL(connstring).QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", dt.Rows[i]["B_SYSID"].ToString()),false)[0];
+                    List<BORROW> lb = new T_BORROW_SQL(connstring).Get_Borrow(dt.Rows[i]["B_SYSID"].ToString());
+                    if (lb.Count > 0)
+                        r.BORROW = lb[0];
+                    else
+                        r.BORROW = new BORROW();
                     r.NUM= dt.Rows[i]["NUM"].ToString();
                     list.Add(r);
                 }
