@@ -195,6 +195,7 @@
             $.CurrentDialog.find("#j_dialog_freemessage").val("");
             $.CurrentDialog.find("#j_dialog_balance").val("");
             $.CurrentDialog.find("#j_dialog_date").val("");
+            $.CurrentDialog.find("#j_dialog_short").val("");
             return false;
         }
 
@@ -220,6 +221,7 @@
                         $.CurrentDialog.find("#j_dialog_uprovince").val(result.d.data.U_PROVINCE);
                         $.CurrentDialog.find("#j_dialog_ucity").val(result.d.data.U_CITY);
                         $.CurrentDialog.find("#j_dialog_uarea").val(result.d.data.U_AREA);
+                        $.CurrentDialog.find("#j_dialog_short").val(result.d.data.U_SHORT);
                     }
                     else
                         $(this).alertmsg('error', result.d.message);
@@ -268,6 +270,7 @@
         user.U_PROVINCE = $.CurrentDialog.find("#j_dialog_uprovince").find("option:selected").text();
         user.U_CITY = $.CurrentDialog.find("#j_dialog_ucity").find("option:selected").text();
         user.U_AREA = $.CurrentDialog.find("#j_dialog_uarea").find("option:selected").text();
+        user.U_SHORT = $.CurrentDialog.find("#j_dialog_short").val();
         user.U_SYSID = pass_u_id;
         return user;
     }
@@ -288,6 +291,9 @@
         }
         if ($.CurrentDialog.find("#j_dialog_name").val().trim() == "") {
             err+="请输入公司名称\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_short").val().trim() == "") {
+            err += "请输入公司签名\r\n";
         }
         return err;
     }
@@ -336,8 +342,8 @@
                         <input type="text" name="dialog.name" id="j_dialog_name" value="" data-rule="required" size="20">
                     </td>
                     <td>
-                         <label for="j_dialog_freemessage" class="control-label x90">免费短信数：</label>
-                        <input type="text" name="dialog.freemessage" id="j_dialog_freemessage" disabled="disabled" value="" data-rule="required" size="20">
+                        <label for="j_dialog_short" class="control-label x90">公司签名：</label>
+                        <input type="text" name="dialog.short" id="j_dialog_short" value="" data-rule="required" size="20">
                     </td>
                 </tr>
                  <tr>
@@ -345,9 +351,19 @@
                         <label for="j_dialog_balance" class="control-label x90">余额：</label>
                         <input type="text" name="dialog.balance" id="j_dialog_balance" value="" disabled="disabled" data-rule="required" size="20">
                     </td>
-                    <td>
+                   <td>
+                         <label for="j_dialog_freemessage" class="control-label x90">免费短信数：</label>
+                        <input type="text" name="dialog.freemessage" id="j_dialog_freemessage" disabled="disabled" value="" data-rule="required" size="20">
+                    </td>
+                </tr>
+                <tr>
+                     <td>
                          <label for="j_dialog_date" class="control-label x90">注册日期：</label>
                         <input type="text" name="dialog.date" id="j_dialog_date"  value="" disabled="disabled" data-rule="required" size="20">
+                    </td>
+                    <td>
+
+
                     </td>
                 </tr>
                 <tr>

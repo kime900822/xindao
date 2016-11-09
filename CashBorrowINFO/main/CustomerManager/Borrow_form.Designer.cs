@@ -214,9 +214,9 @@
             this.label28.ForeColor = System.Drawing.Color.Red;
             this.label28.Location = new System.Drawing.Point(671, 68);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(53, 12);
+            this.label28.Size = new System.Drawing.Size(71, 12);
             this.label28.TabIndex = 33;
-            this.label28.Text = "输入数字";
+            this.label28.Text = "1个月为一期";
             // 
             // label27
             // 
@@ -226,7 +226,7 @@
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(77, 12);
             this.label27.TabIndex = 32;
-            this.label27.Text = "输入1-31之间";
+            this.label27.Text = "每个月提醒日";
             // 
             // label26
             // 
@@ -236,11 +236,11 @@
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(77, 12);
             this.label26.TabIndex = 31;
-            this.label26.Text = "输入1-31之间";
+            this.label26.Text = "每个月还款日";
             // 
             // edtRemind
             // 
-            this.edtRemind.Location = new System.Drawing.Point(473, 39);
+            this.edtRemind.Location = new System.Drawing.Point(473, 40);
             this.edtRemind.Name = "edtRemind";
             this.edtRemind.Size = new System.Drawing.Size(186, 21);
             this.edtRemind.TabIndex = 12;
@@ -268,7 +268,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(388, 74);
+            this.label24.Location = new System.Drawing.Point(388, 68);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(53, 12);
             this.label24.TabIndex = 28;
@@ -308,20 +308,20 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(388, 51);
+            this.label13.Location = new System.Drawing.Point(388, 45);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(77, 12);
+            this.label13.Size = new System.Drawing.Size(65, 12);
             this.label13.TabIndex = 21;
-            this.label13.Text = "还款提示时间";
+            this.label13.Text = "还款提醒日";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(388, 22);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(53, 12);
+            this.label12.Size = new System.Drawing.Size(41, 12);
             this.label12.TabIndex = 19;
-            this.label12.Text = "还款时间";
+            this.label12.Text = "还款日";
             // 
             // label11
             // 

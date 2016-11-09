@@ -31,13 +31,13 @@ namespace DbHelp.SQlHelp
                     s_sysid = cmd.ExecuteScalar().ToString();
                     if (string.IsNullOrEmpty(s_sysid))
                     {
-                        s_sysid = DateTime.Now.ToString("yyyyMMdd") + m.U_SYSID.Substring(9, 3) + "40001";
+                        s_sysid = DateTime.Now.ToString("yyyyMMdd")  + "4000001";
                     }
                     else
                         s_sysid = (Convert.ToInt64(s_sysid) + 1).ToString();
 
 
-                    cmd.CommandText = string.Format(@"INSERT INTO T_SENDMESSAGE (S_SYSID,U_SYSID,S_TELEPHONE,S_SENDDATE,S_MESSAGE,S_COMMIT,S_FLAG) VALUES                      ('{0}','{1}',N'{2}','{3}',N'{4}',N'{5}','{6}')",
+                    cmd.CommandText = string.Format(@"INSERT INTO T_SENDMESSAGE (S_SYSID,U_SYSID,S_TELEPHONE,S_SENDDATE,S_MESSAGE,S_COMMIT,S_FLAG) VALUES                      ('{0}','{1}',N'{2}','{3}',N'{4}',N'{5}',N'{6}')",
                          s_sysid, m.U_SYSID, m.S_TELEPHONE, m.S_SENDDATE, m.S_MESSAGE, m.S_COMMIT, m.S_FLAG);
                     return cmd.ExecuteNonQuery();
                 }

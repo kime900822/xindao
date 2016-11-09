@@ -349,7 +349,7 @@ namespace CashBorrowAuto
                     m.S_COMMIT = "短信发送测试";
                 try
                 {
-                    m.S_FLAG = RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim();
+                    m.S_FLAG = GetResult(RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim());
 
                 }
                 catch (Exception e1)
@@ -407,7 +407,7 @@ namespace CashBorrowAuto
                 }
                 else
                 {
-                    m.S_MESSAGE = string.Format(message, lb[i].C_NAME, lb[i].B_AMOUNT, (Convert.ToDecimal(lb[i].B_AMOUNT) *  Convert.ToDecimal(lb[i].B_INTEREST) / 12 / 100).ToString("#0.00"), lb[i].B_REPAYDATE);
+                    m.S_MESSAGE = string.Format(message,lb[i].USER.U_SHORT, lb[i].C_NAME, lb[i].B_AMOUNT, (Convert.ToDecimal(lb[i].B_AMOUNT) *  Convert.ToDecimal(lb[i].B_INTEREST) / 12 / 100).ToString("#0.00"), lb[i].B_REPAYDATE);
                     m.S_TELEPHONE = lb[i].C_CONTACT;
                     m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
                     m.U_SYSID = lb[i].U_SYSID;
@@ -434,7 +434,7 @@ namespace CashBorrowAuto
                 if (user_sql.GetMessage(m) > 0) {
                     try
                     {
-                        m.S_FLAG = RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim();
+                        m.S_FLAG = GetResult(RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim());
                     }
                     catch (Exception e1)
                     {
@@ -471,9 +471,10 @@ namespace CashBorrowAuto
             if (!string.IsNullOrEmpty(txtBid.Text.Trim()))
             {
                 List<BORROW> lb = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID='{0}' ", txtBid.Text.Trim()), false);
-                if (lb.Count > 0) {
+                if (lb.Count > 0)
+                {
                     MESSAGE m = new MESSAGE();
-                    m.S_MESSAGE = string.Format(message, lb[0].C_NAME, lb[0].B_AMOUNT, (Convert.ToDecimal(lb[0].B_AMOUNT) * (1 + Convert.ToDecimal(lb[0].B_INTEREST)) / Convert.ToDecimal(lb[0].B_TERM) / 100).ToString("#0.00"), lb[0].B_REPAYDATE);
+                    m.S_MESSAGE = string.Format(message, lb[0].USER.U_SHORT, lb[0].C_NAME, lb[0].B_AMOUNT, (Convert.ToDecimal(lb[0].B_AMOUNT) * (1 + Convert.ToDecimal(lb[0].B_INTEREST)) / Convert.ToDecimal(lb[0].B_TERM) / 100).ToString("#0.00"), lb[0].B_REPAYDATE);
                     m.S_TELEPHONE = lb[0].C_CONTACT;
                     m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
                     m.U_SYSID = lb[0].U_SYSID;
@@ -492,7 +493,7 @@ namespace CashBorrowAuto
                     {
                         try
                         {
-                            m.S_FLAG = RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim();
+                            m.S_FLAG = GetResult(RequestData(PostUrl + "?" + PostData.ToString()).Split('|')[3].Split(':')[1].Trim());
                         }
                         catch (Exception e1)
                         {
@@ -508,10 +509,47 @@ namespace CashBorrowAuto
                     MessageBox.Show("短信发送返回值:" + m.S_FLAG);
 
                 }
-
-                MessageBox.Show("无此借款单号！");
+                else {
+                    MessageBox.Show("无此借款单号！");
+                }
 
             }
+        }
+
+        public string GetResult(string type)
+        {
+            switch (type) {
+                case "0":
+                    return "成功";
+                case "1":
+                    return "用户鉴权错误";
+                case "2":
+                    return "IP鉴权错误";
+                case "3":
+                    return "手机号码在黑名单";
+                case "4":
+                    return "手机号码格式错误";
+                case "5":
+                    return "短信内容有误";
+                case "7":
+                    return "手机号数量超限";
+                case "8":
+                    return "账户已停用";
+                case "9":
+                    return "未知错误";
+                case "10":
+                    return "时间戳已过期";
+                case "11":
+                    return "发送频率过快（默认间隔30秒）";
+                case "12":
+                    return "当天发送次数超限默认10次";
+                case "13":
+                    return "内容包含敏感字";
+                case "99":
+                    return "账户余额不足";
+                default:
+                    return type;
+            } 
         }
     }
 }

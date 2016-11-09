@@ -68,5 +68,7 @@ namespace DbHelp.CS
 
 
         public string U_AREA { get; set; }
+
+        public string U_SHORT { get; set; }
     }
 }

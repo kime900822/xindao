@@ -57,8 +57,8 @@
             // link_Register
             // 
             this.link_Register.AutoSize = true;
-            this.link_Register.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.link_Register.DisabledLinkColor = System.Drawing.Color.White;
+            this.link_Register.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(228)))), ((int)(((byte)(233)))));
+            this.link_Register.DisabledLinkColor = System.Drawing.Color.WhiteSmoke;
             this.link_Register.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.link_Register.Location = new System.Drawing.Point(198, 330);
             this.link_Register.Name = "link_Register";

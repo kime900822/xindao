@@ -250,12 +250,12 @@ namespace DbHelp.SQlHelp
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = string.Format("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;SELECT MAX(B_SYSID) FROM T_BORROW WHERE U_SYSID='{0}' AND SUBSTRING(B_SYSID,1,8)='{1}';", b.U_SYSID,DateTime.Now.ToString("yyyyMMdd"));
+                    cmd.CommandText = string.Format("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;SELECT MAX(B_SYSID) FROM T_BORROW WHERE  SUBSTRING(B_SYSID,1,8)='{0}';", DateTime.Now.ToString("yyyyMMdd"));
                     string b_sysid = string.Empty;
                     b_sysid = cmd.ExecuteScalar().ToString();
                     if (string.IsNullOrEmpty(b_sysid))
                     {
-                        b_sysid = DateTime.Now.ToString("yyyyMMdd")+ b.U_SYSID.Substring(9, 3) + "001";
+                        b_sysid = DateTime.Now.ToString("yyyyMMdd") + "20001";
                     }
                     else
                         b_sysid = (Convert.ToInt64(b_sysid) + 1).ToString();
@@ -263,13 +263,13 @@ namespace DbHelp.SQlHelp
 
                     if (b.C_PIC != null)
                     {
-                        cmd.CommandText = string.Format(@"INSERT INTO T_BORROW (B_SYSID,U_SYSID,C_NAME,C_ID,C_PIC,C_CONTACT,C_EMERGENCY,C_ADDRESS,C_SEX,G_NAME1,G_ID1,G_JOB1,G_NAME2,G_ID2,G_JOB2,G_NAME3,G_ID3,G_JOB3,G_NAME4,G_ID4,G_JOB4,B_AMOUNT,B_REPAYMENT,B_INTEREST,B_TYPE,B_REPAYDATE,B_REMINDDATE,B_DATE,B_DATETMP,B_TERM,C_EMERGENCYNAME ) VALUES                      ('{0}','{1}',N'{2}','{3}',@C_PIC,'{4}',N'{5}',N'{6}',N'{7}',N'{8}',N'{9}',N'{10}',N'{11}',N'{12}',N'{13}',N'{14}',N'{15}',N'{16}',N'{17}',N'{18}',N'{19}','{20}','{21}','{22}',N'{23}','{24}','{25}','{26}','{27}',{28},N'{29}')",
+                        cmd.CommandText = string.Format(@"INSERT INTO T_BORROW (B_SYSID,U_SYSID,C_NAME,C_ID,C_PIC,C_CONTACT,C_EMERGENCY,C_ADDRESS,C_SEX,G_NAME1,G_ID1,G_JOB1,G_NAME2,G_ID2,G_JOB2,G_NAME3,G_ID3,G_JOB3,G_NAME4,G_ID4,G_JOB4,B_AMOUNT,B_REPAYMENT,B_INTEREST,B_TYPE,B_REPAYDATE,B_REMINDDATE,B_DATE,B_DATETMP,B_TERM,C_EMERGENCYNAME ) VALUES                      ('{0}','{1}',N'{2}','{3}',@C_PIC,'{4}',N'{5}',N'{6}',N'{7}',N'{8}',N'{9}',N'{10}',N'{11}',N'{12}',N'{13}',N'{14}',N'{15}',N'{16}',N'{17}',N'{18}',N'{19}','{20}','{21}','{22}',N'{23}','{24}','{25}','{26}','{27}','{28}',N'{29}')",
 b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b.C_SEX, b.G_NAME1, b.G_ID1, b.G_JOB1, b.G_NAME2, b.G_ID2, b.G_JOB2, b.G_NAME3, b.G_ID3, b.G_JOB3, b.G_NAME4, b.G_ID4, b.G_JOB4, b.B_AMOUNT, b.B_REPAYMENT, b.B_INTEREST, b.B_TYPE, b.B_REPAYDATE, b.B_REMINDDATE, b.B_DATE, b.B_DATETMP, b.B_TERM,b.C_EMERGENCYNAME);
                         cmd.Parameters.Add("@C_PIC", SqlDbType.Image).Value = b.C_PIC;
                     }
                     else
                     {
-                        cmd.CommandText = string.Format(@"INSERT INTO T_BORROW (B_SYSID,U_SYSID,C_NAME,C_ID,C_CONTACT,C_EMERGENCY,C_ADDRESS,C_SEX,G_NAME1,G_ID1,G_JOB1,G_NAME2,G_ID2,G_JOB2,G_NAME3,G_ID3,G_JOB3,G_NAME4,G_ID4,G_JOB4,B_AMOUNT,B_REPAYMENT,B_INTEREST,B_TYPE,B_REPAYDATE,B_REMINDDATE,B_DATE,B_DATETMP,B_TERM,C_EMERGENCYNAME ) VALUES                      ('{0}','{1}',N'{2}','{3}','{4}',N'{5}',N'{6}',N'{7}',N'{8}',N'{9}',N'{10}',N'{11}',N'{12}',N'{13}',N'{14}',N'{15}',N'{16}',N'{17}',N'{18}',N'{19}','{20}','{21}','{22}',N'{23}','{24}','{25}','{26}','{27}',{28},N'{29}')",
+                        cmd.CommandText = string.Format(@"INSERT INTO T_BORROW (B_SYSID,U_SYSID,C_NAME,C_ID,C_CONTACT,C_EMERGENCY,C_ADDRESS,C_SEX,G_NAME1,G_ID1,G_JOB1,G_NAME2,G_ID2,G_JOB2,G_NAME3,G_ID3,G_JOB3,G_NAME4,G_ID4,G_JOB4,B_AMOUNT,B_REPAYMENT,B_INTEREST,B_TYPE,B_REPAYDATE,B_REMINDDATE,B_DATE,B_DATETMP,B_TERM,C_EMERGENCYNAME ) VALUES                      ('{0}','{1}',N'{2}','{3}','{4}',N'{5}',N'{6}',N'{7}',N'{8}',N'{9}',N'{10}',N'{11}',N'{12}',N'{13}',N'{14}',N'{15}',N'{16}',N'{17}',N'{18}',N'{19}','{20}','{21}','{22}',N'{23}','{24}','{25}','{26}','{27}','{28}',N'{29}')",
 b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b.C_SEX, b.G_NAME1, b.G_ID1, b.G_JOB1, b.G_NAME2, b.G_ID2, b.G_JOB2, b.G_NAME3, b.G_ID3, b.G_JOB3, b.G_NAME4, b.G_ID4, b.G_JOB4, b.B_AMOUNT, b.B_REPAYMENT, b.B_INTEREST, b.B_TYPE, b.B_REPAYDATE, b.B_REMINDDATE, b.B_DATE, b.B_DATETMP, b.B_TERM,b.C_EMERGENCYNAME);
                     }
                     return cmd.ExecuteNonQuery();

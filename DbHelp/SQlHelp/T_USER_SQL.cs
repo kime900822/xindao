@@ -83,7 +83,7 @@ namespace DbHelp.SQlHelp
                     u_sysid = cmd.ExecuteScalar().ToString();
                     if (string.IsNullOrEmpty(u_sysid))
                     {
-                        u_sysid = DateTime.Now.ToString("yyyyMMdd") + "1001";
+                        u_sysid = DateTime.Now.ToString("yyyyMMdd") + "10001";
                     }
                     else
                         u_sysid = (Convert.ToInt64(u_sysid) + 1).ToString();
@@ -305,7 +305,7 @@ namespace DbHelp.SQlHelp
                 conn.Open();
 
                 using (SqlCommand cmd = conn.CreateCommand()) {
-                    cmd.CommandText = string.Format(@"UPDATE T_USER SET U_ID='{0}',U_TELEPHONE='{1}',U_MAIL='{2}',U_NAME=N'{3}',U_FREEMESSAGE='{4}',U_BALANCE='{5}',U_PASSWORD='{7}',U_PROVINCE=N'{8}',U_CITY=N'{9}',U_AREA=N'{10}' WHERE U_SYSID='{6}' AND U_ISDEL='1' ", u.U_ID, u.U_TELEPHONE, u.U_MAIL, u.U_NAME, u.U_FREEMESSAGE, u.U_BALANCE, u.U_SYSID, u.U_PASSWORD, u.U_PROVINCE, u.U_CITY, u.U_AREA);
+                    cmd.CommandText = string.Format(@"UPDATE T_USER SET U_ID='{0}',U_TELEPHONE='{1}',U_MAIL='{2}',U_NAME=N'{3}',U_FREEMESSAGE='{4}',U_BALANCE='{5}',U_PASSWORD='{7}',U_PROVINCE=N'{8}',U_CITY=N'{9}',U_AREA=N'{10}',U_SHORT=N'{11}' WHERE U_SYSID='{6}' AND U_ISDEL='1' ", u.U_ID, u.U_TELEPHONE, u.U_MAIL, u.U_NAME, u.U_FREEMESSAGE, u.U_BALANCE, u.U_SYSID, u.U_PASSWORD, u.U_PROVINCE, u.U_CITY, u.U_AREA,u.U_SHORT);
                     return cmd.ExecuteNonQuery();
 
                 }
@@ -324,6 +324,41 @@ namespace DbHelp.SQlHelp
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = string.Format(@"UPDATE T_USER SET U_FREEMESSAGE=U_FREEMESSAGE+'{0}',U_BALANCE=U_BALANCE+'{1}' WHERE U_SYSID='{2}' AND U_ISDEL='1' ", p.P_FREEMESSAGE, p.P_AMOUNT, p.U_SYSID);
+                    return cmd.ExecuteNonQuery();
+
+                }
+
+            }
+
+        }
+
+        public int Update_pripard_u(PREPAID_HIS p, PREPAID_HIS po)
+        {
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = string.Format(@"UPDATE T_USER SET U_FREEMESSAGE=U_FREEMESSAGE+'{0}',U_BALANCE=U_BALANCE+'{1}' WHERE U_SYSID='{2}' AND U_ISDEL='1' ", Convert.ToDouble(p.P_FREEMESSAGE)- Convert.ToDouble(po.P_FREEMESSAGE), Convert.ToDouble(p.P_AMOUNT)- Convert.ToDouble(po.P_AMOUNT), po.U_SYSID);
+                    return cmd.ExecuteNonQuery();
+
+                }
+
+            }
+
+        }
+
+
+        public int Update_pripard_d(PREPAID_HIS p)
+        {
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = string.Format(@"UPDATE T_USER SET U_FREEMESSAGE=U_FREEMESSAGE-'{0}',U_BALANCE=U_BALANCE-'{1}' WHERE U_SYSID='{2}' AND U_ISDEL='1' ", p.P_FREEMESSAGE, p.P_AMOUNT, p.U_SYSID);
                     return cmd.ExecuteNonQuery();
 
                 }
@@ -402,7 +437,8 @@ namespace DbHelp.SQlHelp
                         U_PROVINCE= dt.Rows[i]["U_PROVINCE"].ToString(),
                         U_AREA = dt.Rows[i]["U_AREA"].ToString(),
                         U_CITY = dt.Rows[i]["U_CITY"].ToString(),
-                        NUM = dt.Rows[i]["NUM"].ToString()
+                        NUM = dt.Rows[i]["NUM"].ToString(),
+                        U_SHORT= dt.Rows[i]["U_SHORT"].ToString()
                     };
                     list.Add(user);
                 }

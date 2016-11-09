@@ -224,7 +224,7 @@
 
     function LoadUser(data) {
             $.each(data, function (i, item) {
-                var tr = "<tr data-id='" + item.NUM + "'><td>" + item.NUM + "</td><td>&nbsp;<a href='Prepaid_add.html' class='btn btn-green' data-toggle='dialog' data-width='800' data-height='400' data-id='dialog-mask' onclick='passU_ID(" + item.U_SYSID + ")'  data-mask='true' data-title='充值-" + item.U_NAME + "'>充值</a>&nbsp;</td><td>" + item.U_SYSID + "</td><td>" + item.U_ID + "</td><td>" + item.U_TELEPHONE + "</td><td>" + item.U_MAIL + "</td><td>" + item.U_PASSWORD + "</td><td>" + item.U_NAME + "</td><td>" + item.U_PROVINCE + item.U_CITY + item.U_AREA + "</td><td>" + item.U_FREEMESSAGE + "</td><td>" + item.U_BALANCE + "</td><td>" + item.U_DATE + "</td><td><a href='User_mod.html' class='btn btn-green' data-toggle='dialog' data-width='800' data-height='400' data-id='dialog-mask' onclick='passU_ID(" + item.U_SYSID + ")'  data-mask='true' data-title='编辑-" + item.U_NAME + "'>编辑</a>&nbsp;<a href='javascript:;' class='btn btn-red'  onclick='DeleteUser(this)' >删</a></td></tr>";
+                var tr = "<tr data-id='" + item.NUM + "'><td>" + item.NUM + "</td><td>&nbsp;<a href='Prepaid_add.html' class='btn btn-green' data-toggle='dialog' data-width='800' data-height='400' data-id='dialog-mask' onclick='passU_ID(" + item.U_SYSID + ")'  data-mask='true' data-title='充值-" + item.U_NAME + "'>充值</a>&nbsp;</td><td>" + item.U_SYSID + "</td><td>" + item.U_ID + "</td><td>" + item.U_TELEPHONE + "</td><td>" + item.U_MAIL + "</td><td>" + item.U_PASSWORD + "</td><td>" + item.U_NAME + "</td><td>" + item.U_SHORT + "</td><td>" + item.U_PROVINCE + item.U_CITY + item.U_AREA + "</td><td>" + item.U_FREEMESSAGE + "</td><td>" + item.U_BALANCE + "</td><td>" + item.U_DATE + "</td><td><a href='User_mod.html' class='btn btn-green' data-toggle='dialog' data-width='800' data-height='400' data-id='dialog-mask' onclick='passU_ID(" + item.U_SYSID + ")'  data-mask='true' data-title='编辑-" + item.U_NAME + "'>编辑</a>&nbsp;<a href='javascript:;' class='btn btn-red'  onclick='DeleteUser(this)' >删</a></td></tr>";
                 $.CurrentNavtab.find("#user_tabel").find("tbody").append(tr);
 
             })
@@ -264,6 +264,7 @@
                 <th>邮件</th>
                 <th>密码</th>
                 <th>公司名称</th>
+                <th>签名</th>
                 <th>地址</th>
                 <th>免费短信量</th>
                 <th>用户余额</th>

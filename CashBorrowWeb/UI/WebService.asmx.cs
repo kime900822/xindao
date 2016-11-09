@@ -845,9 +845,10 @@ namespace WageManagerSystem.UI
         {
             try
             {
+                List<PREPAID_HIS> p = prepaid_his_sql.QueryByWhere_XP(string.Format(" AND P_SYSID='{0}'", p_sysid));
                 if (prepaid_his_sql.Delete(p_sysid) == 1)
                 {
-
+                    user_sql.Update_pripard_d(p[0]);
                     return new { state = 0, message = "删除成功" };
                 }
                 else
@@ -910,10 +911,11 @@ namespace WageManagerSystem.UI
             try
             {
                 PREPAID_HIS p = new JavaScriptSerializer().Deserialize<PREPAID_HIS>(prepaid);
+                PREPAID_HIS po = prepaid_his_sql.QueryByWhere_XP(string.Format(" AND P_SYSID='{0}' ", p.P_SYSID))[0];
 
                 if (prepaid_his_sql.Update(p) == 1)
                 {
-
+                    user_sql.Update_pripard_u(p, po);
                     return new { state = 0, message = "修改成功" };
                 }
                 else

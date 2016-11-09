@@ -29,8 +29,9 @@
                         $.CurrentDialog.find("#j_dialog_psysid").val(result.d.data.P_SYSID);
                         $.CurrentDialog.find("#j_dialog_freemessage").val(result.d.data.P_FREEMESSAGE);
                         $.CurrentDialog.find("#j_dialog_amount").val(result.d.data.P_AMOUNT);
-                        $.CurrentDialog.find("#j_dialog_type").val(result.d.data.P_TYPE);
+                        $.CurrentDialog.find("#j_dialog_type").val(result.d.data.P_TYPE); 
                         $.CurrentDialog.find("#j_dialog_date").val(result.d.data.P_DATE);
+                        $.CurrentDialog.find("#j_dialog_usysid").val(result.d.data.U_SYSID);
                     }
                     else
                         $(this).alertmsg('error', result.d.message);
@@ -78,6 +79,7 @@
         prepaid.P_FREEMESSAGE = $.CurrentDialog.find("#j_dialog_freemessage").val();
         prepaid.P_TYPE = $.CurrentDialog.find("#j_dialog_type").val();
         prepaid.P_SYSID = pass_p_id;
+        prepaid.U_SYSID = $.CurrentDialog.find("#j_dialog_usysid").val();
         return prepaid;
     }
 
@@ -116,6 +118,7 @@
                 <tr>
                     <td>
                         <label for="j_dialog_name" class="control-label x90">公司名称：</label>
+                        <input type="hidden" id="j_dialog_usysid" />
                         <input type="text" name="dialog.name" id="j_dialog_name" disabled="disabled" value="" data-rule="required" size="20">
                     </td>
                     <td>
