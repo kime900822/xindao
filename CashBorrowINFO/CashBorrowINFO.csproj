@@ -411,7 +411,7 @@
     <EmbeddedResource Include="WaitingBox\frmWaitingBox.resx">
       <DependentUpon>frmWaitingBox.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Import\导入模板.xls" />
+    <None Include="Import\信贷导入模板.xls" />
     <None Include="print\print.doc" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

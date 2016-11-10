@@ -19,6 +19,7 @@ namespace CashBorrowINFO.main.InforImprtOutport
         public InfoOut_form()
         {
             InitializeComponent();
+            Control.CheckForIllegalCrossThreadCalls = false;
         }
 
         private void InfoOut_form_Load(object sender, EventArgs e)
@@ -155,7 +156,21 @@ namespace CashBorrowINFO.main.InforImprtOutport
 
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show(new ExcelHelp().ExportExcel(dt, dlg.FileName, progressBar), "导出信息", MessageBoxButtons.OK, MessageBoxIcon.Information); 
+
+                    string res;
+                    string result="";
+                    frmWaitingBox f = new frmWaitingBox((obj, args) =>
+                    {
+                        Thread.Sleep(threadTime);
+                        result = new ExcelHelp().ExportExcel(dt, dlg.FileName, progressBar);
+                    }, 3600, "正在导出", true, false);
+                    f.ShowDialog(this);
+                    res = f.Message;
+                    if (!string.IsNullOrEmpty(res))
+                        MessageBox.Show(res);
+                    else
+                        MessageBox.Show(result, "导出信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show(new ExcelHelp().ExportExcel(dt, dlg.FileName, progressBar), "导出信息", MessageBoxButtons.OK, MessageBoxIcon.Information); 
 
                     //progressBar.Value = 0;
                     //    Stream myStream;

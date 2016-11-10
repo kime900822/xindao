@@ -478,7 +478,7 @@ namespace CashBorrowINFO.main.CustomerManager
                 word.Replace("借款方式", b.B_TYPE);
                 word.Replace("借款期限", b.B_TERM);
                 word.Replace("借款金额", b.B_AMOUNT);
-                word.Replace("利息", (Convert.ToDouble(b.B_INTEREST) * Convert.ToDouble(b.B_AMOUNT) / 100).ToString("#0.00"));
+                word.Replace("利率", Convert.ToDouble(b.B_INTEREST).ToString("#0.00"));
                 word.Replace("还款日期", b.B_REPAYDATE);
                 word.Replace("提醒日期", b.B_REMINDDATE);
                 word.Replace("甲方", b.C_NAME);

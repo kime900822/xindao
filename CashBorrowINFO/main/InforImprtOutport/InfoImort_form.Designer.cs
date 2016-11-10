@@ -119,7 +119,6 @@
             // dataGridBorrow
             // 
             this.dataGridBorrow.AllowUserToAddRows = false;
-            this.dataGridBorrow.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridBorrow.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridBorrow.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dataGridBorrow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
