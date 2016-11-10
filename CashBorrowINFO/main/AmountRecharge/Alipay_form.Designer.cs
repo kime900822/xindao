@@ -32,11 +32,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
@@ -51,7 +53,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(135, 210);
+            this.label3.Location = new System.Drawing.Point(190, 200);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(329, 20);
             this.label3.TabIndex = 2;
@@ -61,7 +63,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(132, 114);
+            this.label2.Location = new System.Drawing.Point(174, 123);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(120, 27);
             this.label2.TabIndex = 1;
@@ -71,11 +73,21 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(264, 114);
+            this.label1.Location = new System.Drawing.Point(306, 123);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(236, 27);
             this.label1.TabIndex = 0;
             this.label1.Text = "xindaors@163.com";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label4.Location = new System.Drawing.Point(166, 287);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(389, 20);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "联系人：魏先生  联系电话：18258115720";
             // 
             // Alipay_form
             // 
@@ -103,5 +115,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label4;
     }
 }

@@ -113,6 +113,11 @@
     <Reference Include="DevComponents.DotNetBar2">
       <HintPath>..\..\..\需求\信导\信导发布\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
+    <Reference Include="microsoft.office.interop.excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>E:\Desktop\信导发布\microsoft.office.interop.excel.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -141,6 +146,7 @@
     <Compile Include="Control\PagerControl.designer.cs">
       <DependentUpon>PagerControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="CS\ExcelHelp.cs" />
     <Compile Include="CS\Help.cs" />
     <Compile Include="CS\WordHelp.cs" />
     <Compile Include="logon\FindPassword_form.cs">

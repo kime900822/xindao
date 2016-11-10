@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CashBorrowINFO.CS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -154,58 +155,60 @@ namespace CashBorrowINFO.main.InforImprtOutport
 
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    progressBar.Value = 0;
-                        Stream myStream;
-                        myStream = dlg.OpenFile();
-                        StreamWriter sw = new StreamWriter(myStream, System.Text.Encoding.GetEncoding(-0));
-                        string columnTitle = "";
-                        try
-                        {
-                            //写入列标题     
-                            for (int i = 0; i < dt.Columns.Count; i++)
-                            {
-                                if (i > 0)
-                                {
-                                    columnTitle += "\t";
-                                }
-                                columnTitle += dt.Columns[i].ColumnName;
-                            }
-                            sw.WriteLine(columnTitle);
+                    MessageBox.Show(new ExcelHelp().ExportExcel(dt, dlg.FileName, progressBar), "导出信息", MessageBoxButtons.OK, MessageBoxIcon.Information); 
 
-                            //写入列内容     
-                            for (int j = 0; j < dt.Rows.Count; j++)
-                            {
-                                string columnValue = "";
-                                for (int k = 0; k < dt.Columns.Count; k++)
-                                {
-                                    if (k > 0)
-                                    {
-                                        columnValue += "\t";
-                                    }
-                                    if (dt.Rows[j][k].ToString() == null)
-                                        columnValue += "";
-                                    else
-                                        columnValue += dt.Rows[j][k].ToString();
-                                }
-                                sw.WriteLine(columnValue);
-                            progressBar.Value = (j + 1) * 100 / dt.Rows.Count;
-                            Application.DoEvents();
-                            }
-                            sw.Close();
-                            myStream.Close();
-                            MessageBox.Show("导出成功", "导出信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        catch (Exception e1)
-                        {
-                            MessageBox.Show(e1.Message, "导出报错", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        finally
-                        {
-                            sw.Close();
-                            myStream.Close();
-                        }
+                    //progressBar.Value = 0;
+                    //    Stream myStream;
+                    //    myStream = dlg.OpenFile();
+                    //    StreamWriter sw = new StreamWriter(myStream, System.Text.Encoding.GetEncoding(-0));
+                    //    string columnTitle = "";
+                    //    try
+                    //    {
+                    //        //写入列标题     
+                    //        for (int i = 0; i < dt.Columns.Count; i++)
+                    //        {
+                    //            if (i > 0)
+                    //            {
+                    //                columnTitle += "\t";
+                    //            }
+                    //            columnTitle += dt.Columns[i].ColumnName;
+                    //        }
+                    //        sw.WriteLine(columnTitle);
 
-                   
+                    //        //写入列内容     
+                    //        for (int j = 0; j < dt.Rows.Count; j++)
+                    //        {
+                    //            string columnValue = "";
+                    //            for (int k = 0; k < dt.Columns.Count; k++)
+                    //            {
+                    //                if (k > 0)
+                    //                {
+                    //                    columnValue += "\t";
+                    //                }
+                    //                if (dt.Rows[j][k].ToString() == null)
+                    //                    columnValue += "";
+                    //                else
+                    //                    columnValue += dt.Rows[j][k].ToString();
+                    //            }
+                    //            sw.WriteLine(columnValue);
+                    //        progressBar.Value = (j + 1) * 100 / dt.Rows.Count;
+                    //        Application.DoEvents();
+                    //        }
+                    //        sw.Close();
+                    //        myStream.Close();
+                    //        MessageBox.Show("导出成功", "导出信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //    }
+                    //    catch (Exception e1)
+                    //    {
+                    //        MessageBox.Show(e1.Message, "导出报错", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //    }
+                    //    finally
+                    //    {
+                    //        sw.Close();
+                    //        myStream.Close();
+                    //    }
+
+
                 }
             }
             else
