@@ -30,11 +30,13 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
@@ -52,6 +54,16 @@
             this.label1.Size = new System.Drawing.Size(629, 27);
             this.label1.TabIndex = 0;
             this.label1.Text = "企业银行账号：中国农业银行  19499901040021062";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label3.Location = new System.Drawing.Point(205, 278);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(329, 20);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "注：转账后请联系后台人员充值账号";
             // 
             // UnionPay_form
             // 
@@ -77,5 +89,6 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
     }
 }

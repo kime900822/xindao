@@ -476,7 +476,7 @@ namespace CashBorrowAuto
         {
 
 
-            List<BORROW> lb = borrow_sql.QueryByWhere_XP(string.Format(" and B_REMINDDATE='{0}' AND B_AMOUNT<>B_REPAYMENT   AND B_SYSID NOT IN (SELECT S_COMMIT FROM T_SENDMESSAGE WHERE S_ISDEL='1' AND (S_FLAG ='0' OR S_NUM>=3) AND  SUBSTRING(S_SENDDATE,1,10)='{1}')", DateTime.Now.Day, DateTime.Now.ToString("yyyy-MM-dd")),false);
+            List<BORROW> lb = borrow_sql.QueryByWhere_XP(string.Format(" and B_REMINDDATE='{0}' AND B_AMOUNT<>B_REPAYMENT   AND B_SYSID NOT IN (SELECT S_COMMIT FROM T_SENDMESSAGE WHERE S_ISDEL='1' AND (S_FLAG ='交易请求成功' OR S_NUM>=3) AND  SUBSTRING(S_SENDDATE,1,10)='{1}')", DateTime.Now.Day, DateTime.Now.ToString("yyyy-MM-dd")),false);
 
                 for (int i = 0; i < lb.Count; i++)
                 {

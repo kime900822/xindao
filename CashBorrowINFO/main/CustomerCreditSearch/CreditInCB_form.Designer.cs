@@ -167,7 +167,7 @@
             this.pagerControl1.Location = new System.Drawing.Point(7, 370);
             this.pagerControl1.Name = "pagerControl1";
             this.pagerControl1.PageIndex = 1;
-            this.pagerControl1.PageSize = 100;
+            this.pagerControl1.PageSize = 30;
             this.pagerControl1.RecordCount = 0;
             this.pagerControl1.Size = new System.Drawing.Size(746, 29);
             this.pagerControl1.TabIndex = 2;
@@ -200,7 +200,7 @@
             this.MinimizeBox = false;
             this.Name = "CreditInCB_form";
             this.ShowIcon = false;
-            this.Text = "本平台内查询";
+            this.Text = "民间借贷（投资）查询";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CreditInCB_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

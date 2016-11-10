@@ -190,7 +190,7 @@ namespace CashBorrowINFO
 
         private void M41_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("本平台内查询"))
+            if (!ShowChildrenForm("民间借贷（投资）查询"))
             {
                 CreditInCB_form f = new CreditInCB_form();
                 f.MdiParent = this;
@@ -212,7 +212,7 @@ namespace CashBorrowINFO
 
         private void M43_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("企业贷款信息查询"))
+            if (!ShowChildrenForm("企业信用信息查询"))
             {
                 Corporateloans_form f = new Corporateloans_form();
                 f.MdiParent = this;

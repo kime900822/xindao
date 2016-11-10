@@ -54,7 +54,7 @@
             this.pagerControl1.Location = new System.Drawing.Point(8, 413);
             this.pagerControl1.Name = "pagerControl1";
             this.pagerControl1.PageIndex = 1;
-            this.pagerControl1.PageSize = 100;
+            this.pagerControl1.PageSize = 30;
             this.pagerControl1.RecordCount = 0;
             this.pagerControl1.Size = new System.Drawing.Size(746, 29);
             this.pagerControl1.TabIndex = 3;

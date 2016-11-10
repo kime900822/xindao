@@ -87,7 +87,7 @@ namespace CashBorrowINFO.main.CustomerCreditSearch
             {
                 Thread.Sleep(threadTime);
                 count = Convert.ToInt32(borrow_sql.GetTotal(where));
-                dt = borrow_sql.QueryByWhere(where, pagerControl1.PageIndex - 1, pagerControl1.PageSize);
+                dt = borrow_sql.QueryByWhere_CB(where, pagerControl1.PageIndex - 1, pagerControl1.PageSize);
             }, waitTime, "Plase Wait...", false, false);
             f.ShowDialog(this);
             res = f.Message;
@@ -127,13 +127,14 @@ namespace CashBorrowINFO.main.CustomerCreditSearch
                     dataGridBorrow.Columns[21].Width = 100;
                     dataGridBorrow.Columns[22].Width = 100;
                     dataGridBorrow.Columns[23].Width = 100;
-                    dataGridBorrow.Columns[24].Width = 80;
+                    dataGridBorrow.Columns[24].Width = 150;
                     dataGridBorrow.Columns[25].Width = 80;
-                    dataGridBorrow.Columns[26].Width = 100;
+                    dataGridBorrow.Columns[26].Width = 80;
                     dataGridBorrow.Columns[27].Width = 100;
                     dataGridBorrow.Columns[28].Width = 100;
                     dataGridBorrow.Columns[29].Width = 100;
-                    dataGridBorrow.Columns[30].Width = 150;
+                    dataGridBorrow.Columns[30].Width = 100;
+                    dataGridBorrow.Columns[31].Width = 150;
                 }
                     
             }

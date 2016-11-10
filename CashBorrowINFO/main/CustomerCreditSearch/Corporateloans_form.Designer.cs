@@ -41,7 +41,7 @@
             this.groupBox1.Size = new System.Drawing.Size(760, 437);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "企业贷款信息查询";
+            this.groupBox1.Text = "企业信用信息查询";
             // 
             // linkLabel1
             // 
@@ -68,7 +68,7 @@
             this.MinimizeBox = false;
             this.Name = "Corporateloans_form";
             this.ShowIcon = false;
-            this.Text = "企业贷款信息查询";
+            this.Text = "企业信用信息查询";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Corporateloans_form_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
