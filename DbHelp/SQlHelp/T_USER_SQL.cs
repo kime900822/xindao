@@ -293,7 +293,7 @@ namespace DbHelp.SQlHelp
 
         }
 
-        public List<USER> QueryByWhere_XP(string where, int pageid, int num)
+        public List<USER> QueryByWhere_XP(string where, int pageid, int num,string order)
         {
             using (SqlConnection conn = new SqlConnection(connstring))
             {
@@ -301,7 +301,7 @@ namespace DbHelp.SQlHelp
 
                 DataTable dt = new DataTable();
 
-                string sql_t = string.Format("SELECT ROW_NUMBER()OVER (order by U_DATE DESC) NUM,* FROM T_USER WHERE U_ISDEL='1' AND U_SYSID<>'1' {0}  ", where);
+                string sql_t = string.Format("SELECT ROW_NUMBER()OVER (order by {1} DESC) NUM,* FROM T_USER WHERE U_ISDEL='1' AND U_SYSID<>'1' {0}  ", where, order);
                 string sql = string.Format("SELECT * FROM ({0}) T WHERE NUM>{1} AND NUM<={2}", sql_t, pageid * num, (pageid + 1) * num);
                 SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                 da.Fill(dt);

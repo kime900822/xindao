@@ -43,7 +43,7 @@ namespace CashBorrowAuto
         private static string Iv_64 = "zjxdtzgl";
 
         private string path = "C:\\XINDAILOG";
-        private string filename = DateTime.Now.ToString("yyyy-MM-dd") + "短信发送记录.txt";
+
 
         #endregion
 
@@ -275,7 +275,7 @@ namespace CashBorrowAuto
         /// <param name="log"></param>
         public void WriteFile(MESSAGE m)
         {
-
+            string filename = DateTime.Now.ToString("yyyy-MM-dd") + "短信发送记录.txt";
             if (Directory.Exists(path))
             {
                 if (!File.Exists(path + "\\" + filename))
@@ -292,9 +292,9 @@ namespace CashBorrowAuto
 
             StringBuilder log = new StringBuilder();
             if (m.S_NUM =="3")
-                log.Append(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")+"   发送失败3次，不再发送！" + "\r\n");
+                log.Append(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+"   发送失败3次，不再发送！" + "\r\n");
             else
-                log.Append(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") +"      第"+m.S_NUM+"次发送   \r\n");
+                log.Append(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +"      第"+m.S_NUM+"次发送   \r\n");
             log.Append("                  手机号码: " + m.S_TELEPHONE + "\r\n");
             log.Append("                  借款单号: " + m.S_COMMIT + "\r\n");
             log.Append("                  发送状态: " + m.S_FLAG+ "\r\n");
@@ -303,16 +303,6 @@ namespace CashBorrowAuto
             sw.Close();
         }
 
-        /// <summary>
-        /// 读取文件
-        /// </summary>
-        public void ReadFile()
-        {
-                StreamReader sr = new StreamReader(path + "\\" + filename, Encoding.UTF8);
-                string content = sr.ReadToEnd().ToString();
-                sr.Close();
-
-        }
 
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -384,7 +374,7 @@ namespace CashBorrowAuto
                 try
                 {
                     MESSAGE m = new MESSAGE();
-                    m.S_SENDDATE = DateTime.Now.ToString("yyy-MM-dd hh:mm:ss");
+                    m.S_SENDDATE = DateTime.Now.ToString("yyy-MM-dd HH:mm:ss");
                     m.S_TELEPHONE = edtPhone.Text.Trim();
                     m.S_MESSAGE = message;
                     m.U_SYSID = "1";
@@ -476,9 +466,9 @@ namespace CashBorrowAuto
         {
 
 
-            List<BORROW> lb = borrow_sql.QueryByWhere_XP(string.Format(" and B_REMINDDATE='{0}' AND B_AMOUNT<>B_REPAYMENT   AND B_SYSID NOT IN (SELECT S_COMMIT FROM T_SENDMESSAGE WHERE S_ISDEL='1' AND (S_FLAG ='交易请求成功' OR S_NUM>=3) AND  SUBSTRING(S_SENDDATE,1,10)='{1}')", DateTime.Now.Day, DateTime.Now.ToString("yyyy-MM-dd")),false);
+            List<BORROW> lb = borrow_sql.QueryByWhere_XP(string.Format(" and ((B_REMINDDATE='{0}' AND SUBSTRING(B_DATE,1,7)<>'{2}') OR B_DATE='{1}')  AND B_AMOUNT>B_REPAYMENT   AND B_SYSID NOT IN (SELECT S_COMMIT FROM T_SENDMESSAGE WHERE S_ISDEL='1' AND (S_FLAG ='交易请求成功' OR S_NUM>=3) AND  SUBSTRING(S_SENDDATE,1,10)='{1}') ", DateTime.Now.Day, DateTime.Now.ToString("yyyy-MM-dd"),DateTime.Now.ToString("yyyy-MM-dd").Substring(0,7)), false);
 
-                for (int i = 0; i < lb.Count; i++)
+            for (int i = 0; i < lb.Count; i++)
                 {
                 MESSAGE m = new MESSAGE();
                 List<MESSAGE> lm = sendmessage_sql.QueryByWhere_XP(string.Format(" AND S_COMMIT ='{0}' AND SUBSTRING(S_SENDDATE,1,10)='{1}' ", lb[i].B_SYSID, DateTime.Now.ToString("yyyy-MM-dd")));
@@ -486,13 +476,16 @@ namespace CashBorrowAuto
                 {
                     m = lm[0];
                     m.S_NUM = (Convert.ToInt16(m.S_NUM) +1).ToString();
-                    m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+                    m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 }
                 else
                 {
-                    m.S_MESSAGE = string.Format(message,lb[i].USER.U_SHORT, lb[i].C_NAME, lb[i].B_AMOUNT, (Convert.ToDecimal(lb[i].B_AMOUNT) *  Convert.ToDecimal(lb[i].B_INTEREST) / 12 / 100).ToString("#0.00"), lb[i].B_REPAYDATE);
+                    if ((Convert.ToInt64(DateTime.Now.ToString("yyyyMMdd").Substring(0, 6)) - Convert.ToInt64(lb[i].B_DATE.Replace("-", "").Substring(0, 6))).ToString() == lb[i].B_TERM)
+                        m.S_MESSAGE = string.Format(message, lb[i].USER.U_SHORT, lb[i].C_NAME, lb[i].B_AMOUNT, (Convert.ToDecimal(lb[i].B_AMOUNT)).ToString("#0.00"), lb[i].B_REPAYDATE);
+                    else
+                        m.S_MESSAGE = string.Format(message, lb[i].USER.U_SHORT, lb[i].C_NAME, lb[i].B_AMOUNT, (Convert.ToDecimal(lb[i].B_AMOUNT) * Convert.ToDecimal(lb[i].B_INTEREST) / 12 / 100).ToString("#0.00"), lb[i].B_REPAYDATE);
                     m.S_TELEPHONE = lb[i].C_CONTACT;
-                    m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+                    m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     m.U_SYSID = lb[i].U_SYSID;
                     m.S_COMMIT = lb[i].B_SYSID;
                     m.S_NUM = "1";
@@ -558,9 +551,12 @@ namespace CashBorrowAuto
                 if (lb.Count > 0)
                 {
                     MESSAGE m = new MESSAGE();
-                    m.S_MESSAGE = string.Format(message, lb[0].USER.U_SHORT, lb[0].C_NAME, lb[0].B_AMOUNT, (Convert.ToDecimal(lb[0].B_AMOUNT) * (1 + Convert.ToDecimal(lb[0].B_INTEREST)) / Convert.ToDecimal(lb[0].B_TERM) / 100).ToString("#0.00"), lb[0].B_REPAYDATE);
+                    if ((Convert.ToInt64(DateTime.Now.ToString("yyyyMMdd").Substring(0, 6)) - Convert.ToInt64(lb[0].B_DATE.Replace("-", "").Substring(0, 6))).ToString() == lb[0].B_TERM)
+                        m.S_MESSAGE = string.Format(message, lb[0].USER.U_SHORT, lb[0].C_NAME, lb[0].B_AMOUNT, (Convert.ToDecimal(lb[0].B_AMOUNT)).ToString("#0.00"), lb[0].B_REPAYDATE);
+                    else
+                        m.S_MESSAGE = string.Format(message, lb[0].USER.U_SHORT, lb[0].C_NAME, lb[0].B_AMOUNT, (Convert.ToDecimal(lb[0].B_AMOUNT) * Convert.ToDecimal(lb[0].B_INTEREST) / 12 / 100).ToString("#0.00"), lb[0].B_REPAYDATE);
                     m.S_TELEPHONE = lb[0].C_CONTACT;
-                    m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+                    m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     m.U_SYSID = lb[0].U_SYSID;
                     m.S_COMMIT = lb[0].B_SYSID;
                     //string PostUrl = ConfigurationManager.AppSettings.Get("PostUrl");

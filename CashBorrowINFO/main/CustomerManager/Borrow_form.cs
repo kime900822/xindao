@@ -261,6 +261,7 @@ namespace CashBorrowINFO.main.CustomerManager
         #region Load
         private void Borrow_form_Load(object sender, EventArgs e)
         {
+            edtB_date.Text = DateTime.Now.ToString();
             saveFileDialog1.FileName = logonUser.U_NAME + "_" + DateTime.Now.ToString("yyyyMMdd");
             if (!string.IsNullOrEmpty(b_sysid))
             {

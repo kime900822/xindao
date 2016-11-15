@@ -162,12 +162,13 @@
         var province = $.CurrentNavtab.find('#u_province').val();
         var city = $.CurrentNavtab.find('#u_city').val();
         var area = $.CurrentNavtab.find('#u_area').val();
+        var order = $.CurrentNavtab.find('#u_order').val();
         ClearUser();
         $.ajax({
             type: "post",
             contentType: "application/json",
             url: "WebService.asmx/GetUser",
-            data: "{name:'" + name + "',province:'" + province + "',city:'" + city + "',area:'" + area + "',pageid:'" + page_id + "'}",
+            data: "{name:'" + name + "',province:'" + province + "',city:'" + city + "',area:'" + area + "',pageid:'" + page_id + "',order:'" + order + "'}",
             dataType: "json",
             success: function (result) {
                 if (result.d.state == 0) {
@@ -246,6 +247,12 @@
             <label>市</label><select name="custom.ucity" id="u_city" onchange="ChangeCity()">
                         </select>&nbsp;
             <label>区/县</label><select name="custom.uarea" id="u_area" >
+                        </select>&nbsp;
+             <label>排序方式：</label>
+            <select name="custom.uarea" id="u_order" >
+                <option value=""></option>
+                <option value="message">短信</option>
+                <option value="amount">余额</option>
                         </select>&nbsp;
             <button type="submit" class="btn-default" id="btnUserSearch" data-icon="search" >查询</button>&nbsp;
             <a class="btn btn-orange" href="javascript:;" id="btnUserClear" data-toggle="reloadsearch" data-clear-query="true" data-icon="undo">清空查询</a>&nbsp;

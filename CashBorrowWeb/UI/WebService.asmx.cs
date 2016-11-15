@@ -187,11 +187,12 @@ namespace WageManagerSystem.UI
         /// <param name="name"></param>
         /// <returns></returns>
         [WebMethod]
-        public object GetUser(string name,string province,string city,string area, int pageid)
+        public object GetUser(string name,string province,string city,string area, int pageid,string order)
         {
             try
             {
                 string where = string.Empty;
+                string orderby = "U_DATE";
                 if (!string.IsNullOrEmpty(name.Trim()))
                 {
                     where += string.Format(" AND U_NAME LIKE '%{0}%'", name);
@@ -208,8 +209,17 @@ namespace WageManagerSystem.UI
                 {
                     where += string.Format(" AND U_AREA = N'{0}'", area);
                 }
+                if (order == "amount")
+                {
+                    orderby = "U_BALANCE";
+                }
+                if (order == "message")
+                {
+                    orderby = "U_FREEMESSAGE";
+                }
 
-                List<USER> lu = user_sql.QueryByWhere_XP(where,pageid,10);
+
+                List<USER> lu = user_sql.QueryByWhere_XP(where,pageid,10, orderby);
 
 
                 if (lu.Count>0)
