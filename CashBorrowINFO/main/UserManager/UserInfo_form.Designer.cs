@@ -114,9 +114,9 @@
             this.label5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label5.Location = new System.Drawing.Point(51, 163);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(88, 16);
+            this.label5.Size = new System.Drawing.Size(72, 16);
             this.label5.TabIndex = 32;
-            this.label5.Text = "免费短信数";
+            this.label5.Text = "短信余额";
             // 
             // label6
             // 

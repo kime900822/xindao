@@ -153,21 +153,31 @@ namespace WageManagerSystem.UI
         /// <param name="u_sysid"></param>
         /// <returns></returns>
         [WebMethod]
-        public object ModePassword (string npassword)
+        public object ModPassword (string newpassword, string oldpassword)
         {
             try
             {
-                USER u = new USER();
-                u.U_SYSID = "1";
-                if (user_sql.ModPassword(u, npassword))
-                {
+                List<USER> u = user_sql.Get_User("1");
+                if (u.Count > 0) {
+                    if (u[0].U_PASSWORD == oldpassword) {
+                        if (user_sql.ModPassword(u[0], newpassword))
+                        {
 
-                    return new { state = 0, message = "修改成功" };
+                            return new { state = 0, message = "修改成功" };
+                        }
+                        else
+                        {
+                            return new { state = -1, message = "修改失败" };
+                        }
+                    }
+                    else
+                        return new { state = -1, message = "旧密码错误" };
+
                 }
                 else
-                {
-                    return new { state = -1, message = "修改失败" };
-                }
+                    return new { state = -1, message = "未找到用户" };
+
+
 
 
             }

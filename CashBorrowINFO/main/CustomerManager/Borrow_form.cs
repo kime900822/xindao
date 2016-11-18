@@ -204,6 +204,7 @@ namespace CashBorrowINFO.main.CustomerManager
             b.B_SYSID = b_sysid;
             b.B_TERM = edtBTerm.Text.Trim();
             b.C_EMERGENCYNAME = edtCEmergencyName.Text.Trim();
+            b.USER = logonUser;
             return b;
         }
 

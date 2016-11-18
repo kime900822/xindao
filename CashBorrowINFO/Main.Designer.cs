@@ -137,40 +137,40 @@ namespace CashBorrowINFO
             this.M113});
             this.M11.Image = ((System.Drawing.Image)(resources.GetObject("M11.Image")));
             this.M11.Name = "M11";
-            this.M11.Size = new System.Drawing.Size(152, 22);
+            this.M11.Size = new System.Drawing.Size(148, 22);
             this.M11.Text = "资料管理中心";
             // 
             // M111
             // 
             this.M111.Name = "M111";
-            this.M111.Size = new System.Drawing.Size(152, 22);
+            this.M111.Size = new System.Drawing.Size(148, 22);
             this.M111.Text = "客户查询";
             this.M111.Click += new System.EventHandler(this.M111_Click);
             // 
             // M112
             // 
             this.M112.Name = "M112";
-            this.M112.Size = new System.Drawing.Size(152, 22);
+            this.M112.Size = new System.Drawing.Size(148, 22);
             this.M112.Text = "借款记录查询";
             this.M112.Click += new System.EventHandler(this.M112_Click);
             // 
             // M113
             // 
             this.M113.Name = "M113";
-            this.M113.Size = new System.Drawing.Size(152, 22);
+            this.M113.Size = new System.Drawing.Size(148, 22);
             this.M113.Text = "短信发送查询";
             this.M113.Click += new System.EventHandler(this.M113_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(145, 6);
             // 
             // M12
             // 
             this.M12.Image = ((System.Drawing.Image)(resources.GetObject("M12.Image")));
             this.M12.Name = "M12";
-            this.M12.Size = new System.Drawing.Size(152, 22);
+            this.M12.Size = new System.Drawing.Size(148, 22);
             this.M12.Text = "借款";
             this.M12.Click += new System.EventHandler(this.M12_Click);
             // 
@@ -178,7 +178,7 @@ namespace CashBorrowINFO
             // 
             this.M13.Image = ((System.Drawing.Image)(resources.GetObject("M13.Image")));
             this.M13.Name = "M13";
-            this.M13.Size = new System.Drawing.Size(152, 22);
+            this.M13.Size = new System.Drawing.Size(148, 22);
             this.M13.Text = "还款";
             this.M13.Click += new System.EventHandler(this.M13_Click);
             // 
@@ -225,40 +225,40 @@ namespace CashBorrowINFO
             // M31
             // 
             this.M31.Name = "M31";
-            this.M31.Size = new System.Drawing.Size(152, 22);
+            this.M31.Size = new System.Drawing.Size(148, 22);
             this.M31.Text = "银联支付";
             this.M31.Click += new System.EventHandler(this.M31_Click);
             // 
             // M32
             // 
             this.M32.Name = "M32";
-            this.M32.Size = new System.Drawing.Size(152, 22);
+            this.M32.Size = new System.Drawing.Size(148, 22);
             this.M32.Text = "支付宝支付";
             this.M32.Click += new System.EventHandler(this.M32_Click);
             // 
             // M33
             // 
             this.M33.Name = "M33";
-            this.M33.Size = new System.Drawing.Size(152, 22);
+            this.M33.Size = new System.Drawing.Size(148, 22);
             this.M33.Text = "短信扣费";
             this.M33.Click += new System.EventHandler(this.M33_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(145, 6);
             // 
             // M34
             // 
             this.M34.Name = "M34";
-            this.M34.Size = new System.Drawing.Size(152, 22);
+            this.M34.Size = new System.Drawing.Size(148, 22);
             this.M34.Text = "扣费记录查询";
             this.M34.Click += new System.EventHandler(this.M34_Click);
             // 
             // N35
             // 
             this.N35.Name = "N35";
-            this.N35.Size = new System.Drawing.Size(152, 22);
+            this.N35.Size = new System.Drawing.Size(148, 22);
             this.N35.Text = "充值记录查询";
             this.N35.Click += new System.EventHandler(this.N35_Click);
             // 
@@ -368,7 +368,7 @@ namespace CashBorrowINFO
             this.MaximizeBox = false;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "信导-社会借贷数据共享中心";
+            this.Text = "信导投资借贷管理系统";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
             this.statusStrip1.ResumeLayout(false);

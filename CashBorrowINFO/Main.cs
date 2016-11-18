@@ -26,9 +26,10 @@ namespace CashBorrowINFO
 
         public bool closeFlag = false;
 
-        private bool ShowChildrenForm(string p_ChildrenFormText)
+        private bool ShowChildrenForm(string p_ChildrenFormText,bool isChild)
         {
-            pictureBox1.Visible = false;
+            if(isChild)
+                 pictureBox1.Visible = false;
             //if (this.MdiChildren.Length > 5)
             //{
             //    MessageBox.Show("最多打开5个窗口", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -49,11 +50,6 @@ namespace CashBorrowINFO
         }
 
 
-
-        private void M11_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void N70_Click(object sender, EventArgs e)
         {
@@ -81,7 +77,7 @@ namespace CashBorrowINFO
 
         private void M61_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("查看/修改用户信息"))
+            if (!ShowChildrenForm("查看/修改用户信息",false))
             {
                 UserInfo_form f = new UserInfo_form();
                 f.Show();
@@ -92,7 +88,7 @@ namespace CashBorrowINFO
 
         private void M62_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("修改密码"))
+            if (!ShowChildrenForm("修改密码", false))
             {
                 ModPassword_form f = new ModPassword_form();
                 f.Show();
@@ -102,7 +98,7 @@ namespace CashBorrowINFO
 
         private void M12_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("借款"))
+            if (!ShowChildrenForm("借款", true))
             {
                 Borrow_form f = new Borrow_form("");
                 f.MdiParent = this;
@@ -113,7 +109,7 @@ namespace CashBorrowINFO
 
         private void M13_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("还款"))
+            if (!ShowChildrenForm("还款", true))
             {
                 Repay_form f = new Repay_form();
                 f.MdiParent = this;
@@ -124,7 +120,7 @@ namespace CashBorrowINFO
 
         private void M22_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("借款信息批量导出"))
+            if (!ShowChildrenForm("借款信息批量导出", true))
             {
                 InfoOut_form f = new InfoOut_form();
                 f.MdiParent = this;
@@ -135,7 +131,7 @@ namespace CashBorrowINFO
 
         private void M21_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("借款信息批量导入"))
+            if (!ShowChildrenForm("借款信息批量导入", true))
             {
                 InfoImort_form f = new InfoImort_form();
                 f.MdiParent = this;
@@ -146,7 +142,7 @@ namespace CashBorrowINFO
 
         private void M31_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("银联支付"))
+            if (!ShowChildrenForm("银联支付", true))
             {
                 UnionPay_form f = new UnionPay_form();
                 f.MdiParent = this;
@@ -157,7 +153,7 @@ namespace CashBorrowINFO
 
         private void M32_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("支付宝支付"))
+            if (!ShowChildrenForm("支付宝支付", true))
             {
                 Alipay_form f = new Alipay_form();
                 f.MdiParent = this;
@@ -168,7 +164,7 @@ namespace CashBorrowINFO
 
         private void M33_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("短信扣费"))
+            if (!ShowChildrenForm("短信扣费", true))
             {
                 Message_form f = new Message_form();
                 f.MdiParent = this;
@@ -179,7 +175,7 @@ namespace CashBorrowINFO
 
         private void M34_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("查询扣费"))
+            if (!ShowChildrenForm("查询扣费", true))
             {
                 DeductionsQuery_form f = new DeductionsQuery_form();
                 f.MdiParent = this;
@@ -190,7 +186,7 @@ namespace CashBorrowINFO
 
         private void M41_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("民间借贷（投资）查询"))
+            if (!ShowChildrenForm("民间借贷（投资）查询", true))
             {
                 CreditInCB_form f = new CreditInCB_form();
                 f.MdiParent = this;
@@ -201,7 +197,7 @@ namespace CashBorrowINFO
 
         private void M42_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("失信人员查询"))
+            if (!ShowChildrenForm("失信人员查询", true))
             {
                 Dishonesty_form f = new Dishonesty_form();
                 f.MdiParent = this;
@@ -212,7 +208,7 @@ namespace CashBorrowINFO
 
         private void M43_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("企业信用信息查询"))
+            if (!ShowChildrenForm("企业信用信息查询", true))
             {
                 Corporateloans_form f = new Corporateloans_form();
                 f.MdiParent = this;
@@ -223,7 +219,7 @@ namespace CashBorrowINFO
 
         private void M44_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("银行征信"))
+            if (!ShowChildrenForm("银行征信", true))
             {
                 bankReference_form f = new bankReference_form();
                 f.MdiParent = this;
@@ -234,7 +230,7 @@ namespace CashBorrowINFO
 
         private void M50_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("行业资讯"))
+            if (!ShowChildrenForm("行业资讯", true))
             {
                 IndustryInformation_form f = new IndustryInformation_form();
                 f.MdiParent = this;
@@ -246,7 +242,7 @@ namespace CashBorrowINFO
         private void N35_Click(object sender, EventArgs e)
         {
 
-            if (!ShowChildrenForm("充值记录查询"))
+            if (!ShowChildrenForm("充值记录查询", true))
             {
                 PrepaidQuery_form f = new PrepaidQuery_form();
                 f.MdiParent = this;
@@ -259,7 +255,7 @@ namespace CashBorrowINFO
 
         private void M112_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("借款信息查询"))
+            if (!ShowChildrenForm("借款信息查询", true))
             {
                 BorrowInfo_form f = new BorrowInfo_form();
                 f.MdiParent = this;
@@ -270,7 +266,7 @@ namespace CashBorrowINFO
 
         private void M111_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("客户查询"))
+            if (!ShowChildrenForm("客户查询", true))
             {
                 Customer_form f = new Customer_form();
                 f.MdiParent = this;
@@ -281,7 +277,7 @@ namespace CashBorrowINFO
 
         private void M113_Click(object sender, EventArgs e)
         {
-            if (!ShowChildrenForm("短信发送查询"))
+            if (!ShowChildrenForm("短信发送查询", true))
             {
                 MessageQuery_form f = new MessageQuery_form();
                 f.MdiParent = this;

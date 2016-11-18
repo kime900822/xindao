@@ -19,7 +19,7 @@
             type: "post",
             contentType: "application/json",
             url: "WebService.asmx/ModPassword",
-            data: "{newpassword:'" + $("#j_pwschange_secpassword").val().trim() + "'}",
+            data: "{newpassword:'" + $("#j_pwschange_secpassword").val().trim() + "',oldpassword:'" + $("#j_pwschange_oldpassword").val().trim() + "'}",
             dataType: "json",
             success: function (result) {
                 if (result.d.state == 0) {
