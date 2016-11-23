@@ -99,6 +99,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.ddlRepayType = new System.Windows.Forms.ComboBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
             this.edtB_date = new System.Windows.Forms.DateTimePicker();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -124,7 +127,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(509, 476);
+            this.btnOk.Location = new System.Drawing.Point(509, 481);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 3;
@@ -135,7 +138,7 @@
             // btnCancle
             // 
             this.btnCancle.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancle.Location = new System.Drawing.Point(607, 476);
+            this.btnCancle.Location = new System.Drawing.Point(607, 481);
             this.btnCancle.Name = "btnCancle";
             this.btnCancle.Size = new System.Drawing.Size(75, 23);
             this.btnCancle.TabIndex = 4;
@@ -145,7 +148,7 @@
             // 
             // btnPrint
             // 
-            this.btnPrint.Location = new System.Drawing.Point(697, 476);
+            this.btnPrint.Location = new System.Drawing.Point(697, 481);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(75, 23);
             this.btnPrint.TabIndex = 5;
@@ -789,21 +792,54 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.ddlRepayType);
+            this.groupBox5.Controls.Add(this.label33);
+            this.groupBox5.Controls.Add(this.label29);
             this.groupBox5.Controls.Add(this.edtB_date);
             this.groupBox5.Location = new System.Drawing.Point(7, 473);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(297, 40);
+            this.groupBox5.Size = new System.Drawing.Size(483, 40);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "借款日期";
+            this.groupBox5.Text = "其他";
+            // 
+            // ddlRepayType
+            // 
+            this.ddlRepayType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlRepayType.FormattingEnabled = true;
+            this.ddlRepayType.Items.AddRange(new object[] {
+            "等额本息",
+            "先息后款"});
+            this.ddlRepayType.Location = new System.Drawing.Point(297, 11);
+            this.ddlRepayType.Name = "ddlRepayType";
+            this.ddlRepayType.Size = new System.Drawing.Size(116, 20);
+            this.ddlRepayType.TabIndex = 38;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(238, 14);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(53, 12);
+            this.label33.TabIndex = 37;
+            this.label33.Text = "还款方式";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(15, 19);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(53, 12);
+            this.label29.TabIndex = 36;
+            this.label29.Text = "借款日期";
             // 
             // edtB_date
             // 
-            this.edtB_date.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+            this.edtB_date.CustomFormat = "yyyy-MM-dd";
             this.edtB_date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.edtB_date.Location = new System.Drawing.Point(73, 13);
             this.edtB_date.Name = "edtB_date";
-            this.edtB_date.Size = new System.Drawing.Size(184, 21);
+            this.edtB_date.Size = new System.Drawing.Size(132, 21);
             this.edtB_date.TabIndex = 0;
             this.edtB_date.Value = new System.DateTime(2016, 11, 7, 14, 48, 49, 0);
             // 
@@ -841,6 +877,7 @@
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbID)).EndInit();
             this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -918,5 +955,8 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.DateTimePicker edtB_date;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.ComboBox ddlRepayType;
+        private System.Windows.Forms.Label label33;
     }
 }

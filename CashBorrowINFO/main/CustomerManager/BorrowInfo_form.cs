@@ -131,7 +131,8 @@ namespace CashBorrowINFO.main.CustomerManager
                         dataGridBorrow.Columns[27].Width = 100;
                         dataGridBorrow.Columns[28].Width = 100;
                         dataGridBorrow.Columns[29].Width = 100;
-                        dataGridBorrow.Columns[30].Width = 150;
+                        dataGridBorrow.Columns[30].Width = 100;
+                        dataGridBorrow.Columns[31].Width = 150;
                     }
                         
                 }

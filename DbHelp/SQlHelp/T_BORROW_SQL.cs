@@ -31,7 +31,7 @@ namespace DbHelp.SQlHelp
             {
                 conn.Open();
 
-                string sql = string.Format("SELECT B_SYSID AS '借款单号',case when B_AMOUNT>B_REPAYMENT THEN '未还清' else  '已还清' end AS '借款状态',C_NAME AS '姓名',C_ID AS '身份证号',C_CONTACT AS '联系方式',C_EMERGENCYNAME AS '紧急联系人姓名',C_EMERGENCY AS '紧急联系人方式',C_ADDRESS AS '联系地址',C_SEX AS '性别',G_NAME1 AS '担保人姓名1',G_ID1 AS '担保人身份证号1',G_JOB1 AS '担保人职业1',G_NAME2 AS '担保人姓名2',G_ID2 AS '担保人身份证号2',G_JOB2 AS '担保人职业2',G_NAME3 AS '担保人姓名3',G_ID3 AS '担保人身份证号3',G_JOB3 AS '担保人职业3',G_NAME4 AS '担保人姓名4',G_ID4 AS '担保人身份证号4',G_JOB4 AS '担保人职业4', B_AMOUNT AS '借款金额',B_REPAYMENT AS '已还金额',B_INTEREST AS '年利率',B_TERM AS '期数',B_TYPE AS '借款方式',B_REPAYDATE AS '还款日',B_REMINDDATE AS '提醒日', B_DATE AS '借款日',B_DATETMP AS '借款时间' FROM T_BORROW WHERE B_ISDEL='1' {0} ", where);
+                string sql = string.Format("SELECT B_SYSID AS '借款单号',case when B_AMOUNT>B_REPAYMENT THEN '未还清' else  '已还清' end AS '借款状态',C_NAME AS '姓名',C_ID AS '身份证号',C_CONTACT AS '联系方式',C_EMERGENCYNAME AS '紧急联系人姓名',C_EMERGENCY AS '紧急联系人方式',C_ADDRESS AS '联系地址',C_SEX AS '性别',G_NAME1 AS '担保人姓名1',G_ID1 AS '担保人身份证号1',G_JOB1 AS '担保人职业1',G_NAME2 AS '担保人姓名2',G_ID2 AS '担保人身份证号2',G_JOB2 AS '担保人职业2',G_NAME3 AS '担保人姓名3',G_ID3 AS '担保人身份证号3',G_JOB3 AS '担保人职业3',G_NAME4 AS '担保人姓名4',G_ID4 AS '担保人身份证号4',G_JOB4 AS '担保人职业4', B_AMOUNT AS '借款金额',B_REPAYMENT AS '已还金额',B_INTEREST AS '年利率',B_TERM AS '期数',B_TYPE AS '借款方式',B_REPAYTYPE AS '还款方式',B_REPAYDATE AS '还款日',B_REMINDDATE AS '提醒日', B_DATE AS '借款日',B_DATETMP AS '借款时间' FROM T_BORROW WHERE B_ISDEL='1' {0} ", where);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                 da.Fill(dt);
@@ -47,7 +47,7 @@ namespace DbHelp.SQlHelp
             {
                 conn.Open();
 
-                string sql_t = string.Format("SELECT ROW_NUMBER()OVER (order by B_DATETMP DESC) NUM, B_SYSID AS '借款单号',case when B_AMOUNT>B_REPAYMENT THEN '未还清' else  '已还清' end AS '借款状态',C_NAME AS '姓名',C_ID AS '身份证号',C_CONTACT AS '联系方式',C_EMERGENCYNAME AS '紧急联系人姓名',C_EMERGENCY AS '紧急联系人方式',C_ADDRESS AS '联系地址',C_SEX AS '性别',G_NAME1 AS '担保人姓名1',G_ID1 AS '担保人身份证号1',G_JOB1 AS '担保人职业1',G_NAME2 AS '担保人姓名2',G_ID2 AS '担保人身份证号2',G_JOB2 AS '担保人职业2',G_NAME3 AS '担保人姓名3',G_ID3 AS '担保人身份证号3',G_JOB3 AS '担保人职业3',G_NAME4 AS '担保人姓名4',G_ID4 AS '担保人身份证号4',G_JOB4 AS '担保人职业4', B_AMOUNT AS '借款金额',B_REPAYMENT AS '已还金额',B_INTEREST AS '利息',B_TERM AS '期数',B_TYPE AS '借款方式',B_REPAYDATE AS '还款日',B_REMINDDATE AS '提醒日', B_DATE AS '借款日',B_DATETMP AS '借款时间' FROM T_BORROW WHERE B_ISDEL='1' {0} ", where);
+                string sql_t = string.Format("SELECT ROW_NUMBER()OVER (order by B_DATETMP DESC) NUM, B_SYSID AS '借款单号',case when B_AMOUNT>B_REPAYMENT THEN '未还清' else  '已还清' end AS '借款状态',C_NAME AS '姓名',C_ID AS '身份证号',C_CONTACT AS '联系方式',C_EMERGENCYNAME AS '紧急联系人姓名',C_EMERGENCY AS '紧急联系人方式',C_ADDRESS AS '联系地址',C_SEX AS '性别',G_NAME1 AS '担保人姓名1',G_ID1 AS '担保人身份证号1',G_JOB1 AS '担保人职业1',G_NAME2 AS '担保人姓名2',G_ID2 AS '担保人身份证号2',G_JOB2 AS '担保人职业2',G_NAME3 AS '担保人姓名3',G_ID3 AS '担保人身份证号3',G_JOB3 AS '担保人职业3',G_NAME4 AS '担保人姓名4',G_ID4 AS '担保人身份证号4',G_JOB4 AS '担保人职业4', B_AMOUNT AS '借款金额',B_REPAYMENT AS '已还金额',B_INTEREST AS '利息',B_TERM AS '期数',B_TYPE AS '借款方式',B_REPAYTYPE AS '还款方式',B_REPAYDATE AS '还款日',B_REMINDDATE AS '提醒日', B_DATE AS '借款日',B_DATETMP AS '借款时间' FROM T_BORROW WHERE B_ISDEL='1' {0} ", where);
                 string sql = string.Format("SELECT * FROM ({0}) T WHERE NUM>{1} AND NUM<={2}", sql_t, pageid * num, (pageid + 1) * num);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(sql, conn);
@@ -64,7 +64,7 @@ namespace DbHelp.SQlHelp
             {
                 conn.Open();
 
-                string sql_t = string.Format("SELECT ROW_NUMBER()OVER (order by B_DATETMP DESC) NUM, B_SYSID AS '借款单号',case when B_AMOUNT>B_REPAYMENT THEN '未还清' else  '已还清' end AS '借款状态',C_NAME AS '姓名',C_ID AS '身份证号',C_CONTACT AS '联系方式',C_EMERGENCYNAME AS '紧急联系人姓名',C_EMERGENCY AS '紧急联系人方式',C_ADDRESS AS '联系地址',C_SEX AS '性别',G_NAME1 AS '担保人姓名1',G_ID1 AS '担保人身份证号1',G_JOB1 AS '担保人职业1',G_NAME2 AS '担保人姓名2',G_ID2 AS '担保人身份证号2',G_JOB2 AS '担保人职业2',G_NAME3 AS '担保人姓名3',G_ID3 AS '担保人身份证号3',G_JOB3 AS '担保人职业3',G_NAME4 AS '担保人姓名4',G_ID4 AS '担保人身份证号4',G_JOB4 AS '担保人职业4',B.U_NAME AS '出资方', B_AMOUNT AS '借款金额',B_REPAYMENT AS '已还金额',B_INTEREST AS '利息',B_TERM AS '期数',B_TYPE AS '借款方式',B_REPAYDATE AS '还款日',B_REMINDDATE AS '提醒日', B_DATE AS '借款日',B_DATETMP AS '借款时间' FROM T_BORROW A LEFT JOIN T_USER B ON A.U_SYSID=B.U_SYSID WHERE B_ISDEL='1' {0} ", where);
+                string sql_t = string.Format("SELECT ROW_NUMBER()OVER (order by B_DATETMP DESC) NUM, B_SYSID AS '借款单号',case when B_AMOUNT>B_REPAYMENT THEN '未还清' else  '已还清' end AS '借款状态',C_NAME AS '姓名',C_ID AS '身份证号',C_CONTACT AS '联系方式',C_EMERGENCYNAME AS '紧急联系人姓名',C_EMERGENCY AS '紧急联系人方式',C_ADDRESS AS '联系地址',C_SEX AS '性别',G_NAME1 AS '担保人姓名1',G_ID1 AS '担保人身份证号1',G_JOB1 AS '担保人职业1',G_NAME2 AS '担保人姓名2',G_ID2 AS '担保人身份证号2',G_JOB2 AS '担保人职业2',G_NAME3 AS '担保人姓名3',G_ID3 AS '担保人身份证号3',G_JOB3 AS '担保人职业3',G_NAME4 AS '担保人姓名4',G_ID4 AS '担保人身份证号4',G_JOB4 AS '担保人职业4',B.U_NAME AS '出资方', B_AMOUNT AS '借款金额',B_REPAYMENT AS '已还金额',B_INTEREST AS '利息',B_TERM AS '期数',B_TYPE AS '借款方式',B_REPAYTYPE AS '还款方式', B_REPAYDATE AS '还款日',B_REMINDDATE AS '提醒日', B_DATE AS '借款日',B_DATETMP AS '借款时间' FROM T_BORROW A LEFT JOIN T_USER B ON A.U_SYSID=B.U_SYSID WHERE B_ISDEL='1' {0} ", where);
                 string sql = string.Format("SELECT * FROM ({0}) T WHERE NUM>{1} AND NUM<={2}", sql_t, pageid * num, (pageid + 1) * num);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(sql, conn);
@@ -240,7 +240,8 @@ namespace DbHelp.SQlHelp
                  A.B_DATETMP      ,
                  A.B_ISDEL        ,
                  A.B_TERM         ,
-                 A.C_EMERGENCYNAME                   
+                 A.C_EMERGENCYNAME,
+                 A.B_REPAYTYPE                   
                     FROM T_BORROW A LEFT JOIN T_USER B ON A.U_SYSID=B.U_SYSID WHERE B_ISDEL='1' {0} ", where);
                     }
                     else
@@ -276,7 +277,8 @@ namespace DbHelp.SQlHelp
                  A.B_DATETMP      ,
                  A.B_ISDEL        ,
                  A.B_TERM         ,
-                 A.C_EMERGENCYNAME                 
+                 A.C_EMERGENCYNAME,
+                 A.B_REPAYTYPE                   
                     FROM T_BORROW A LEFT JOIN T_USER B ON A.U_SYSID=B.U_SYSID WHERE B_ISDEL='1' {0} ", where);
 
                     }
@@ -338,14 +340,14 @@ namespace DbHelp.SQlHelp
 
                     if (b.C_PIC != null)
                     {
-                        cmd.CommandText = string.Format(@"INSERT INTO T_BORROW (B_SYSID,U_SYSID,C_NAME,C_ID,C_PIC,C_CONTACT,C_EMERGENCY,C_ADDRESS,C_SEX,G_NAME1,G_ID1,G_JOB1,G_NAME2,G_ID2,G_JOB2,G_NAME3,G_ID3,G_JOB3,G_NAME4,G_ID4,G_JOB4,B_AMOUNT,B_REPAYMENT,B_INTEREST,B_TYPE,B_REPAYDATE,B_REMINDDATE,B_DATE,B_DATETMP,B_TERM,C_EMERGENCYNAME ) VALUES                      ('{0}','{1}',N'{2}','{3}',@C_PIC,'{4}',N'{5}',N'{6}',N'{7}',N'{8}',N'{9}',N'{10}',N'{11}',N'{12}',N'{13}',N'{14}',N'{15}',N'{16}',N'{17}',N'{18}',N'{19}','{20}','{21}','{22}',N'{23}','{24}','{25}','{26}','{27}','{28}',N'{29}')",
-b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b.C_SEX, b.G_NAME1, b.G_ID1, b.G_JOB1, b.G_NAME2, b.G_ID2, b.G_JOB2, b.G_NAME3, b.G_ID3, b.G_JOB3, b.G_NAME4, b.G_ID4, b.G_JOB4, b.B_AMOUNT, b.B_REPAYMENT, b.B_INTEREST, b.B_TYPE, b.B_REPAYDATE, b.B_REMINDDATE, b.B_DATE, b.B_DATETMP, b.B_TERM,b.C_EMERGENCYNAME);
+                        cmd.CommandText = string.Format(@"INSERT INTO T_BORROW (B_SYSID,U_SYSID,C_NAME,C_ID,C_PIC,C_CONTACT,C_EMERGENCY,C_ADDRESS,C_SEX,G_NAME1,G_ID1,G_JOB1,G_NAME2,G_ID2,G_JOB2,G_NAME3,G_ID3,G_JOB3,G_NAME4,G_ID4,G_JOB4,B_AMOUNT,B_REPAYMENT,B_INTEREST,B_TYPE,B_REPAYDATE,B_REMINDDATE,B_DATE,B_DATETMP,B_TERM,C_EMERGENCYNAME,B_REPAYTYPE ) VALUES                      ('{0}','{1}',N'{2}','{3}',@C_PIC,'{4}',N'{5}',N'{6}',N'{7}',N'{8}',N'{9}',N'{10}',N'{11}',N'{12}',N'{13}',N'{14}',N'{15}',N'{16}',N'{17}',N'{18}',N'{19}','{20}','{21}','{22}',N'{23}','{24}','{25}','{26}','{27}','{28}',N'{29}',N'{30}')",
+b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b.C_SEX, b.G_NAME1, b.G_ID1, b.G_JOB1, b.G_NAME2, b.G_ID2, b.G_JOB2, b.G_NAME3, b.G_ID3, b.G_JOB3, b.G_NAME4, b.G_ID4, b.G_JOB4, b.B_AMOUNT, b.B_REPAYMENT, b.B_INTEREST, b.B_TYPE, b.B_REPAYDATE, b.B_REMINDDATE, b.B_DATE, b.B_DATETMP, b.B_TERM,b.C_EMERGENCYNAME,b.B_REPAYTYPE);
                         cmd.Parameters.Add("@C_PIC", SqlDbType.Image).Value = b.C_PIC;
                     }
                     else
                     {
-                        cmd.CommandText = string.Format(@"INSERT INTO T_BORROW (B_SYSID,U_SYSID,C_NAME,C_ID,C_CONTACT,C_EMERGENCY,C_ADDRESS,C_SEX,G_NAME1,G_ID1,G_JOB1,G_NAME2,G_ID2,G_JOB2,G_NAME3,G_ID3,G_JOB3,G_NAME4,G_ID4,G_JOB4,B_AMOUNT,B_REPAYMENT,B_INTEREST,B_TYPE,B_REPAYDATE,B_REMINDDATE,B_DATE,B_DATETMP,B_TERM,C_EMERGENCYNAME ) VALUES                      ('{0}','{1}',N'{2}','{3}','{4}',N'{5}',N'{6}',N'{7}',N'{8}',N'{9}',N'{10}',N'{11}',N'{12}',N'{13}',N'{14}',N'{15}',N'{16}',N'{17}',N'{18}',N'{19}','{20}','{21}','{22}',N'{23}','{24}','{25}','{26}','{27}','{28}',N'{29}')",
-b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b.C_SEX, b.G_NAME1, b.G_ID1, b.G_JOB1, b.G_NAME2, b.G_ID2, b.G_JOB2, b.G_NAME3, b.G_ID3, b.G_JOB3, b.G_NAME4, b.G_ID4, b.G_JOB4, b.B_AMOUNT, b.B_REPAYMENT, b.B_INTEREST, b.B_TYPE, b.B_REPAYDATE, b.B_REMINDDATE, b.B_DATE, b.B_DATETMP, b.B_TERM,b.C_EMERGENCYNAME);
+                        cmd.CommandText = string.Format(@"INSERT INTO T_BORROW (B_SYSID,U_SYSID,C_NAME,C_ID,C_CONTACT,C_EMERGENCY,C_ADDRESS,C_SEX,G_NAME1,G_ID1,G_JOB1,G_NAME2,G_ID2,G_JOB2,G_NAME3,G_ID3,G_JOB3,G_NAME4,G_ID4,G_JOB4,B_AMOUNT,B_REPAYMENT,B_INTEREST,B_TYPE,B_REPAYDATE,B_REMINDDATE,B_DATE,B_DATETMP,B_TERM,C_EMERGENCYNAME,B_REPAYTYPE ) VALUES                      ('{0}','{1}',N'{2}','{3}','{4}',N'{5}',N'{6}',N'{7}',N'{8}',N'{9}',N'{10}',N'{11}',N'{12}',N'{13}',N'{14}',N'{15}',N'{16}',N'{17}',N'{18}',N'{19}','{20}','{21}','{22}',N'{23}','{24}','{25}','{26}','{27}','{28}',N'{29}',N'{30}')",
+b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b.C_SEX, b.G_NAME1, b.G_ID1, b.G_JOB1, b.G_NAME2, b.G_ID2, b.G_JOB2, b.G_NAME3, b.G_ID3, b.G_JOB3, b.G_NAME4, b.G_ID4, b.G_JOB4, b.B_AMOUNT, b.B_REPAYMENT, b.B_INTEREST, b.B_TYPE, b.B_REPAYDATE, b.B_REMINDDATE, b.B_DATE, b.B_DATETMP, b.B_TERM,b.C_EMERGENCYNAME, b.B_REPAYTYPE);
                     }
                     return cmd.ExecuteNonQuery();
                 }
@@ -444,8 +446,9 @@ b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b
                      B_DATE='{24}',
                      B_DATETMP='{25}',
                      B_TERM='{27}',
-                     C_EMERGENCYNAME=N'{28}'                
-                    WHERE B_SYSID='{26}'", b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b.C_SEX, b.G_NAME1, b.G_ID1, b.G_JOB1, b.G_NAME2, b.G_ID2, b.G_JOB2, b.G_NAME3, b.G_ID3, b.G_JOB3, b.G_NAME4, b.G_ID4, b.G_JOB4, b.B_AMOUNT, b.B_REPAYMENT, b.B_INTEREST, b.B_TYPE, b.B_REPAYDATE, b.B_REMINDDATE, b.B_DATE, b.B_DATETMP, b.B_SYSID, b.B_TERM, b.C_EMERGENCYNAME);
+                     C_EMERGENCYNAME=N'{28}',
+                     B_REPAYTYPE=N'{29}'                
+                    WHERE B_SYSID='{26}'", b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b.C_SEX, b.G_NAME1, b.G_ID1, b.G_JOB1, b.G_NAME2, b.G_ID2, b.G_JOB2, b.G_NAME3, b.G_ID3, b.G_JOB3, b.G_NAME4, b.G_ID4, b.G_JOB4, b.B_AMOUNT, b.B_REPAYMENT, b.B_INTEREST, b.B_TYPE, b.B_REPAYDATE, b.B_REMINDDATE, b.B_DATE, b.B_DATETMP, b.B_SYSID, b.B_TERM, b.C_EMERGENCYNAME,b.B_REPAYTYPE);
                         cmd.Parameters.Add("@C_PIC", SqlDbType.Image).Value = b.C_PIC;
                     }
                     else
@@ -479,8 +482,9 @@ b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b
                      B_DATE='{24}',
                      B_DATETMP='{25}',
                      B_TERM={27},
-                     C_EMERGENCYNAME=N'{28}'
-                    WHERE B_SYSID='{26}'", b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b.C_SEX, b.G_NAME1, b.G_ID1, b.G_JOB1, b.G_NAME2, b.G_ID2, b.G_JOB2, b.G_NAME3, b.G_ID3, b.G_JOB3, b.G_NAME4, b.G_ID4, b.G_JOB4, b.B_AMOUNT, b.B_REPAYMENT, b.B_INTEREST, b.B_TYPE, b.B_REPAYDATE, b.B_REMINDDATE, b.B_DATE, b.B_DATETMP, b.B_SYSID, b.B_TERM, b.C_EMERGENCYNAME);
+                     C_EMERGENCYNAME=N'{28}',
+                     B_REPAYTYPE=N'{29}'
+                    WHERE B_SYSID='{26}'", b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b.C_SEX, b.G_NAME1, b.G_ID1, b.G_JOB1, b.G_NAME2, b.G_ID2, b.G_JOB2, b.G_NAME3, b.G_ID3, b.G_JOB3, b.G_NAME4, b.G_ID4, b.G_JOB4, b.B_AMOUNT, b.B_REPAYMENT, b.B_INTEREST, b.B_TYPE, b.B_REPAYDATE, b.B_REMINDDATE, b.B_DATE, b.B_DATETMP, b.B_SYSID, b.B_TERM, b.C_EMERGENCYNAME,b.B_REPAYTYPE);
                     }
 
                     return cmd.ExecuteNonQuery();
@@ -530,8 +534,9 @@ b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b
                      B_DATE='{24}',
                      B_DATETMP='{25}',
                      B_TERM={27},
-                     C_EMERGENCYNAME=N'{28}'
-                    WHERE B_SYSID='{26}'", b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b.C_SEX, b.G_NAME1, b.G_ID1, b.G_JOB1, b.G_NAME2, b.G_ID2, b.G_JOB2, b.G_NAME3, b.G_ID3, b.G_JOB3, b.G_NAME4, b.G_ID4, b.G_JOB4, b.B_AMOUNT, b.B_REPAYMENT, b.B_INTEREST, b.B_TYPE, b.B_REPAYDATE, b.B_REMINDDATE, b.B_DATE, b.B_DATETMP, b.B_SYSID ,b.B_TERM,b.C_EMERGENCYNAME);
+                     C_EMERGENCYNAME=N'{28}',
+                     B_REPAYTYPE=N'{29}'
+                    WHERE B_SYSID='{26}'", b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b.C_SEX, b.G_NAME1, b.G_ID1, b.G_JOB1, b.G_NAME2, b.G_ID2, b.G_JOB2, b.G_NAME3, b.G_ID3, b.G_JOB3, b.G_NAME4, b.G_ID4, b.G_JOB4, b.B_AMOUNT, b.B_REPAYMENT, b.B_INTEREST, b.B_TYPE, b.B_REPAYDATE, b.B_REMINDDATE, b.B_DATE, b.B_DATETMP, b.B_SYSID ,b.B_TERM,b.C_EMERGENCYNAME,b.B_REPAYTYPE);
                     return cmd.ExecuteNonQuery();
                 }
 
@@ -644,6 +649,7 @@ b_sysid, b.U_SYSID, b.C_NAME, b.C_ID, b.C_CONTACT, b.C_EMERGENCY, b.C_ADDRESS, b
                     else
                         b.USER = new USER();
                     b.C_EMERGENCYNAME= dt.Rows[i]["C_EMERGENCYNAME"].ToString();
+                    b.B_REPAYTYPE= dt.Rows[i]["B_REPAYTYPE"].ToString();
                     list.Add(b);
                 }
 

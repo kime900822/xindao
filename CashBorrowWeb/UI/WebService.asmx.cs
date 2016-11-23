@@ -209,15 +209,15 @@ namespace WageManagerSystem.UI
                 }
                 if (!string.IsNullOrEmpty(province.Trim()) && province != "null")
                 {
-                    where += string.Format(" AND U_PROVINCE = N'{0}'", province);
+                    where += string.Format(" AND U_PROVINCE = N'{0}'", province.Trim());
                 }
                 if (!string.IsNullOrEmpty(city.Trim()) && city != "null")
                 {
-                    where += string.Format(" AND U_CITY = N'{0}'", city);
+                    where += string.Format(" AND U_CITY = N'{0}'", city.Trim());
                 }
                 if (!string.IsNullOrEmpty(area.Trim()) && area != "null")
                 {
-                    where += string.Format(" AND U_AREA = N'{0}'", area);
+                    where += string.Format(" AND U_AREA = N'{0}'", area.Trim());
                 }
                 if (order == "amount")
                 {

@@ -465,8 +465,14 @@ namespace CashBorrowAuto
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
 
+            //取先息后款数据
+            List<BORROW> lb = borrow_sql.QueryByWhere_XP(string.Format(" and (((B_REMINDDATE='{0}' OR B_DATE='{0}') AND SUBSTRING(B_DATE,1,7)<>'{2}') OR B_DATE='{1}')  AND B_AMOUNT>B_REPAYMENT ANDB_REPAYTYPE=N'先息后款'  AND B_SYSID NOT IN (SELECT S_COMMIT FROM T_SENDMESSAGE WHERE S_ISDEL='1' AND (S_FLAG ='交易请求成功' OR S_NUM>=3) AND  SUBSTRING(S_SENDDATE,1,10)='{1}') ", DateTime.Now.Day, DateTime.Now.ToString("yyyy-MM-dd"),DateTime.Now.ToString("yyyy-MM-dd").Substring(0,7)), false);
 
-            List<BORROW> lb = borrow_sql.QueryByWhere_XP(string.Format(" and ((B_REMINDDATE='{0}' AND SUBSTRING(B_DATE,1,7)<>'{2}') OR B_DATE='{1}')  AND B_AMOUNT>B_REPAYMENT   AND B_SYSID NOT IN (SELECT S_COMMIT FROM T_SENDMESSAGE WHERE S_ISDEL='1' AND (S_FLAG ='交易请求成功' OR S_NUM>=3) AND  SUBSTRING(S_SENDDATE,1,10)='{1}') ", DateTime.Now.Day, DateTime.Now.ToString("yyyy-MM-dd"),DateTime.Now.ToString("yyyy-MM-dd").Substring(0,7)), false);
+            List<BORROW> lb_1 = borrow_sql.QueryByWhere_XP(string.Format(" and ((B_REMINDDATE='{0}' OR B_DATE='{0}') AND SUBSTRING(B_DATE,1,7)<>'{2}')  AND B_AMOUNT>B_REPAYMENT ANDB_REPAYTYPE=N'等额本息'  AND B_SYSID NOT IN (SELECT S_COMMIT FROM T_SENDMESSAGE WHERE S_ISDEL='1' AND (S_FLAG ='交易请求成功' OR S_NUM>=3) AND  SUBSTRING(S_SENDDATE,1,10)='{1}') ", DateTime.Now.Day, DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("yyyy-MM-dd").Substring(0, 7)), false);
+            lb_1.ForEach(b =>
+            {
+                lb.Add(b);
+            });
 
             for (int i = 0; i < lb.Count; i++)
                 {
@@ -480,10 +486,16 @@ namespace CashBorrowAuto
                 }
                 else
                 {
-                    if ((Convert.ToInt64(DateTime.Now.ToString("yyyyMMdd").Substring(0, 6)) - Convert.ToInt64(lb[i].B_DATE.Replace("-", "").Substring(0, 6))).ToString() == lb[i].B_TERM)
-                        m.S_MESSAGE = string.Format(message, lb[i].USER.U_SHORT, lb[i].C_NAME, lb[i].B_AMOUNT, (Convert.ToDecimal(lb[i].B_AMOUNT)).ToString("#0.00"), lb[i].B_REPAYDATE);
-                    else
-                        m.S_MESSAGE = string.Format(message, lb[i].USER.U_SHORT, lb[i].C_NAME, lb[i].B_AMOUNT, (Convert.ToDecimal(lb[i].B_AMOUNT) * Convert.ToDecimal(lb[i].B_INTEREST) / 12 / 100).ToString("#0.00"), lb[i].B_REPAYDATE);
+                    if (lb[i].B_REPAYTYPE == "先息后款")
+                    {
+                        if ((Convert.ToInt64(DateTime.Now.ToString("yyyyMMdd").Substring(0, 6)) - Convert.ToInt64(lb[i].B_DATE.Replace("-", "").Substring(0, 6))).ToString() == lb[i].B_TERM)
+                            m.S_MESSAGE = string.Format(message, lb[i].USER.U_SHORT, lb[i].C_NAME, lb[i].B_AMOUNT, (Convert.ToDecimal(lb[i].B_AMOUNT)).ToString("#0.00"), lb[i].B_REPAYDATE);
+                        else
+                            m.S_MESSAGE = string.Format(message, lb[i].USER.U_SHORT, lb[i].C_NAME, lb[i].B_AMOUNT, (Convert.ToDecimal(lb[i].B_AMOUNT) * Convert.ToDecimal(lb[i].B_INTEREST) / 12 / 100).ToString("#0.00"), lb[i].B_REPAYDATE);
+                    }
+                    else {
+                        m.S_MESSAGE = string.Format(message, lb[i].USER.U_SHORT, lb[i].C_NAME, lb[i].B_AMOUNT, (Convert.ToDecimal(lb[i].B_AMOUNT)/ Convert.ToDecimal(lb[i].B_TERM) + Convert.ToDecimal(lb[i].B_AMOUNT) * Convert.ToDecimal(lb[i].B_INTEREST) / 12 / 100).ToString("#0.00"), lb[i].B_REPAYDATE);
+                    }
                     m.S_TELEPHONE = lb[i].C_CONTACT;
                     m.S_SENDDATE = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     m.U_SYSID = lb[i].U_SYSID;

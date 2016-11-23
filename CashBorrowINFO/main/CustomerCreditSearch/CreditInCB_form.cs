@@ -134,7 +134,8 @@ namespace CashBorrowINFO.main.CustomerCreditSearch
                     dataGridBorrow.Columns[28].Width = 100;
                     dataGridBorrow.Columns[29].Width = 100;
                     dataGridBorrow.Columns[30].Width = 100;
-                    dataGridBorrow.Columns[31].Width = 150;
+                    dataGridBorrow.Columns[31].Width = 100;
+                    dataGridBorrow.Columns[32].Width = 150;
                 }
                     
             }

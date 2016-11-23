@@ -26,9 +26,9 @@
 
     function GettotalUser() {
         var name = $.CurrentNavtab.find("#u_uname").val();
-        var province = $.CurrentNavtab.find('#u_province').val();
-        var city = $.CurrentNavtab.find('#u_city').val();
-        var area = $.CurrentNavtab.find('#u_area').val();
+        var province = $.CurrentNavtab.find('#u_province').find("option:selected").text();
+        var city = $.CurrentNavtab.find('#u_city').find("option:selected").text();
+        var area = $.CurrentNavtab.find('#u_area').find("option:selected").text();
 
         $.ajax({
             type: "post",
@@ -159,9 +159,9 @@
     function SearchUser(page_id) {
        
         var name = $.CurrentNavtab.find("#u_uname").val();
-        var province = $.CurrentNavtab.find('#u_province').val();
-        var city = $.CurrentNavtab.find('#u_city').val();
-        var area = $.CurrentNavtab.find('#u_area').val();
+        var province = $.CurrentNavtab.find('#u_province').find("option:selected").text();
+        var city = $.CurrentNavtab.find('#u_city').find("option:selected").text();
+        var area = $.CurrentNavtab.find('#u_area').find("option:selected").text();
         var order = $.CurrentNavtab.find('#u_order').val();
         ClearUser();
         $.ajax({

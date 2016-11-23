@@ -37,6 +37,7 @@ namespace CashBorrowINFO.main.CustomerManager
                 for (int i = 0; i < dt.Rows.Count; i++) {
                     ddlBSysid.Items.Add(dt.Rows[i][0].ToString());
                 }
+                edtR_date.Text = DateTime.Now.ToString();
             }
             catch (Exception e1) {
                 MessageBox.Show(e1.Message, "数据初始化", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -69,6 +70,31 @@ namespace CashBorrowINFO.main.CustomerManager
                             lblBAMOUNT.Text = borrow[0].B_AMOUNT;
                             lblBLimit.Text = (Convert.ToDecimal(borrow[0].B_AMOUNT) - Convert.ToDecimal(borrow[0].B_REPAYMENT)).ToString();
                             bindData(b_sysid);
+                            Decimal ramount = Convert.ToDecimal(borrow[0].B_AMOUNT) / Convert.ToDecimal(borrow[0].B_TERM);
+                            Decimal rint = Convert.ToDecimal(borrow[0].B_AMOUNT) * Convert.ToDecimal(borrow[0].B_INTEREST) / 100 / 12;
+                       
+                            if (borrow[0].B_REPAYTYPE == "等额本息")
+                            {
+                                lblRemind.Text=string.Format(@"款息提醒：本次应还本金{0}元，利息{1}元。合计{2}元。",
+                                            ramount.ToString("#0.00"),
+                                            rint.ToString("#0.00"),
+                                            (ramount+ rint).ToString("#0.00"));
+                            }
+                            else {
+                                if ((Convert.ToInt64(DateTime.Now.ToString("yyyyMMdd").Substring(0, 6)) - Convert.ToInt64(borrow[0].B_DATE.Replace("-", "").Substring(0, 6))).ToString() == borrow[0].B_TERM)
+                                {
+
+                                    lblRemind.Text = string.Format(@"款息提醒：本次应还本金{0}元，利息{1}元。合计{2}元。",
+                                           borrow[0].B_AMOUNT,
+                                           rint.ToString("#0.00"),
+                                           (Convert.ToDecimal(borrow[0].B_AMOUNT) + rint).ToString("#0.00"));
+                                }
+                                else {
+                                    lblRemind.Text = string.Format(@"款息提醒：本次应还本金0元，利息{0}元。合计{0}元。",
+                                            rint.ToString("#0.00"));
+                                }
+
+                            }
                         }
 
                     }
@@ -86,7 +112,8 @@ namespace CashBorrowINFO.main.CustomerManager
             REPAY_HIS repay = new REPAY_HIS();
             repay.B_SYSID= ddlBSysid.Text.Split('-')[0];
             repay.R_AMOUNT = edtRamount.Text.Trim();
-            repay.R_DATE = DateTime.Now.ToString("yyyy-MM-dd");
+            //repay.R_DATE = DateTime.Now.ToString("yyyy-MM-dd");
+            repay.R_DATE = edtR_date.Text;
             repay.R_OVERTIME = edtOverTime.Text;
             repay.R_FINE = edtRFine.Text.Trim();
             repay.R_TYPE = edtRType.Text.Trim();
@@ -214,6 +241,14 @@ namespace CashBorrowINFO.main.CustomerManager
             {
                 this.MdiParent.Controls.Find("pictureBox1", true)[0].Visible = true;
 
+            }
+        }
+
+        private void edtOverTime_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar) && e.KeyChar != 46)
+            {
+                e.Handled = true;
             }
         }
     }

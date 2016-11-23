@@ -156,6 +156,9 @@ namespace CashBorrowINFO.main.CustomerManager
             {
                 err += "利息未输入！\r\n";
             }
+            if (string.IsNullOrEmpty(ddlRepayType.Text.Trim())) {
+                err += "还款方式未选择！\r\n";
+            }
             if (!string.IsNullOrEmpty(pbID.ImageLocation)) {
                 if (CashBorrowINFO.CS.Help.GetFileSize(pbID.ImageLocation) > 204800)
                 {
@@ -205,6 +208,7 @@ namespace CashBorrowINFO.main.CustomerManager
             b.B_TERM = edtBTerm.Text.Trim();
             b.C_EMERGENCYNAME = edtCEmergencyName.Text.Trim();
             b.USER = logonUser;
+            b.B_REPAYTYPE = ddlRepayType.Text.Trim();
             return b;
         }
 
@@ -236,6 +240,7 @@ namespace CashBorrowINFO.main.CustomerManager
             edtBInterest.Text = b.B_INTEREST;
             edtRepay.Text = b.B_REPAYDATE;
             edtRemind.Text = b.B_REMINDDATE;
+            ddlRepayType.Text = b.B_REPAYTYPE;
             if(b.C_PIC!=null)
                pbID.Image = CashBorrowINFO.CS.Help.ReturnPhoto(b.C_PIC);
             edtBTerm.Text = b.B_TERM;
@@ -264,30 +269,39 @@ namespace CashBorrowINFO.main.CustomerManager
         {
             edtB_date.Text = DateTime.Now.ToString();
             saveFileDialog1.FileName = logonUser.U_NAME + "_" + DateTime.Now.ToString("yyyyMMdd");
-            if (!string.IsNullOrEmpty(b_sysid))
+            try
             {
-                string res;
-                List<BORROW> borrow = new List<BORROW>();
-                frmWaitingBox f = new frmWaitingBox((obj, args) =>
+                if (!string.IsNullOrEmpty(b_sysid))
                 {
-                    Thread.Sleep(threadTime);
-                    borrow = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", b_sysid),true);
-                }, waitTime, "Plase Wait...", false, false);
-                f.ShowDialog(this);
-                res = f.Message;
-                if (!string.IsNullOrEmpty(res))
-                    MessageBox.Show(res);
-                else {
-                    if (borrow.Count > 0)
-                        b = borrow[0];
+                    string res;
+                    List<BORROW> borrow = new List<BORROW>();
+                    frmWaitingBox f = new frmWaitingBox((obj, args) =>
+                    {
+                        Thread.Sleep(threadTime);
+                        borrow = borrow_sql.QueryByWhere_XP(string.Format(" AND B_SYSID='{0}'", b_sysid), true);
+                    }, waitTime, "Plase Wait...", false, false);
+                    f.ShowDialog(this);
+                    res = f.Message;
+                    if (!string.IsNullOrEmpty(res))
+                        MessageBox.Show(res);
+                    else
+                    {
+                        if (borrow.Count > 0)
+                            b = borrow[0];
                         DataToFace(borrow[0]);
+                    }
+
                 }
-                   
+                else
+                {
+                    btnPrint.Enabled = false;
+                }
             }
-            else
-            {
-                btnPrint.Enabled = false;
+            catch (Exception e1) {
+                MessageBox.Show(e1.Message, "加载提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
+
         }
 
         #endregion

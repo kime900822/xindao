@@ -19,6 +19,7 @@
              $.CurrentDialog.find("#j_dialog_cemergencyname").attr("disabled", "disabled");
              $.CurrentDialog.find("#j_dialog_caddress").attr("disabled", "disabled");
              $.CurrentDialog.find("#j_dialog_csex").attr("disabled", "disabled");
+             $.CurrentDialog.find("#j_dialog_brepaytype").attr("disabled", "disabled");
              $.CurrentDialog.find("#j_dialog_gname1").attr("disabled", "disabled");
              $.CurrentDialog.find("#j_dialog_gid1").attr("disabled", "disabled");
              $.CurrentDialog.find("#j_dialog_gjob1").attr("disabled", "disabled");
@@ -107,6 +108,7 @@
                         $.CurrentDialog.find("#j_dialog_cemergency").val(result.d.data.C_EMERGENCY);
                         $.CurrentDialog.find("#j_dialog_caddress").val(result.d.data.C_ADDRESS);
                         $.CurrentDialog.find("#j_dialog_csex").val(result.d.data.C_SEX);
+                        $.CurrentDialog.find("#j_dialog_brepaytype").val(result.d.data.B_REPAYTYPE);
                         $.CurrentDialog.find("#j_dialog_gname1").val(result.d.data.G_NAME1);
                         $.CurrentDialog.find("#j_dialog_gid1").val(result.d.data.G_ID1);
                         $.CurrentDialog.find("#j_dialog_gjob1").val(result.d.data.G_JOB1);
@@ -199,6 +201,7 @@
         borrow.B_DATE = $.CurrentDialog.find("#j_dialog_bdate").val();
         borrow.B_TERM = $.CurrentDialog.find("#j_dialog_bterm").val();
         borrow.C_EMERGENCYNAME = $.CurrentDialog.find("#j_dialog_cemergencyname").val();
+        borrow.B_REPAYTYPE = $.CurrentDialog.find("#j_dialog_brepaytype").val();
         borrow.B_SYSID = title[1];
         return borrow;
     }
@@ -224,7 +227,10 @@
             err+="请输入地址\r\n";
         }
         if ($.CurrentDialog.find("#j_dialog_csex").val().trim() == "") {
-            err += "请输入性别\r\n";
+            err += "请选择性别\r\n";
+        }
+        if ($.CurrentDialog.find("#j_dialog_brepaytype").val().trim() == "") {
+            err += "请选择还款方式\r\n";
         }
         if ($.CurrentDialog.find("#j_dialog_bamount").val().trim() == "") {
             err += "请输入借款金额\r\n";
@@ -366,6 +372,20 @@
                     <td>
                         <label for="j_dialog_breminddate" class="control-label x100">提醒日：</label>
                         <input type="text" name="dialog.breminddate" id="j_dialog_breminddate" value=""  data-rule="required" size="20">
+                    </td>
+                </tr>
+                <tr>
+                    <td> 
+                        <label for="j_dialog_brepaytype" class="control-label x100">还款方式：</label>
+                        <select name="custom.brepaytype" id="j_dialog_brepaytype" >
+                            <option value=""></option>
+                            <option value="等额本息">等额本息</option>
+                            <option value="先息后款">先息后款</option>
+                        </select>
+
+                    </td>
+                    <td colspan="2">
+
                     </td>
                 </tr>
                  <tr>

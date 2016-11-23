@@ -176,8 +176,13 @@ namespace DbHelp.CS
         public string B_TERM { set; get; }
 
         /// <summary>
-        /// 期数
+        /// 紧急联系人姓名
         /// </summary>
         public string C_EMERGENCYNAME { set; get; }
+
+        /// <summary>
+        /// 还款方式
+        /// </summary>
+        public string B_REPAYTYPE { set; get; }
     }
 }
