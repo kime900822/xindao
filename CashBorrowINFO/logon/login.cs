@@ -81,20 +81,29 @@ namespace CashBorrowINFO.logon
 
         private void btn_Cancle_Click(object sender, EventArgs e)
         {
-                this.Close();
+               
+            if (DialogResult == DialogResult.Cancel)
+            {
+                DialogResult dr = MessageBox.Show("确定要退出吗?", "退出系统", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (dr == DialogResult.OK)
+                {
+                    this.Close();
+                }
+
+            }
         }
 
         private void login_FormClosing(object sender, FormClosingEventArgs e)
         {
 
-            if (DialogResult == DialogResult.Cancel) {
-                DialogResult dr = MessageBox.Show("确定要退出吗?", "退出系统", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (dr == DialogResult.Cancel)
-                {
-                    e.Cancel = true;
-                }
+            //if (DialogResult == DialogResult.Cancel) {
+            //    DialogResult dr = MessageBox.Show("确定要退出吗?", "退出系统", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            //    if (dr == DialogResult.Cancel)
+            //    {
+            //        e.Cancel = true;
+            //    }
 
-            }
+            //}
 
         }
 
@@ -110,6 +119,14 @@ namespace CashBorrowINFO.logon
            edtID.Text= ConfigurationManager.AppSettings.Get("saveUsername");
             if (ConfigurationManager.AppSettings.Get("saveCheck") == "true")
                 cbSaveName.Checked = true;
+
+            string nv = ConfigurationManager.AppSettings.Get("Version");
+            string dv = user_sql.GetVersion();
+
+            if (nv!=dv) {
+                MessageBox.Show(string.Format("您的版本为{0}，最新版本为{1}，请前往官网下载最新程序!", nv,dv), "错误报告", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
         }
 
         private void link_ShowRule_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -436,6 +436,22 @@ namespace DbHelp.SQlHelp
         }
 
 
+        public string GetVersion()
+        {
+            using (SqlConnection conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = string.Format("SELECT TOP 1 * FROM T_VERSION  ");
+                    return cmd.ExecuteScalar().ToString();
+
+                }
+
+            }
+        }
+
         public  List<USER> DataToUSER(DataTable dt) {
             List<USER> list = new List<USER>();
             if (dt.Rows.Count > 0) {
