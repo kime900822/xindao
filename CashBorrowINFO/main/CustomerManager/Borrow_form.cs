@@ -159,6 +159,14 @@ namespace CashBorrowINFO.main.CustomerManager
             if (string.IsNullOrEmpty(ddlRepayType.Text.Trim())) {
                 err += "还款方式未选择！\r\n";
             }
+            if (string.IsNullOrEmpty(edtRepay.Text.Trim()))
+            {
+                err += "还款方式未选择！\r\n";
+            }
+            if (string.IsNullOrEmpty(edtRemind.Text.Trim()))
+            {
+                err += "还款方式未选择！\r\n";
+            }
             if (!string.IsNullOrEmpty(pbID.ImageLocation)) {
                 if (CashBorrowINFO.CS.Help.GetFileSize(pbID.ImageLocation) > 204800)
                 {

@@ -129,7 +129,7 @@ namespace DbHelp.SQlHelp
             {
                 conn.Open();
 
-                string sql = string.Format("SELECT B_SYSID+'-'+C_NAME FROM T_BORROW WHERE U_SYSID='{0}' AND B_AMOUNT<>B_REPAYMENT AND B_ISDEL='1'", u_sysid);
+                string sql = string.Format("SELECT B_SYSID+'-'+C_NAME FROM T_BORROW WHERE U_SYSID='{0}' AND {1}-CONVERT(INT,REPLACE(SUBSTRING(B_DATE,1,7),'-',''))<=CONVERT(INT,B_TERM) AND B_ISDEL='1'", u_sysid, Convert.ToInt64(DateTime.Now.ToString("yyyyMMdd").Substring(0, 6)));
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                 da.Fill(dt);
