@@ -120,7 +120,7 @@ namespace CashBorrowINFO.logon
             if (ConfigurationManager.AppSettings.Get("saveCheck") == "true")
                 cbSaveName.Checked = true;
 
-            string nv = ConfigurationManager.AppSettings.Get("Version");
+            string nv = "1.1";
             string dv = user_sql.GetVersion();
 
             if (nv!=dv) {
