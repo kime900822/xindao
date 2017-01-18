@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashBorrowINFO", "CashBorrowINFO\CashBorrowINFO.csproj", "{1C822B7A-57B5-423A-B5FD-58F4DFDD1D6C}"
 EndProject
@@ -10,6 +10,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashBorrowWeb", "CashBorrowWeb\CashBorrowWeb.csproj", "{D7669DFD-4690-4E19-B2B0-68407D05FF5B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashBorrowAuto", "CashBorrowAuto\CashBorrowAuto.csproj", "{1D649283-6331-4CBE-B18E-D71D9A17A1E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8B9F27CB-804E-4E4D-948B-18B690D65615}"
+	ProjectSection(SolutionItems) = preProject
+		dll\DevComponents.DotNetBar2.dll = dll\DevComponents.DotNetBar2.dll
+		dll\microsoft.office.interop.excel.dll = dll\microsoft.office.interop.excel.dll
+		dll\Microsoft.Office.Interop.Word.dll = dll\Microsoft.Office.Interop.Word.dll
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
