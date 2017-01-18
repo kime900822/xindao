@@ -1,0 +1,13 @@
+diff a/CashBorrowAuto/CashBorrowAuto.csproj b/CashBorrowAuto/CashBorrowAuto.csproj	(rejected hunks)
+@@ -77,9 +77,8 @@
+     <StartupObject>CashBorrowAuto.Program</StartupObject>
+   </PropertyGroup>
+   <ItemGroup>
+-    <Reference Include="DevComponents.DotNetBar2, Version=10.5.0.3, Culture=neutral, PublicKeyToken=c39c3242a43eee2b, processorArchitecture=MSIL">
+-      <SpecificVersion>False</SpecificVersion>
+-      <HintPath>bin\Debug\DevComponents.DotNetBar2.dll</HintPath>
++    <Reference Include="DevComponents.DotNetBar2">
++      <HintPath>..\dll\DevComponents.DotNetBar2.dll</HintPath>
+     </Reference>
+     <Reference Include="Newtonsoft.Json">
+       <HintPath>..\..\..\..\需求\信导\发财鱼Demo C#\发财鱼Demo net\ConsoleApplication1\bin\Debug\Newtonsoft.Json.dll</HintPath>

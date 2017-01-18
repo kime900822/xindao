@@ -59,7 +59,11 @@
     <Compile Include="SQlHelp\T_SENDMESSAGE_SQL.cs" />
     <Compile Include="SQlHelp\T_USER_SQL.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="ddl\DevComponents.DotNetBar2.dll" />
+    <Content Include="ddl\microsoft.office.interop.excel.dll" />
+    <Content Include="ddl\Microsoft.Office.Interop.Word.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

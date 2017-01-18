@@ -78,7 +78,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevComponents.DotNetBar2">
-      <HintPath>..\dll\DevComponents.DotNetBar2.dll</HintPath>
+      <HintPath>..\DbHelp\ddl\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\需求\信导\发财鱼Demo C#\发财鱼Demo net\ConsoleApplication1\bin\Debug\Newtonsoft.Json.dll</HintPath>
