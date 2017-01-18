@@ -519,9 +519,6 @@
     <Content Include="js\syntaxhighlighter-2.1.382\styles\shThemeMidnight.css" />
     <Content Include="js\syntaxhighlighter-2.1.382\styles\shThemeRDark.css" />
     <Content Include="packages.config" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="UI\MessageManager.html" />
     <Content Include="UI\ContentManager.html" />
     <Content Include="UI\PublishManager.html" />
